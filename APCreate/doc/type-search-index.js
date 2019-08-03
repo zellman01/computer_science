@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"game2","l":"Game"}]
