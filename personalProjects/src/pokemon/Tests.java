@@ -96,7 +96,7 @@ public class Tests {
 		}
 		System.out.println();
 	}
-	@SuppressWarnings("unused")
+	
 	private static void nameTests() {
 		totalTests++;
 		Name name1 = new Name();
@@ -121,6 +121,7 @@ public class Tests {
 		}
 		System.out.println();
 	}
+	
 	private static void resistTests() {
 		totalTests++;
 		Types type1 = new Types("Fire", "NA");
@@ -210,14 +211,14 @@ public class Tests {
 		}
 		System.out.println();
 	}
-	@SuppressWarnings("unused")
+	
 	private static void natureTests() {
 		
 	}
-	@SuppressWarnings("unused")
+	
 	private static void fullTests() {
 		totalTests++;
-		Pokemon Test1 = new Pokemon("something", "Fire");
+		Pokemon Test1 = new Pokemon("something", "Fire", "test");
 		Test1.buildPokemon();
 		System.out.println("Full Build: Something");
 		System.out.println(Test1.obtainName());
@@ -258,12 +259,53 @@ public class Tests {
 			success++;
 		}
 		System.out.println();
+		
+		totalTests++;
+		System.out.println("Full build: test");
+		System.out.println(Test1.obtainNature());
+		if (Test1.obtainNature().equals("test")) {
+			success++;
+		}
+		System.out.println();
 	}
-	public static void main(String [] args) {
+	
+	private static void allTests() {
 		typeTests();
-		//nameTests();
+		nameTests();
 		resistTests();
-		//fullTests();
+		natureTests();
+		fullTests();
+	}
+	
+	private static void testManager(String name) {
+		name = name.toLowerCase();
+		switch (name) {
+		case "type":
+			typeTests();
+			break;
+		case "name":
+			nameTests();
+			break;
+		case "resist":
+			resistTests();
+			break;
+		case "nature":
+			natureTests();
+			break;
+		case "full":
+			fullTests();
+			break;
+		case "all":
+			allTests();
+			break;
+		default:
+			throw new Error("The test type " + name + " does not exist.");
+		}
+	}
+	
+	public static void main(String [] args) {
+		String testType = "all";
+		testManager(testType);
 		System.out.println(success + "/" + totalTests + " tests complete.");
 		System.out.println((double) success/totalTests);
 	}

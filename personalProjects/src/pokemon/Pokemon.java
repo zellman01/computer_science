@@ -5,30 +5,33 @@ package pokemon;
  * @author Zach Wellman
  */
 public class Pokemon {
-	private String name1, type11, type21;
+	private String name1, type11, type21, nature;
 	private Name Name = new Name();
 	private Types Type = new Types();
+	private Nature Nature = new Nature();
 	/**
 	 * Creates the object. This alone will not build the object fully.
-	 * @param name The name of the pokémon (Can be anything)
+	 * @param name The name of the pokemon (Can be anything)
 	 * @param type1 The first type
 	 * @param type2 The second type
 	 */
-	public Pokemon(String name, String type1, String type2) {
+	public Pokemon(String name, String type1, String type2, String natureN) {
 		name1 = name;
 		type11 = type1;
 		type21 = type2;
+		nature = natureN;
 	}
 	
 	/**
 	 * Creates the object. This alone will not build the object fully.
-	 * @param name The name of the pokémon (Can be anything)
+	 * @param name The name of the pokemon (Can be anything)
 	 * @param type1 The first type
 	 */
-	public Pokemon(String name, String type1) {
+	public Pokemon(String name, String type1, String natureN) {
 		name1 = name;
 		type11 = type1;
 		type21 = "NS";
+		nature = natureN;
 	}
 	
 	public String toString() {
@@ -45,10 +48,11 @@ public class Pokemon {
 		this.Name.setName(name1);
 		this.Type.setType1(type11);
 		this.Type.setType2(type21);
+		this.Nature.setNature(nature);
 	}
 	
 	/**
-	 * @return The name of the pokémon
+	 * @return The name of the pokï¿½mon
 	 */
 	public String obtainName() {
 		return this.Name.obtainName();
@@ -68,6 +72,10 @@ public class Pokemon {
 		return this.Type.obtainType2();
 	}
 	
+	public String obtainNature() {
+		return this.Nature.obtainNature();
+	}
+	
 	/**
 	 * @param moveType The type of the move being used
 	 * @return How effective it is
@@ -78,15 +86,15 @@ public class Pokemon {
 	}
 	
 	/**
-	 * Sets the name of the pokémon to something else
-	 * @param name The new name of the pokémon
+	 * Sets the name of the pokï¿½mon to something else
+	 * @param name The new name of the pokï¿½mon
 	 */
 	public void setName(String name) {
 		this.Name.setName(name);
 	}
 	
 	/**
-	 * Sets the first type of the pokémon to something else
+	 * Sets the first type of the pokï¿½mon to something else
 	 * @param type The new type
 	 */
 	public void setType1(String type) {
@@ -94,7 +102,7 @@ public class Pokemon {
 	}
 	
 	/**
-	 * Sets the second type of the pokoémon to something else
+	 * Sets the second type of the pokoï¿½mon to something else
 	 * @param type The new type
 	 */
 	public void setType2(String type) {
