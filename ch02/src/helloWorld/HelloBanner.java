@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-@SuppressWarnings("deprecation")
 public class HelloBanner extends JApplet implements ActionListener {
 		/**
 	 * 

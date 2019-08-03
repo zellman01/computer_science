@@ -3,7 +3,6 @@ package helloWorld;
 import java.awt.*;
 import javax.swing.*;
 
-@SuppressWarnings("deprecation")
 public class HelloApplet extends JApplet{
 	/**
 	 * Sixth Hello Application

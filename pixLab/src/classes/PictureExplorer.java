@@ -85,7 +85,8 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
   private DigitalPicture picture;
   
   /** The image icon used to display the picture */
-  private ImageIcon scrollImageIcon;
+  @SuppressWarnings("unused")
+private ImageIcon scrollImageIcon;
   
   /** The image display */
   private ImageDisplay imageDisplay;
@@ -428,7 +429,8 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
    * Method to check that the current position is in the viewing area and if
    * not scroll to center the current position if possible
    */
-  public void checkScroll()
+  @SuppressWarnings("unused")
+public void checkScroll()
   {
     // get the x and y position in pixels
     int xPos = (int) (colIndex * zoomFactor); 

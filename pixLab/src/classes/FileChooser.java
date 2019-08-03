@@ -2,7 +2,6 @@ package classes;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import java.util.Properties;
 import java.io.*;
 import java.net.*;
   
@@ -27,7 +26,6 @@ public class FileChooser
   {
     String path = null;
     String directory = getMediaDirectory();
-    boolean done = true;
     
     // get the full path
     path = directory + fileName;
@@ -102,13 +100,13 @@ public class FileChooser
   public static String getMediaDirectory() 
   {
     String directory = null;
-    boolean done = false;
     File dirFile = null;
     
     // try to find the images directory
       try {
         // get the URL for where we loaded this class 
-        Class currClass = Class.forName("FileChooser");
+        @SuppressWarnings("rawtypes")
+		Class currClass = Class.forName("FileChooser");
         URL classURL = currClass.getResource("FileChooser.class");
         URL fileURL = new URL(classURL,"../images/");
         directory = fileURL.getPath();

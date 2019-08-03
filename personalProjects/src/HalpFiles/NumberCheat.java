@@ -1,4 +1,4 @@
-package halpFiles;
+package HalpFiles;
 
 public class NumberCheat {
 	public static void main(String [] args) {

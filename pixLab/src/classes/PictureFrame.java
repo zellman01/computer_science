@@ -8,6 +8,7 @@ import java.awt.*;
  * 
  * @author Barb Ericson 
  */
+@SuppressWarnings("unused")
 public class PictureFrame
 {
   

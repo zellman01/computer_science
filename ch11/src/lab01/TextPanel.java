@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 import javax.swing.JPanel;
-import javax.swing.JColorChooser;
 import javax.swing.Timer;
 
 public class TextPanel extends JPanel
 implements MouseInputListener, ActionListener {
+	private static final long serialVersionUID = 1L;
 	private final int LINE_HEIGHT = 20;
 	private final int xMargin = 10, yMargin = 10;
 	private final Font font = new Font(Font.DIALOG_INPUT, Font.PLAIN, LINE_HEIGHT - 3);

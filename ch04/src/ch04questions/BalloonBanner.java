@@ -13,7 +13,6 @@ import ch04lab.RoundBalloon;
 import ch04lab.SquareBalloon;
 
 import java.awt.event.ActionListener;
-import java.util.Random;
 import java.awt.event.ActionEvent;
 
 /**
@@ -21,7 +20,6 @@ import java.awt.event.ActionEvent;
  * 
  * @author Zach Wellman Date: 12/11/17
  */
-@SuppressWarnings("deprecation")
 public class BalloonBanner extends JApplet implements ActionListener {
 	/**
 	 * 

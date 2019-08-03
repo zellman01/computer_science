@@ -2,17 +2,15 @@ package classes;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
 
 /**
  * Class to display an image and the current location with a + sign
  * 
  * @author Barb Ericson ericson@cc.gatech.edu
  */
-public class ImageDisplay extends JPanel implements Scrollable
-{
-  
-  /////////////////////////// fields (attributes ///////////////////////////
+public class ImageDisplay extends JPanel implements Scrollable {
+	private static final long serialVersionUID = 1L;
+/////////////////////////// fields (attributes ///////////////////////////
   /** the image to draw */
   private Image image;         
   /** the preferred size of the display */
@@ -28,8 +26,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    * Constructor that takes the image to display
    * @param theImage the image to display
    */
-  public ImageDisplay(Image theImage)
-  {
+  public ImageDisplay(Image theImage) {
     image = theImage;
     prefSize = new Dimension(image.getWidth(this),image.getHeight(this));
     setPreferredSize(prefSize);
@@ -42,8 +39,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    * @param x the current x value to use
    * @param y the current y value to use
    */
-  public ImageDisplay(Image theImage, int x, int y)
-  {
+  public ImageDisplay(Image theImage, int x, int y) {
     this(theImage);
     currentX = x;
     currentY = y;
@@ -73,8 +69,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    * Method to set the current x
    * @param x the x value to use
    */
-  public void setCurrentX(int x) 
-  {
+  public void setCurrentX(int x) {
     currentX = x;
     repaint();
   }
@@ -83,8 +78,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    * Method to set the current y
    * @param y the y value to use
    */
-  public void setCurrentY(int y) 
-  {
+  public void setCurrentY(int y) {
     currentY = y;
     repaint();
   }
@@ -93,8 +87,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    * Method to set the image
    * @param theImage the new image to use
    */
-  public void setImage(Image theImage)
-  {
+  public void setImage(Image theImage) {
     image = theImage;
     setPreferredSize(new Dimension(image.getWidth(this),image.getHeight(this)));
     repaint();
@@ -104,8 +97,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    * Method to return the preferred size
    * @return the preferred size of this component
    */
-  public Dimension getPreferredScrollableViewportSize()
-  {
+  public Dimension getPreferredScrollableViewportSize() {
     return prefSize;
   }
   
@@ -118,8 +110,7 @@ public class ImageDisplay extends JPanel implements Scrollable
    */
   public int getScrollableUnitIncrement(Rectangle visibleRect, 
                                         int orientation, 
-                                        int direction)
-  { return 1; }
+                                        int direction) { return 1; }
   
   /**
    * Method to return the block increment for scrolling
@@ -130,31 +121,25 @@ public class ImageDisplay extends JPanel implements Scrollable
    */
   public int getScrollableBlockIncrement(Rectangle visibleRect, 
                                          int orientation, 
-                                         int direction)
-  {
-    return 10;
-  }
+                                         int direction) { return 10; }
   
   /**
    * Method to check if the viewport width is the source width
    * @return true if viewport and source have same width
    */
-  public boolean getScrollableTracksViewportWidth()
-  { return false; }
+  public boolean getScrollableTracksViewportWidth() { return false; }
   
   /**
    * Method to check if the viewport height is the source height
    * @return true if viewport and source have same height
    */
-  public boolean getScrollableTracksViewportHeight()
-  { return false; }
+  public boolean getScrollableTracksViewportHeight() { return false; }
   
   /**
    * Method to handle displaying this object
    * @param g the graphics object for drawing with
    */
-  public void paintComponent(Graphics g)
-  {
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
     int num = 3;
     int xStart = currentX - num;
@@ -171,8 +156,7 @@ public class ImageDisplay extends JPanel implements Scrollable
     
     // check if the current index is in the image
     if (currentX >= 0 && currentX < width &&
-        currentY >= 0 && currentY < height)
-    {
+        currentY >= 0 && currentY < height) {
       
       // check that the start and end values are visible
       if (xStart < 0)

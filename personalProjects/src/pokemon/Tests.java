@@ -3,7 +3,6 @@ package pokemon;
 public class Tests {
 	private static int success = 0;
 	private static int totalTests = 0;
-	@SuppressWarnings("unused")
 	private static void typeTests() {
 		totalTests++;
 		Types type = new Types();
@@ -122,7 +121,6 @@ public class Tests {
 		}
 		System.out.println();
 	}
-	@SuppressWarnings("unused")
 	private static void resistTests() {
 		totalTests++;
 		Types type1 = new Types("Fire", "NA");

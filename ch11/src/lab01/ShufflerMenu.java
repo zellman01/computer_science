@@ -94,6 +94,7 @@ public class ShufflerMenu extends JMenuBar {
 				return;
 			}
 
+			@SuppressWarnings("unused")
 			StringBuffer buffer = new StringBuffer((int)file.length());
 			while (fileIn.hasNextLine()) {
 				String line = fileIn.nextLine();
