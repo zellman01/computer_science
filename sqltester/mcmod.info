@@ -1,0 +1,9 @@
+[{
+	"modid": "sqltester",
+	"name": "SQL Tester",
+	"version": "0.1.9",
+	"description": "Tests a SQL server from the given configuration.",
+	"authorlist": [
+		"zellman01"
+	]
+}]
