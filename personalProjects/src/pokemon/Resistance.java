@@ -35,8 +35,8 @@ public class Resistance {
 	}
 	// TODO: Set up resistance/weakness chart
 	// TODO: checkEffOne needs fully tested
-	private double checkEffOne(String moveType) {
-		switch (type1) {
+	private double typeChart(String moveType, String type) {
+		switch (type) {
 		case "Normal":
 			switch (moveType) {
 			case "Fighting":
@@ -44,6 +44,7 @@ public class Resistance {
 			case "Ghost":
 				return 0.0;
 			}
+			break;
 		case "Fire":
 			switch (moveType) {
 			case "Water":
@@ -58,6 +59,7 @@ public class Resistance {
 			case "Fairy":
 				return 0.5;
 			}
+			break;
 		case "Water":
 			switch (moveType) {
 			case "Fire":
@@ -69,6 +71,7 @@ public class Resistance {
 			case "Grass":
 				return 2;
 			}
+			break;
 		case "Electric":
 			switch (moveType) {
 			case "Electric":
@@ -78,6 +81,7 @@ public class Resistance {
 			case "Ground":
 				return 2;
 			}
+			break;
 		case "Grass":
 			switch (moveType) {
 			case "Water":
@@ -92,6 +96,7 @@ public class Resistance {
 			case "Bug":
 				return 2;
 			}
+			break;
 		case "Ice":
 			switch (moveType) {
 			case "Ice":
@@ -102,6 +107,7 @@ public class Resistance {
 			case "Steel":
 				return 2;
 			}
+			break;
 		case "Fighting":
 			switch (moveType) {
 			case "Bug":
@@ -113,6 +119,7 @@ public class Resistance {
 			case "Fairy":
 				return 2;
 			}
+			break;
 		case "Poison":
 			switch (moveType) {
 			case "Grass":
@@ -125,6 +132,7 @@ public class Resistance {
 			case "Psychic":
 				return 2;
 			}
+			break;
 		case "Ground":
 			switch (moveType) {
 			case "Electric":
@@ -137,6 +145,7 @@ public class Resistance {
 			case "Ice":
 				return 2;
 			}
+			break;
 		case "Flying":
 			switch (moveType) {
 			case "Ground":
@@ -150,6 +159,7 @@ public class Resistance {
 			case "Rock":
 				return 2;
 			}
+			break;
 		case "Psychic":
 			switch (moveType) {
 			case "Fighting":
@@ -160,6 +170,7 @@ public class Resistance {
 			case "Dark":
 				return 2;
 			}
+			break;
 		case "Bug":
 			switch (moveType) {
 			case "Grass":
@@ -171,6 +182,7 @@ public class Resistance {
 			case "Rock":
 				return 2;
 			}
+			break;
 		case "Rock":
 			switch (moveType) {
 			case "Normal":
@@ -185,6 +197,7 @@ public class Resistance {
 			case "Steel":
 				return 2;
 			}
+			break;
 		case "Ghost":
 			switch (moveType) {
 			case "Normal":
@@ -197,6 +210,7 @@ public class Resistance {
 			case "Dark":
 				return 2;
 			}
+			break;
 		case "Dragon":
 			switch (moveType) {
 			case "Fire":
@@ -209,6 +223,7 @@ public class Resistance {
 			case "Fairy":
 				return 2;
 			}
+			break;
 		case "Dark":
 			switch (moveType) {
 			case "Psychic":
@@ -221,6 +236,7 @@ public class Resistance {
 			case "Fairy":
 				return 2;
 			}
+			break;
 		case "Steel":
 			switch (moveType) {
 			case "Poison":
@@ -241,6 +257,7 @@ public class Resistance {
 			case "Ground":
 				return 2;
 			}
+			break;
 		case "Fairy":
 			switch (moveType) {
 			case "Dragon":
@@ -253,11 +270,19 @@ public class Resistance {
 			case "Steel":
 				return 2;
 			}
+			break;
 		}
 		return 1;
 	}
+	
+	private double checkEffOne(String moveType) {
+		System.out.println("Res: 1");
+		return typeChart(moveType, type1);
+	}
 
 	private double checkEffTwo(String moveType) {
-		return -2;
+		System.out.println("Res: 2");
+		return typeChart(moveType, type1) + typeChart(moveType, type2);
+		//return -2;
 	}
 }
