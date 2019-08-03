@@ -33,8 +33,7 @@ public class Resistance {
 		}
 		return -1.0;
 	}
-	// TODO: Set up resistance/weakness chart
-	// TODO: checkEffOne needs fully tested
+
 	private double typeChart(String moveType, String type) {
 		switch (type) {
 		case "Normal":
@@ -276,12 +275,10 @@ public class Resistance {
 	}
 	
 	private double checkEffOne(String moveType) {
-		System.out.println("Res: 1");
 		return typeChart(moveType, type1);
 	}
 
 	private double checkEffTwo(String moveType) {
-		System.out.println("Res: 2");
 		return typeChart(moveType, type1) + typeChart(moveType, type2);
 		//return -2;
 	}

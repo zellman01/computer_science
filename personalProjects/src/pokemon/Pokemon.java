@@ -52,7 +52,7 @@ public class Pokemon {
 	}
 	
 	/**
-	 * @return The name of the pok�mon
+	 * @return The name of the pokemon
 	 */
 	public String obtainName() {
 		return this.Name.obtainName();
@@ -86,15 +86,15 @@ public class Pokemon {
 	}
 	
 	/**
-	 * Sets the name of the pok�mon to something else
-	 * @param name The new name of the pok�mon
+	 * Sets the name of the pokemon to something else
+	 * @param name The new name of the pokemon
 	 */
 	public void setName(String name) {
 		this.Name.setName(name);
 	}
 	
 	/**
-	 * Sets the first type of the pok�mon to something else
+	 * Sets the first type of the pokemon to something else
 	 * @param type The new type
 	 */
 	public void setType1(String type) {
@@ -102,7 +102,7 @@ public class Pokemon {
 	}
 	
 	/**
-	 * Sets the second type of the poko�mon to something else
+	 * Sets the second type of the pokoemon to something else
 	 * @param type The new type
 	 */
 	public void setType2(String type) {

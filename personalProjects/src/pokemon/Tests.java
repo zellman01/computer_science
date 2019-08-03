@@ -210,6 +210,17 @@ public class Tests {
 			success++;
 		}
 		System.out.println();
+		
+		totalTests++;
+		Types type9 = new Types("Ghost");
+		Resistance resistance9 = new Resistance(type9.obtainType1(), type9.obtainType2());
+		double rest9test = resistance9.effective("Fighting");
+		System.out.println("Resistance: 0.0");
+		System.out.println(rest9test);
+		if (rest9test == 0.0) {
+			success++;
+		}
+		System.out.println();
 	}
 	
 	private static void natureTests() {
