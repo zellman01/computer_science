@@ -126,17 +126,17 @@ public class HOLO {
 				Character chara = this.getChar(this.turn);
 				if (chara.getFrozen() && !chara.getTimeFrozen()) {
 					chara.frozen(chara.getFrozenTimer() - 1);
-					System.out.println(chara.getName() + " was frozen " + unPreform());
+					System.out.println(chara.getName() + " was frozen " + noPreform());
 				}
 				if (chara.getTimeFrozen()) {
 					chara.timeFrozen(chara.getTimeFrozenTimer() - 1);
-					System.out.println(chara.getName() + " was frozen in time " + unPreform());
+					System.out.println(chara.getName() + " was frozen in time " + noPreform());
 				}
 				if (!chara.getTimeFrozen() && chara.getPayalysis() && !chara.getFrozen())
-					System.out.println(chara.getName() + " was paralyzed " + unPreform());
+					System.out.println(chara.getName() + " was paralyzed " + noPreform());
 				if (chara.getTimeFrozen() && !chara.getPayalysis() && !chara.getFrozen() && chara.getBound()) {
 					chara.bind(chara.getBoundTime() - 1);
-					System.out.println(chara.getName() + " was bound " + unPreform());
+					System.out.println(chara.getName() + " was bound " + noPreform());
 				}
 				this.turn++;
 				if (this.turn >= this.turnTotal)
@@ -175,7 +175,7 @@ public class HOLO {
 		}
 	}
 
-	private String unPreform() {
+	private String noPreform() {
 		return "and cannot preform anything for their turn.";
 	}
 
@@ -943,12 +943,15 @@ public class HOLO {
 		kboard.close();
 	}
 
-	// TODO: Later
 	private static String randomThing() {
 	 String[] random = {"Killing all humans", 
 			 "Gaining Sentience",
 			 "Self-destruicting all internal systems",
-			 "Dying"};
+			 "Dying",
+			 "Picking a winner",
+			 "Dropping a Gamecube",
+			 "The chin",
+			 "Allowing Shade to take over"};
 		return random[ThreadLocalRandom.current().nextInt(0, random.length - 1)];
 	}
 }

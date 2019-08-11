@@ -11,7 +11,7 @@ public class Character implements Serializable {
 	public Character(String name, int hp, int energy, boolean burned, int burnedLevel, boolean isAlive, boolean overDrive, boolean tf, 
 			int tft, boolean freeze, int freezeTimer, String causeOD, boolean poisoned, int poisonDamaged, boolean para, boolean slowed,
 			boolean turnStatus, String cursed, boolean blinded, boolean binded, int boundedTime, Character possession, int possessedTurns,
-			int defHP, String iden, boolean charg, Rune rune1) {
+			int defHP, String iden, boolean charg, Rune rune) {
 		charName = name;
 		charHp = hp;
 		charEnergy = energy;
@@ -38,7 +38,7 @@ public class Character implements Serializable {
 		defHp = defHP;
 		id = iden;
 		charged = charg;
-		equippedRunes = rune1;
+		equippedRunes = rune;
 	}
 	
 	/**
@@ -190,6 +190,10 @@ public class Character implements Serializable {
 		this.overdrive = status;
 	}
 
+	/**
+	 * Changes the target character's energy
+	 * @param energy The amount of energy to modify. Can be positive or negative.
+	 */
 	public void updateEnergy(int energy) {
 		int before = this.charEnergy;
 		this.charEnergy += energy;
@@ -207,10 +211,18 @@ public class Character implements Serializable {
 		}
 	}
 
+	/**
+	 * Marks a character's alive status
+	 * @param status If the character is alive or not.
+	 */
 	public void alive(boolean status) {
 		this.alive = status;
 	}
 
+	/**
+	 * Marks the character time frozen.
+	 * @param turns The amount of time the character is to be frozen in time.
+	 */
 	public void timeFrozen(int turns) {
 		if (turns < 0) turns = 0;
 		if (turns == 0) {
@@ -222,6 +234,10 @@ public class Character implements Serializable {
 		this.timeFrozenTimer = turns;
 	}
 
+	/**
+	 * Marks the character frozen
+	 * @param turns The amount of time the character is to be frozen.
+	 */
 	public void frozen(int turns) {
 		if (turns < 0) turns = 0;
 		if (turns == 0) {
@@ -233,6 +249,10 @@ public class Character implements Serializable {
 		this.frozenTimer = turns;
 	}
 
+	/**
+	 * Sets the character to be poisoned.
+	 * @param damage The amount of damage the character takes every turn.
+	 */
 	public void poison(int damage) {
 		if (damage > 0) {
 			this.poison = true;
@@ -243,22 +263,42 @@ public class Character implements Serializable {
 		}
 	}
 
+	/**
+	 * Sets the character's paralysis state
+	 * @param para If the character is to be paralyzed or not.
+	 */
 	public void paralysis(boolean para) {
 		this.paralysis = para;
 	}
 	
+	/**
+	 * Sets the character's slow state
+	 * @param slowed If the character is to be slowed or not.
+	 */
 	public void slow(boolean slowed) {
 		this.slow = slowed;
 	}
 	
+	/**
+	 * Marks if it is the character's turn
+	 * @param turnStatus If it is the character's turn or not.
+	 */
 	public void turn(boolean turnStatus) {
 		this.turn = turnStatus;
 	}
 	
+	/**
+	 * Puts a curse on the target player
+	 * @param cursed The name of the curse
+	 */
 	public void curse(String cursed) {
 		this.curse = cursed;
 	}
 	
+	/**
+	 * Marks if a character is blinded or not
+	 * @param blinded If the character is to be blinded
+	 */
 	public void blind(boolean blinded) {
 		this.blind = blinded;
 	}
@@ -299,3 +339,5 @@ public class Character implements Serializable {
 		return this.equippedRunes.runeCheck(runeName);
 	}
 }
+
+//A-qua

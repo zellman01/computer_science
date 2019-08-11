@@ -55,12 +55,14 @@ public class Rune implements Serializable {
 			}
 			if (stop) this.count++;
 		}
-		System.out.println(pos);
 		if (pos != -1) {
 			runes[pos] = new Rune(name);
-			if (runes[1].getName().equals("") && !runes[2].getName().equals("")) {
-				runes[1] = runes[2];
-				runes[2] = new Rune();
+			if (name.equals("")) count--;
+			for (int i = 0; i < runes.length-1; i++) {
+				if (runes[i].getName().equals("") && !runes[i+1].getName().equals("")) {
+					runes[i] = runes[i+1];
+					runes[i+1] = new Rune("");
+				}
 			}
 		}
 	}
@@ -76,7 +78,6 @@ public class Rune implements Serializable {
 				if (runes[i].getName().equalsIgnoreCase(runeName))
 					return true;
 			}
-				//str += runes[i].getName();
 		}
 		return false;
 	}
