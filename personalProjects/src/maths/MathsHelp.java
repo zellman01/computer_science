@@ -45,6 +45,6 @@ public class MathsHelp {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(algo1(4998));
+		System.out.println(algo1(32));
 	}
 }

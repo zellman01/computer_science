@@ -8,6 +8,7 @@ public class Game {
 	private int[][] gameBoard;
 	private boolean aiPlayer;
 	private int[] turnOrder;
+	private int row;
 
 	/**
 	 * No-Args constructor
@@ -80,6 +81,14 @@ public class Game {
 	 */
 	public int getPlayerTotal() {
 		return this.playerTotal;
+	}
+	
+	/**
+	 * Obtains the row being used
+	 * @return Row number
+	 */
+	public int getRow() {
+		return this.row;
 	}
 
 	/**
@@ -154,20 +163,20 @@ public class Game {
 
 	/**
 	 * Asks the player how much they want to move.
-	 * @param row The row that was selected
+	 * @param row1 The row that was selected
 	 * @return Number to move
 	 * <b>POSTCONDITION:</b> return is less or greater than the total in selected row
 	 */
-	private int playerMove(int row) {
+	private int playerMove(int row1) {
 		@SuppressWarnings("resource")
 		Scanner kboard = new Scanner(System.in);
 		int number = 0;
-		System.out.println("You are taking from row " + (row+1));
+		System.out.println("You are taking from row " + (row1+1));
 		System.out.print("How much from that row would you like to take? ");
 		number = kboard.nextInt();
 		int[][] board = this.getBoard();
-		if (board[row][this.getTurn()] < number) {
-			number = board[row][this.getTurn()];
+		if (board[row1][this.getTurn()] < number) {
+			number = board[row1][this.getTurn()];
 		}
 		return number;
 	}
@@ -175,13 +184,13 @@ public class Game {
 	/**
 	 * Allows an AI player to play
 	 * @version 0.0.0
-	 * @param row The row that the AI takes from
+	 * @param row1 The row that the AI takes from
 	 * @return The number that the AI takes
 	 */
-	private int computerMove(int row) {
+	private int computerMove(int row1) {
 		//int number = 0;
 		System.out.println("Computer is taking from row " + (row+1) +  ".");
-		return this.getBoard()[row][this.getTurn()];
+		return this.getBoard()[row1][this.getTurn()];
 	}
 
 	/**
@@ -189,7 +198,7 @@ public class Game {
 	 */
 	public void play() {
 		while (!this.win()) {
-			int row = ThreadLocalRandom.current().nextInt(0, this.getPlayerTotal() + 1);
+			row = ThreadLocalRandom.current().nextInt(0, this.getPlayerTotal() + 1);
 			int player = this.getTurn();
 			int[][] board = this.getBoard();
 			while (board[row][player] == 0) {
@@ -216,6 +225,7 @@ public class Game {
 				System.out.println("Turn skipped.");
 			}
 			System.out.println();
+			row = 0;
 			this.updateTurn();
 		}
 	}
@@ -247,14 +257,14 @@ public class Game {
 	/**
 	 * Distributes the amount of what the player specified to the entire row
 	 * @param num The amount taken
-	 * @param row The row that was randomly selected
+	 * @param row1 The row that was randomly selected
 	 */
-	private void distribute(int num, int row) {
+	private void distribute(int num, int row1) {
 		int player = this.getTurn();
 		while (num != 0) {
 			player++;
 			player = this.neutralize(player);
-			this.gameBoard[row][player]++;
+			this.gameBoard[row1][player]++;
 			num--;
 		}
 	}
@@ -264,14 +274,14 @@ public class Game {
 	 */
 	private void endTurnDistribute() {
 		int player = this.gameBoard.length-1;
-		for (int row = 0; row < this.gameBoard[0].length; row++) {
+		for (int row1 = 0; row1 < this.gameBoard[0].length; row1++) {
 			player = this.neutralize(player);
-			int num = this.gameBoard[row][player];
-			this.gameBoard[row][player] = 0;
+			int num = this.gameBoard[row1][player];
+			this.gameBoard[row1][player] = 0;
 			while (num != 0) {
 				player++;
 				player = this.neutralize(player);
-				this.gameBoard[row][player]++;
+				this.gameBoard[row1][player]++;
 				num--;
 			}
 		}
