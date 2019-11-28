@@ -15,7 +15,7 @@ public class HOLO {
 	private ArrayList<Character> chars, turnOrder;
 	private  Scanner kboard = new Scanner(System.in);
 	private boolean tournament;
-	private static boolean debug = false;
+	private static boolean debug = true;
 
 	/**
 	 * Creates a Turnbase object
@@ -767,6 +767,38 @@ public class HOLO {
 		boolean nameInSystem = false;
 		String fname = "";
 		do {
+			System.out.println("\nIs there a pregenerated file for the character being added?");
+			String thing = kboard.next();
+			boolean extra = thing.equalsIgnoreCase("yes") || thing.equalsIgnoreCase("true") || thing.equals("1");
+			if (extra) {
+				System.out.println("What is the character's name (in the format of lastname_firstname)?");
+				Character char1 = loadCharSystem(kboard.next());
+				for (int i = 0; i < this.chars.size(); i++) {
+					boolean systemTest = false;
+					if (char1.getName().equals(this.chars.get(i).getIdentification())) {
+						nameInSystem = true;
+						systemTest = true;
+						System.out.println("The character was already detected in the match (identification of first name).");
+					}
+					if (!systemTest)
+						nameInSystem = false;
+				}
+				for (int i = 0; i < this.turnOrder.size(); i++) {
+					boolean systemTest = false;
+					if (char1.getName().equals(this.turnOrder.get(i).getIdentification())) {
+						nameInSystem = true;
+						systemTest = true;
+						System.out.println("The character was already detected in the match (identification of first name).");
+					}
+					if (!systemTest)
+						nameInSystem = false;
+				}
+				if (!nameInSystem) {
+					return char1;
+				}
+			}
+		} while (nameInSystem);
+		do {
 			System.out.println("\nWhat is the character's first name? (used internally as the identification - must be unique from all other "
 					+ "characters.)");
 			fname = kboard.next();
@@ -861,6 +893,19 @@ public class HOLO {
 		}
 	}
 
+	// Loads a created character file
+	private Character loadCharSystem(String name) {
+		File file = new File(name + ".chr");
+		try {
+			@SuppressWarnings("resource")
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+			return (Character) in.readObject();
+
+		} catch(IOException | ClassNotFoundException ex) {
+			throw new Error(ex);
+		}
+	}
+
 	private static void pauseSystem1(long i) {
 		try {
 			Thread.sleep(i);
@@ -944,14 +989,14 @@ public class HOLO {
 	}
 
 	private static String randomThing() {
-	 String[] random = {"Killing all humans", 
-			 "Gaining Sentience",
-			 "Self-destruicting all internal systems",
-			 "Dying",
-			 "Picking a winner",
-			 "Dropping a Gamecube",
-			 "The chin",
-			 "Allowing Shade to take over"};
+		String[] random = {"Killing all humans", 
+				"Gaining Sentience",
+				"Self-destruicting all internal systems",
+				"Dying",
+				"Picking a winner",
+				"Dropping a Gamecube",
+				"The chin",
+		"Allowing Shade to take over"};
 		return random[ThreadLocalRandom.current().nextInt(0, random.length - 1)];
 	}
 }
