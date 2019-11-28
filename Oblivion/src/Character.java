@@ -40,7 +40,7 @@ public class Character implements Serializable {
 		charged = charg;
 		equippedRunes = rune;
 	}
-	
+
 	/**
 	 * Constructing a character
 	 * @param name Character's name
@@ -76,8 +76,8 @@ public class Character implements Serializable {
 		charged = false;
 		equippedRunes = new Rune();
 	}
-	
-	
+
+
 
 	public int getHp() { return this.charHp; }
 	public String getName() { return this.charName; }
@@ -110,34 +110,41 @@ public class Character implements Serializable {
 	public String toString() {
 		String str = "Name: " + this.getName() + "\nHP: " + this.getHp() + "\nEnergy: " + this.getEnergy() + "\nAlive?: " + this.getAlive();
 		if (this.getAlive()) {
-			str += "\nBurned?: " + this.getBurn();
-			if (this.getBurn())
+			if (this.getBurn()) {
+				str += "\nBurned?: " + this.getBurn();
 				str += "\nBurn level: " + this.getBurnLevel();
+			}
 			str += "\nOverdrive?: " + this.getOverdrive();
-			str += "\nTime frozen?: " + this.getTimeFrozen();
-			if (this.getTimeFrozen())
+			if (this.getTimeFrozen()) {
+				str += "\nTime frozen?: " + this.getTimeFrozen();
 				str += "\nTime frozen time: " + this.getTimeFrozenTimer();
-			str += "\nFrozen?: " + this.getFrozen();
-			if (this.getFrozen())
+			}
+			if (this.getFrozen()) {
+				str += "\nFrozen?: " + this.getFrozen();
 				str += "\nFrozen time: " + this.getFrozenTimer();
-			str += "\nPoisoned?: " + this.getPoison();
+			}
 			if (this.getPoison()) {
+				str += "\nPoisoned?: " + this.getPoison();
 				str += "\nPoison damage: " + this.getPoisonDamage();
 			}
-			str += "\nParalyzed?: " + this.getPayalysis();
-			str += "\nSlowed?: " + this.getSlow();
+			if (this.getPayalysis())
+				str += "\nParalyzed?: " + this.getPayalysis();
+			if (this.getSlow())
+				str += "\nSlowed?: " + this.getSlow();
 			if (!this.getCurse().equals(""))
 				str += "\nCurse: " + this.getCurse();
-			str += "\nBlinded?: " + this.getBlind();
-			str += "\nBound?: " + this.getBound();
+			if (this.getBlind())
+				str += "\nBlinded?: " + this.getBlind();
 			if (this.getBound()) {
+				str += "\nBound?: " + this.getBound();
 				str += "\nBounded time: " + this.getBoundTime();
 			}
 			if (this.getPossess() != null) {
 				str += "\nPossessed by: " + this.getPossess().getName();
 				str += "\nPossessed turns: " + this.getPossessTurns();
 			}
-			str += "\nCharged?: " + this.getCharged();
+			if (this.getCharged())
+				str += "\nCharged?: " + this.getCharged();
 			str += "\nRunes: " + this.getEquippedRunes();
 		} else {
 			str += "\nCause of death: " + this.getCauseOfDeath();
@@ -270,7 +277,7 @@ public class Character implements Serializable {
 	public void paralysis(boolean para) {
 		this.paralysis = para;
 	}
-	
+
 	/**
 	 * Sets the character's slow state
 	 * @param slowed If the character is to be slowed or not.
@@ -278,7 +285,7 @@ public class Character implements Serializable {
 	public void slow(boolean slowed) {
 		this.slow = slowed;
 	}
-	
+
 	/**
 	 * Marks if it is the character's turn
 	 * @param turnStatus If it is the character's turn or not.
@@ -286,7 +293,7 @@ public class Character implements Serializable {
 	public void turn(boolean turnStatus) {
 		this.turn = turnStatus;
 	}
-	
+
 	/**
 	 * Puts a curse on the target player
 	 * @param cursed The name of the curse
@@ -294,7 +301,7 @@ public class Character implements Serializable {
 	public void curse(String cursed) {
 		this.curse = cursed;
 	}
-	
+
 	/**
 	 * Marks if a character is blinded or not
 	 * @param blinded If the character is to be blinded
@@ -302,7 +309,7 @@ public class Character implements Serializable {
 	public void blind(boolean blinded) {
 		this.blind = blinded;
 	}
-	
+
 	public void bind(int turns) {
 		if (turns < 0) turns = 0;
 		if (turns == 0) {
@@ -310,31 +317,31 @@ public class Character implements Serializable {
 		} else {
 			this.bound = true;
 		}
-		
+
 		this.boundTimer = turns;
 	}
-	
+
 	public void possess(Character chara) {
 		this.possess = chara;
 	}
-	
+
 	public void possessedTurns(int turns) {
 		if (turns <= 0) {
 			this.possess = null;
 			turns = 0;
 		}
-		
+
 		this.possessTurns = turns;
 	}
-	
+
 	public void charged (boolean thing) {
 		this.charged = thing;
 	}
-	
+
 	public void runeEquip(String name, int pos) {
 		this.equippedRunes.addRune(name, pos);
 	}
-	
+
 	public boolean checkRunes(String runeName) {
 		return this.equippedRunes.runeCheck(runeName);
 	}
