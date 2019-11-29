@@ -12,7 +12,7 @@ public class CharacterCreator {
 			filePath.createNewFile();
 			FileOutputStream fileOut = new FileOutputStream(filePath);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(char1);
+			out.writeObject(getChar1());
 			out.close();
 			fileOut.close();
 
@@ -23,6 +23,16 @@ public class CharacterCreator {
 		}
 	}
 	
+	public void system(String fName, String lName, int hp) {
+		if (lName.equalsIgnoreCase("n/a")) {
+			char1 = new Character(fName, hp, 0, fName);
+			this.saveSystem(getChar1().getName());
+		} else {
+			char1 = new Character(fName + " " + lName, hp, 0, fName);
+			this.saveSystem(getChar1().getName().substring(getChar1().getIdentification().length()+1) + "_" + getChar1().getIdentification());
+		}
+	}
+	
 	public static void main(String[] args) {
 		CharacterCreator cc = new CharacterCreator();
 		Scanner kboard = new Scanner(System.in);
@@ -30,9 +40,6 @@ public class CharacterCreator {
 		String fname = kboard.next();
 		System.out.println("\nWhat is the character's last name? (N/A for none)");
 		String lname = kboard.next();
-		if (lname.equalsIgnoreCase("n/a")) {
-			
-		}
 		if (lname.equalsIgnoreCase("n/a"))
 			System.out.println("\nHow much HP does " + fname + " have?");
 		else
@@ -44,8 +51,12 @@ public class CharacterCreator {
 			cc.char1 = new Character(fname, hp, 0, fname);
 			cc.saveSystem(fname);
 		} else {
-			cc.char1 =  new Character(fname + " " + lname, hp, 0, fname);
+			cc.char1 = new Character(fname + " " + lname, hp, 0, fname);
 			cc.saveSystem(lname + "_" + fname);
 		}
+	}
+
+	public Character getChar1() {
+		return char1;
 	}
 }
