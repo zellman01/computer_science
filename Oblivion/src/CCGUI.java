@@ -21,9 +21,9 @@ public class CCGUI extends JFrame implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	JTextField fName, lName, hp;
-	
+
 	public CCGUI() {
 		super("Character Creator");
 		JLabel firstName = new JLabel("First name: ", SwingConstants.RIGHT);
@@ -32,10 +32,10 @@ public class CCGUI extends JFrame implements ActionListener {
 		lName = new JTextField(1);
 		JLabel hpThing = new JLabel("HP: ", SwingConstants.RIGHT);
 		hp = new JTextField(1);
-		
+
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(this);
-		
+
 		Container c = getContentPane();
 		c.setBackground(Color.WHITE);
 		JPanel p = new JPanel();
@@ -54,13 +54,23 @@ public class CCGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		CharacterCreator cc = new CharacterCreator();
 		String firName = fName.getText(), lasName = lName.getText();
-		int hp1 = Integer.parseInt(hp.getText());
+		String check = hp.getText();
+		while (check.indexOf(',') >= 0) {
+			check = check.substring(0,check.indexOf(',')) + check.substring(check.indexOf(',')+1, check.length());
+		}
+		int hp1 = Integer.parseInt(check);
 		cc.system(firName, lasName, hp1);
-		JOptionPane.showMessageDialog(w,
-			    "The character " + cc.getChar1().getName() + " with the HP of " + cc.getChar1().getHp() + " has been created."
-			    + "\nThe character was saved as " + lasName + "_" + firName + ".");
+		if (lasName.equalsIgnoreCase("n/a") || lasName.equalsIgnoreCase("")) {
+			JOptionPane.showMessageDialog(w,
+					"The character " + cc.getChar1().getName() + " with the HP of " + cc.getChar1().getHp() + " has been created."
+							+ "\nThe character was saved as " +  firName + ".");
+		} else {
+			JOptionPane.showMessageDialog(w,
+					"The character " + cc.getChar1().getName() + " with the HP of " + cc.getChar1().getHp() + " has been created."
+							+ "\nThe character was saved as " + lasName + "_" + firName + ".");
+		}
 	}
-	
+
 	private void start() {
 		w = new CCGUI();
 		w.pack();
@@ -69,7 +79,7 @@ public class CCGUI extends JFrame implements ActionListener {
 		w.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		w.setVisible(true);
 	}
-	
+
 	public static void main(String[] args) {
 		CCGUI s = new CCGUI();
 		s.start();
