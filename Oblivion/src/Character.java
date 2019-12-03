@@ -346,5 +346,3 @@ public class Character implements Serializable {
 		return this.equippedRunes.runeCheck(runeName);
 	}
 }
-
-//A-qua

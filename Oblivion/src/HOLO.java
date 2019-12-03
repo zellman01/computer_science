@@ -15,7 +15,7 @@ public class HOLO {
 	private ArrayList<Character> chars, turnOrder;
 	private  Scanner kboard = new Scanner(System.in);
 	private boolean tournament;
-	private static boolean debug = true;
+	private static boolean debug = false;
 
 	/**
 	 * Creates a Turnbase object

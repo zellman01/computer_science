@@ -24,7 +24,7 @@ public class CharacterCreator {
 	}
 	
 	public void system(String fName, String lName, int hp) {
-		if (lName.equalsIgnoreCase("n/a")) {
+		if (lName.equalsIgnoreCase("n/a") || lName.equalsIgnoreCase("")) {
 			char1 = new Character(fName, hp, 0, fName);
 			this.saveSystem(getChar1().getName());
 		} else {
