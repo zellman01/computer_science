@@ -53,8 +53,7 @@ public class CCGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		CharacterCreator cc = new CharacterCreator();
-		String firName = fName.getText(), lasName = lName.getText();
-		String check = hp.getText();
+		String firName = fName.getText(), lasName = lName.getText(), check = hp.getText();
 		while (check.indexOf(',') >= 0) {
 			check = check.substring(0,check.indexOf(',')) + check.substring(check.indexOf(',')+1, check.length());
 		}
