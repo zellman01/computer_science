@@ -1,5 +1,6 @@
 import java.io.Serializable;
 
+// File Extension: .chr
 public class Character implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String charName, cod, curse, id;
@@ -46,6 +47,7 @@ public class Character implements Serializable {
 	 * @param name Character's name
 	 * @param hp Starting HP of the character
 	 * @param energy Starting energy of the character
+	 * @param iden Identification of the character
 	 */
 	public Character(String name, int hp, int energy, String iden) {
 		charName = name;
@@ -76,8 +78,6 @@ public class Character implements Serializable {
 		charged = false;
 		equippedRunes = new Rune();
 	}
-
-
 
 	public int getHp() { return this.charHp; }
 	public String getName() { return this.charName; }

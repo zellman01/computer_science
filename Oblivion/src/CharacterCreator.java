@@ -29,7 +29,8 @@ public class CharacterCreator {
 			this.saveSystem(getChar1().getName());
 		} else {
 			char1 = new Character(fName + " " + lName, hp, 0, fName);
-			this.saveSystem(getChar1().getName().substring(getChar1().getIdentification().length()+1) + "_" + getChar1().getIdentification());
+			Character ch = getChar1();
+			this.saveSystem(ch.getName().substring(ch.getIdentification().length()+1) + "_" + ch.getIdentification());
 		}
 	}
 	
@@ -45,6 +46,8 @@ public class CharacterCreator {
 		else
 			System.out.println("\nHow much HP does " + fname + " " + lname + " have?");
 		int hp = kboard.nextInt();
+		System.out.println();
+		
 		kboard.close();
 		
 		if (lname.equalsIgnoreCase("N/A")) {
