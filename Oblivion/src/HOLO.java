@@ -15,7 +15,7 @@ public class HOLO {
 	private ArrayList<Character> chars, turnOrder;
 	private  Scanner kboard = new Scanner(System.in);
 	private boolean tournament;
-	private static boolean debug = false;
+	private static boolean debug = true;
 
 	/**
 	 * Creates a Turnbase object
@@ -446,6 +446,24 @@ public class HOLO {
 		}
 	}
 
+	private void special() {
+		System.out.println("What is the name of the special?");
+		String name = kboard.next();
+		Character user = this.getChar(turn);
+		Specials spe = this.loadSpecialSystem(name);
+		if (spe.useableSpecial(user.getIdentification())) {
+			System.out.println(user.getName() + " successfully used " + spe.getName());
+			if (spe.getDamage() != 0) {
+				int pos = this.posFind();
+				if (this.characterCheck(pos)) {
+					this.getChar(pos).modifyHp(-spe.getDamage());
+				}
+			}
+		} else {
+			System.out.println(user.getName() + " was unable to use " + spe.getName());
+		}
+	}
+
 	private void substitute() {
 		if (this.tournament) {
 			System.out.println("This is an official match. Substitutes are not allowed.");
@@ -583,6 +601,7 @@ public class HOLO {
 		System.out.println("repalcerune - Replaces a rune from a character.");
 		System.out.println("removerune - Removes a rune from a character.");
 		System.out.println("statuses - Explains what each individual status effect does.");
+		System.out.println("special - Uses a special the character is allowed to use.");
 		System.out.println("substitute - Subs a new character for an old character.");
 		System.out.println("WARNING: The command \"substitute\" ends the current turn, due to the potential reshuffle of turn order.");
 		System.out.println("official - Sets the match as a tournament match. Sysadmin access required.");
@@ -672,6 +691,9 @@ public class HOLO {
 			break;
 		case "substitute":
 			this.substitute();
+			break;
+		case "special":
+			this.special();
 			break;
 		case "official":
 			this.officialMatch();
@@ -901,6 +923,18 @@ public class HOLO {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
 			return (Character) in.readObject();
 
+		} catch(IOException | ClassNotFoundException ex) {
+			throw new Error(ex);
+		}
+	}
+
+	// Loads a created special file
+	private Specials loadSpecialSystem(String name) {
+		File file = new File(name + ".spe");
+		try {
+			@SuppressWarnings("resource")
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+			return (Specials) in.readObject();
 		} catch(IOException | ClassNotFoundException ex) {
 			throw new Error(ex);
 		}
