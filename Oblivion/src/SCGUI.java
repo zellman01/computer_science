@@ -56,7 +56,8 @@ public class SCGUI extends JFrame implements ActionListener {
 			check = check.substring(0,check.indexOf(',')) + check.substring(check.indexOf(',')+1, check.length());
 		}
 		int hp1 = Integer.parseInt(check);
-		sc.system(speName, userName, hp1);
+		String[] thing = userName.split(",");
+		sc.system(speName, thing, hp1);
 		JOptionPane.showMessageDialog(w,
 				"Special " + speName + " has been created successfully."
 				+ "\nThe character able to use this is " + userName + ".");

@@ -8,7 +8,7 @@ public class Specials implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int damage;
-	private String userName;
+	private String[] userName;
 	
 
 	/**
@@ -17,7 +17,7 @@ public class Specials implements Serializable {
 	 * @param amount The amount of damage/healing done
 	 * @param charName The character that can use it's name
 	 */
-	public Specials(String namea, int amount, String charName) {
+	public Specials(String namea, int amount, String[] charName) {
 		this.name = namea;
 		this.damage = amount;
 		this.userName = charName;
@@ -31,11 +31,16 @@ public class Specials implements Serializable {
 		return this.name;
 	}
 	
-	public String getUser() {
+	public String[] getUser() {
 		return this.userName;
 	}
 	
 	public boolean useableSpecial(String nameTest) {
-		return this.userName.equals(nameTest);
+		for (int i = 0; i < userName.length; i++) {
+			if (userName[i].equals(nameTest)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

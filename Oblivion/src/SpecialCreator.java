@@ -24,7 +24,7 @@ public class SpecialCreator {
 		}
 	}
 	
-	public void system(String specialName, String userName, int damage) {
+	public void system(String specialName, String[] userName, int damage) {
 		spe = new Specials(specialName, damage, userName);
 		this.saveSystem(specialName);
 	}
@@ -38,7 +38,8 @@ public class SpecialCreator {
 		int damage = kb.nextInt();
 		System.out.println("What is the name of the character that may use this special?");
 		String user = kb.next();
-		sc.spe = new Specials(name, damage, user);
+		String[] thing = user.split(",");
+		sc.spe = new Specials(name, damage, thing);
 		kb.close();
 		sc.saveSystem(sc.spe.getName());
 	}
