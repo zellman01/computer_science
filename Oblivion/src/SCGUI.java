@@ -63,7 +63,7 @@ public class SCGUI extends JFrame implements ActionListener {
 				+ "\nThe character able to use this is " + userName + ".");
 	}
 	
-	private void start() {
+	public void start() {
 		w = new SCGUI();
 		w.pack();
 		w.setBounds(300,300,300,150);

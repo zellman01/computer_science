@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 
 // Character Creator GUI
 public class CCGUI extends JFrame implements ActionListener {
-	CCGUI w;
+	private CCGUI w;
 
 	/**
 	 * 
@@ -68,9 +68,13 @@ public class CCGUI extends JFrame implements ActionListener {
 					"The character " + cc.getChar1().getName() + " with the HP of " + cc.getChar1().getHp() + " has been created."
 							+ "\nThe character was saved as " + lasName + "_" + firName + ".");
 		}
+		/*int dialogButton = JOptionPane.showConfirmDialog(null, "Testing", "Warning", JOptionPane.YES_NO_OPTION);
+		if (dialogButton == JOptionPane.NO_OPTION) {
+			w.setVisible(false);
+		}*/
 	}
 
-	private void start() {
+	public void start() {
 		w = new CCGUI();
 		w.pack();
 		w.setBounds(300,300,300,150);
