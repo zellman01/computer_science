@@ -1,0 +1,24 @@
+Card:
+	Knows:
+		-Suit it is
+		-Face value
+		-Color
+		-Face-up or face-down
+	It can:
+		-Flip over
+
+Deck:
+	Knows:
+		-Cards in it and order of cards
+		-Number of top card
+	It can:
+		-Draw
+		-Shuffle
+		-Be searched
+		
+Spells:
+	Knows:
+		-Cards needed to activate it
+		-Order in which cards need to be done
+		-Name of spell
+		-Description of spell
