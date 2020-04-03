@@ -34,7 +34,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private String name;
 	private Character test;
 	private final Color currentTurn = Color.GREEN, notTurn = Color.RED;
-	private final Object[] STATUSES = {"Paralysis", "Burned", "Poisoned", "Frozen", "Time Frozen", "Slow", "Binded", "Blinded"};
+	private final Object[] STATUSES = {"Burned", "Frozen", "Paralysis", "Time Frozen", "Poisoned", "Slow", "Blinded", "Binded"};
 
 	// Closes the character information GUI and asks if you want to save it, then saves it as a character file
 	@Override
@@ -56,7 +56,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	public MainGUI(int a) {
-		super("Battle Simulator 0.0");
+		super("Battle Simulator 1.0");
 		test = createOrLoad();
 		JLabel hp = new JLabel("HP: ");
 		//String hpValue = "";
@@ -92,6 +92,12 @@ public class MainGUI extends JFrame implements ActionListener {
 				String damage = JOptionPane.showInputDialog(w, "How much is " + test.getName() + " damaged for? (negative number for healing)",
 						"Damage", JOptionPane.QUESTION_MESSAGE);
 				test.modifyHp(Integer.parseInt(damage)*-1);
+				if (test.getHp() > 0) {
+					test.alive(true);
+					statuses1.setText(test.getStatuses());
+					JOptionPane.showMessageDialog(w, test.getName() + " has been revived.", "Alive",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 				hp1.setText(Integer.toString(test.getHp()));
 			}
 		});
@@ -110,6 +116,8 @@ public class MainGUI extends JFrame implements ActionListener {
 						test.timeFrozen(test.getTimeFrozenTimer()-1);
 						statuses1.setText(test.getStatuses());
 						endTurn();
+						statuses1.setText(test.getStatuses()); // Update status in case the player died
+						hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 						return;
 					}
 					if (test.getFrozen()) {
@@ -118,6 +126,8 @@ public class MainGUI extends JFrame implements ActionListener {
 						test.frozen(test.getFrozenTimer()-1);
 						statuses1.setText(test.getStatuses());
 						endTurn();
+						statuses1.setText(test.getStatuses()); // Update status in case the player died
+						hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 						return;
 					}
 					if (test.getPayalysis()) {
@@ -126,6 +136,8 @@ public class MainGUI extends JFrame implements ActionListener {
 							JOptionPane.showMessageDialog(w, test.getName() + "'s turn has been stopped from being paralyzed.", "Action Unavailable", 
 									JOptionPane.ERROR_MESSAGE);
 							endTurn();
+							statuses1.setText(test.getStatuses()); // Update status in case the player died
+							hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 							return;
 						}
 					}
@@ -154,6 +166,8 @@ public class MainGUI extends JFrame implements ActionListener {
 					test.turn(false);
 					turnStatus.setForeground(notTurn);
 					turnStatus.setText(test.turnAlignment());
+					statuses1.setText(test.getStatuses()); // Update status in case the player died
+					hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 				}
 			}
 		});
@@ -300,8 +314,23 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 	
 	private void endTurn() { // Have to do it this way so that both startTurn and endTurn actionlisteners can use it
+		if (test.getBurn()) {
+			int[] burnDamage = {25, 50, 75, 100};
+			test.modifyHp(-burnDamage[test.getBurnLevel()-1]);
+			JOptionPane.showMessageDialog(w, test.getName() + " took " + burnDamage[test.getBurnLevel()-1] + " in burn damage.", "Burn Damage",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		if (test.getPoison()) {
+			test.modifyHp(-test.getPoisonDamage());
+			JOptionPane.showMessageDialog(w, test.getName() + " took " + test.getPoisonDamage() + " in poison damage.", "Poison Damage",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 		if (test.getHp() <= 0) {
 			test.alive(false);
+			JOptionPane.showMessageDialog(w, test.getName() + " has been killed.", "Dead",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -312,10 +341,10 @@ public class MainGUI extends JFrame implements ActionListener {
 		w.setLocationRelativeTo(null);
 		w.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		w.setVisible(true);
-		w.setResizable(true); // During testing - disable after testing is done
-		JOptionPane.showMessageDialog(w, 
+		w.setResizable(false); // During testing - disable after testing is done
+		/*JOptionPane.showMessageDialog(w, 
 				"This is a function test GUI application. This will not be fully functional for a "
-						+ "while while methods and everything are tested.", "Special Warning", JOptionPane.WARNING_MESSAGE);
+						+ "while while methods and everything are tested.", "Special Warning", JOptionPane.WARNING_MESSAGE);*/
 	}
 
 	// Loads a created character file
@@ -327,7 +356,8 @@ public class MainGUI extends JFrame implements ActionListener {
 			return (Character) in.readObject();
 
 		} catch(IOException | ClassNotFoundException ex) {
-			throw new Error(ex);
+			error();
+			throw new Error();
 		}
 	}
 

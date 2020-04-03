@@ -202,21 +202,21 @@ public class Character implements Serializable {
 	 * Changes the target character's energy
 	 * @param energy The amount of energy to modify. Can be positive or negative.
 	 */
-	public void updateEnergy(int energy) {
-		int before = this.charEnergy;
+	public void updateEnergy(int energy) { // Everything commented out here is only temporary
+		//int before = this.charEnergy;
 		this.charEnergy += energy;
 		if (charEnergy < 0) {
 			System.out.println(this.getName() +  " does not have enough Energy.");
-			this.charEnergy = before;
+			//this.charEnergy = before;
 		}
-		if (charEnergy > 5 && !this.getOverdrive()) {
+		/*if (charEnergy > 5 && !this.getOverdrive()) {
 			System.out.println(this.getName() +  " will have too much Energy.");
 			this.charEnergy = before;
 		}
 		if (charEnergy > 10 && this.getOverdrive()) {
 			System.out.println(this.getName() + " will have too much energy (overdrive)");
 			this.charEnergy = before;
-		}
+		}*/
 	}
 
 	/**
@@ -402,7 +402,8 @@ public class Character implements Serializable {
 				} else
 					str += ", Bound";
 		}
-		str += ".";
+		if (!first)
+			str += ".";
 		return str;
 	}
 
