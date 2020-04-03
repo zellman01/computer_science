@@ -30,8 +30,13 @@ public class Rune implements Serializable {
 			}
 		}
 		if (!test)
-			str += "No runes are equipped to this character";
+			str += "No runes are equipped";
+		str += ".";
 		return str;
+	}
+	
+	public int runeTotal() {
+		return this.count;
 	}
 
 	private String getName() {
@@ -80,5 +85,15 @@ public class Rune implements Serializable {
 			}
 		}
 		return false;
+	}
+	
+	public int runePos(String runeName) {
+		for (int i = 0; i < runes.length; i++) {
+			if (!runes[i].getName().equals("")) {
+				if (runes[i].getName().equalsIgnoreCase(runeName))
+					return i;
+			}
+		}
+		return -1;
 	}
 }

@@ -16,18 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/*
- * Possible solutions:
- *  
- */
-
-/*
- * What to do:
- *  Add things to allow updates (maybe also a frame of endturn function to run those and auto-update files?)
- *  Possibly add a turn thing to signify if it is the character's turn 
- *   (has to be updated manually per character - no way to check if another character is also "in turn")
- *  Save sub-character files (with asking the user)
- */
 public class MainGUI extends JFrame implements ActionListener {
 	private MainGUI w;
 	private static final long serialVersionUID = 1L;
@@ -56,26 +44,27 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	public MainGUI(int a) {
-		super("Battle Simulator 1.0");
+		super("Battle Simulator 1.1");
 		test = createOrLoad();
-		JLabel hp = new JLabel("HP: ");
-		//String hpValue = "";
-		//hpValue = Integer.toString(test.getHp());
+		JLabel hp = new JLabel("HP:");
 		JLabel hp1 = new JLabel(Integer.toString(test.getHp()));
 
-		JLabel name = new JLabel("Name: ");
+		JLabel name = new JLabel("Name:");
 		JLabel name1 = new JLabel(test.getName());
 
 		this.name = test.getName(); // for saving purposes
 
-		JLabel charge = new JLabel("Charge: ");
+		JLabel charge = new JLabel("Charge:");
 		JLabel charge1 = new JLabel(Integer.toString(test.getEnergy()));
 
-		JLabel statuses = new JLabel("Statuses: ");
+		JLabel statuses = new JLabel("Statuses:");
 		JLabel statuses1 = new JLabel(test.getStatuses());
 
 		JLabel turnStarted = new JLabel("Turn?");
 		JLabel turnStatus = new JLabel(test.turnAlignment());
+
+		JLabel rune = new JLabel("Runes:");
+		JLabel runeList = new JLabel(test.getEquippedRunes().toString());
 
 		if (test.getTurn()) {
 			turnStatus.setForeground(currentTurn);
@@ -92,18 +81,26 @@ public class MainGUI extends JFrame implements ActionListener {
 				String damage = JOptionPane.showInputDialog(w, "How much is " + test.getName() + " damaged for? (negative number for healing)",
 						"Damage", JOptionPane.QUESTION_MESSAGE);
 				test.modifyHp(Integer.parseInt(damage)*-1);
-				if (test.getHp() > 0) {
+				hp1.setText(Integer.toString(test.getHp()));
+				if (test.getHp() > 0 && !test.getAlive()) {
 					test.alive(true);
-					statuses1.setText(test.getStatuses());
+					statuses1.setText(test.getStatuses()); // For removing the "Dead" status
 					JOptionPane.showMessageDialog(w, test.getName() + " has been revived.", "Alive",
 							JOptionPane.INFORMATION_MESSAGE);
+				} else if (test.getHp() <= 0) {
+					test.alive(false);
+					statuses1.setText(test.getStatuses()); // For adding the "Dead" status
+					JOptionPane.showMessageDialog(w, test.getName() + " has been killed.", "Dead",
+							JOptionPane.INFORMATION_MESSAGE);
+					test.turn(false);
+					turnStatus.setForeground(notTurn);
+					turnStatus.setText(test.turnAlignment());
 				}
-				hp1.setText(Integer.toString(test.getHp()));
 			}
 		});
 
 		JButton startTurn = new JButton("Start turn");
-		startTurn.addActionListener(new ActionListener() { // TODO: Add sections to check if turn does not happen, and end turn there
+		startTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (test.getTurn() || !test.getAlive()) {
 					JOptionPane.showMessageDialog(w, test.getName() + "'s turn has already started, or is killed", "Action Unavailable", 
@@ -115,7 +112,7 @@ public class MainGUI extends JFrame implements ActionListener {
 								JOptionPane.ERROR_MESSAGE);
 						test.timeFrozen(test.getTimeFrozenTimer()-1);
 						statuses1.setText(test.getStatuses());
-						endTurn();
+						endTurn(true);
 						statuses1.setText(test.getStatuses()); // Update status in case the player died
 						hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 						return;
@@ -125,7 +122,7 @@ public class MainGUI extends JFrame implements ActionListener {
 								JOptionPane.ERROR_MESSAGE);
 						test.frozen(test.getFrozenTimer()-1);
 						statuses1.setText(test.getStatuses());
-						endTurn();
+						endTurn(true);
 						statuses1.setText(test.getStatuses()); // Update status in case the player died
 						hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 						return;
@@ -135,7 +132,7 @@ public class MainGUI extends JFrame implements ActionListener {
 						if (random < 11) {
 							JOptionPane.showMessageDialog(w, test.getName() + "'s turn has been stopped from being paralyzed.", "Action Unavailable", 
 									JOptionPane.ERROR_MESSAGE);
-							endTurn();
+							endTurn(true);
 							statuses1.setText(test.getStatuses()); // Update status in case the player died
 							hp1.setText(Integer.toString(test.getHp())); // Update HP in case burn/poison happened
 							return;
@@ -156,13 +153,13 @@ public class MainGUI extends JFrame implements ActionListener {
 		});
 
 		JButton endTurn = new JButton("End Turn");
-		endTurn.addActionListener(new ActionListener() { // TODO: Add sections to check if turn does not happen, and end turn there
+		endTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!test.getTurn()) {
 					JOptionPane.showMessageDialog(w, test.getName() + "'s turn has not started yet, or is killed", "Action unavailable", 
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					endTurn();
+					endTurn(true);
 					test.turn(false);
 					turnStatus.setForeground(notTurn);
 					turnStatus.setText(test.turnAlignment());
@@ -199,9 +196,9 @@ public class MainGUI extends JFrame implements ActionListener {
 				}
 			}
 		});
-		
+
 		JButton modifyCharge = new JButton("Charge");
-		modifyCharge.addActionListener(new ActionListener() { // TODO: Fix error
+		modifyCharge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String charge = JOptionPane.showInputDialog(w, "How much does " + test.getName() + " charge for? "
 						+ "(negative number for removing charge)",
@@ -220,22 +217,58 @@ public class MainGUI extends JFrame implements ActionListener {
 			}
 		});
 
+		JButton runeAdd = new JButton("Add rune");
+		runeAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (test.getRuneCount() < 3) {
+					String name = JOptionPane.showInputDialog(w, "What is the name of the rune being equipped?",
+							"Add Rune", JOptionPane.QUESTION_MESSAGE);
+					if ((name != null) && name.length() > 0) {
+						test.runeEquip(name, -1);
+						runeList.setText(test.getEquippedRunes().toString());
+					} else {
+						error();
+					}
+				} else {
+					JOptionPane.showMessageDialog(w, test.getName() + " already has three equipped runes.", "Rune Error", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		JButton runeRemove = new JButton("Remove rune");
+		runeRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = JOptionPane.showInputDialog(w, "What is the name of the rune being removed?", "Remove Rune",
+						JOptionPane.QUESTION_MESSAGE);
+				if ((name != null) && (name.length() > 0)) {
+					test.runeEquip("", test.obtainRunePos(name));
+					runeList.setText(test.getEquippedRunes().toString());
+				} else {
+					error();
+				}
+			}
+		});
+
+
 		Container c = getContentPane();
 		c.setBackground(Color.WHITE);
 
 		JPanel p = new JPanel(); // Displayed text
-		p.setLayout(new GridLayout(5,1));
+		p.setLayout(new GridLayout(6,1));
 
 		p.add(hp); p.add(hp1);
 		p.add(name); p.add(name1);
 		p.add(charge); p.add(charge1);
 		p.add(statuses); p.add(statuses1);
 		p.add(turnStarted); p.add(turnStatus);
+		p.add(rune); p.add(runeList);
 
 		JPanel s = new JPanel(); // Actions
-		s.setLayout(new GridLayout(3,1));
+		s.setLayout(new GridLayout(4,1));
 
-		s.add(close); s.add(damage); s.add(startTurn); s.add(endTurn); s.add(addStatus); s.add(modifyCharge);
+		s.add(close); s.add(damage); s.add(startTurn); s.add(endTurn); s.add(addStatus); s.add(modifyCharge); s.add(runeAdd); 
+		s.add(runeRemove);
 
 		c.add(p, BorderLayout.CENTER);
 		c.add(s, BorderLayout.SOUTH);
@@ -243,7 +276,6 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	// Only exists to prevent having to type in a character name twice
 	public MainGUI() {
-		// TODO Auto-generated constructor stub
 	}
 
 	// Asks to either load or create a new character
@@ -258,7 +290,7 @@ public class MainGUI extends JFrame implements ActionListener {
 					+ " replacing lastName and firstName with the chatacter's last and first name and without the \"<>\"",
 					"Character selection", JOptionPane.QUESTION_MESSAGE);
 			return loadCharSystem(name);
-		} else if (n == 1) { // Selected no (TODO: Fix error)
+		} else if (n == 1) {
 			CCGUI e = new CCGUI();
 			e.start();
 		} else {
@@ -307,26 +339,27 @@ public class MainGUI extends JFrame implements ActionListener {
 				JOptionPane.ERROR_MESSAGE);
 		throw new Error("Something horribly went wrong");
 	}
-	
+
 	private void numError() {
 		JOptionPane.showMessageDialog(w, "What you inputted was not a number.", "Number Error", JOptionPane.ERROR_MESSAGE);
 		throw new Error("Input of number went wrong");
 	}
-	
-	private void endTurn() { // Have to do it this way so that both startTurn and endTurn actionlisteners can use it
-		if (test.getBurn()) {
-			int[] burnDamage = {25, 50, 75, 100};
-			test.modifyHp(-burnDamage[test.getBurnLevel()-1]);
-			JOptionPane.showMessageDialog(w, test.getName() + " took " + burnDamage[test.getBurnLevel()-1] + " in burn damage.", "Burn Damage",
-					JOptionPane.INFORMATION_MESSAGE);
+
+	private void endTurn(boolean endTurn) { // Have to do it this way so that both startTurn and endTurn actionlisteners can use it
+		if (endTurn) {
+			if (test.getBurn()) {
+				int[] burnDamage = {25, 50, 75, 100};
+				test.modifyHp(-burnDamage[test.getBurnLevel()-1]);
+				JOptionPane.showMessageDialog(w, test.getName() + " took " + burnDamage[test.getBurnLevel()-1] + " in burn damage.", "Burn Damage",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+
+			if (test.getPoison()) {
+				test.modifyHp(-test.getPoisonDamage());
+				JOptionPane.showMessageDialog(w, test.getName() + " took " + test.getPoisonDamage() + " in poison damage.", "Poison Damage",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
-		
-		if (test.getPoison()) {
-			test.modifyHp(-test.getPoisonDamage());
-			JOptionPane.showMessageDialog(w, test.getName() + " took " + test.getPoisonDamage() + " in poison damage.", "Poison Damage",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		
 		if (test.getHp() <= 0) {
 			test.alive(false);
 			JOptionPane.showMessageDialog(w, test.getName() + " has been killed.", "Dead",
@@ -337,14 +370,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	public void start() {
 		w = new MainGUI(1);
 		w.pack();
-		w.setBounds(300,300,300,200); // Only modify the last one - height
+		w.setBounds(300,300,300,250); // Only modify the last one - height
 		w.setLocationRelativeTo(null);
 		w.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		w.setVisible(true);
-		w.setResizable(false); // During testing - disable after testing is done
-		/*JOptionPane.showMessageDialog(w, 
-				"This is a function test GUI application. This will not be fully functional for a "
-						+ "while while methods and everything are tested.", "Special Warning", JOptionPane.WARNING_MESSAGE);*/
+		w.setResizable(false);
 	}
 
 	// Loads a created character file

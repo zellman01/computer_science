@@ -107,6 +107,7 @@ public class Character implements Serializable {
 	public boolean getCharged() { return this.charged; }
 	public Rune getEquippedRunes() { return this.equippedRunes; }
 	public String getStatuses() { return allStatuses(); }
+	public int getRuneCount() { return this.equippedRunes.runeTotal(); }
 
 	public String toString() {
 		String str = "Name: " + this.getName() + "\nHP: " + this.getHp() + "\nEnergy: " + this.getEnergy() + "\nAlive?: " + this.getAlive();
@@ -345,6 +346,10 @@ public class Character implements Serializable {
 
 	public boolean checkRunes(String runeName) {
 		return this.equippedRunes.runeCheck(runeName);
+	}
+	
+	public int obtainRunePos(String runeName) {
+		return this.equippedRunes.runePos(runeName);
 	}
 
 	private String allStatuses() {
