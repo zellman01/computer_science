@@ -106,6 +106,7 @@ public class Character implements Serializable {
 	public String getIdentification() { return this.id; }
 	public boolean getCharged() { return this.charged; }
 	public Rune getEquippedRunes() { return this.equippedRunes; }
+	public String getStatuses() { return allStatuses(); }
 
 	public String toString() {
 		String str = "Name: " + this.getName() + "\nHP: " + this.getHp() + "\nEnergy: " + this.getEnergy() + "\nAlive?: " + this.getAlive();
@@ -164,14 +165,14 @@ public class Character implements Serializable {
 
 	/**
 	 * Specifies if the character's burn status is updated at all
-	 * @param level What level burn it is.
+	 * @param level What level burn it is. 0 to disable
 	 * Precondition: level is between 0 and 4
 	 */
 	public void burned(int level) {
 		if (level == 0) {
 			this.burn = false;
 			this.burnLevel = 0;
-		} else if (level > 0) {
+		} else if (level > 0 && level < 5) {
 			this.burn = true;
 			this.burnLevel = level;
 		} else {
@@ -258,7 +259,7 @@ public class Character implements Serializable {
 
 	/**
 	 * Sets the character to be poisoned.
-	 * @param damage The amount of damage the character takes every turn.
+	 * @param damage The amount of damage the character takes every turn. 0 to disable.
 	 */
 	public void poison(int damage) {
 		if (damage > 0) {
@@ -344,5 +345,71 @@ public class Character implements Serializable {
 
 	public boolean checkRunes(String runeName) {
 		return this.equippedRunes.runeCheck(runeName);
+	}
+
+	private String allStatuses() {
+		String str = "";
+		boolean first = true;
+		if (!this.alive) {
+			str += "Dead";
+		} else {
+			if (this.burn)
+				if (first) {
+					str += "Burn";
+					first = false;
+				} else
+					str += ", Burn";
+			if (this.frozen)
+				if (first) {
+					str += "Frozen";
+					first = false;
+				} else
+					str += ", Frozen";
+			if (this.timeFrozen)
+				if (first) {
+					str += "Time frozen";
+					first = false;
+				} else
+					str += ", Time frozen";
+			if (this.poison)
+				if (first) {
+					str += "Poisoned";
+					first = false;
+				} else
+					str += ", Poisoned";
+			if (this.paralysis)
+				if (first) {
+					str += "Paralyzed";
+					first = false;
+				} else
+					str += ", Paralyzed";
+			if (this.slow)
+				if (first) {
+					str += "Slowed";
+					first = false;
+				} else
+					str += ", Slowed";
+			if (this.blind)
+				if (first) {
+					str += "Blinded";
+					first = false;
+				} else
+					str += ", Blinded";
+			if (this.bound)
+				if (first) {
+					str += "Bound";
+					first = false;
+				} else
+					str += ", Bound";
+		}
+		str += ".";
+		return str;
+	}
+
+	protected String turnAlignment() {
+		if (getTurn())
+			return "Yes";
+		else
+			return "No";
 	}
 }

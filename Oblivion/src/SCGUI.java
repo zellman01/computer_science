@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class SCGUI extends JFrame implements ActionListener {
-	SCGUI w;
+	private SCGUI w;
 	
 	/**
 	 * 
@@ -36,14 +36,19 @@ public class SCGUI extends JFrame implements ActionListener {
 		
 		Container c = getContentPane();
 		c.setBackground(Color.WHITE);
+		
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(3,1));
+		
 		p.add(speName);
 		p.add(nameS);
+		
 		p.add(dam);
 		p.add(damage);
+		
 		p.add(useName);
 		p.add(nameU);
+		
 		c.add(p, BorderLayout.CENTER);
 		c.add(confirm, BorderLayout.SOUTH);
 	}

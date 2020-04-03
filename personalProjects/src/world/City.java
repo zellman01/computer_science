@@ -6,11 +6,12 @@ public class City {
 	
 	public City() {
 		buildings = new Building[5];
+		this.start();
 	}
 	
 	private void start() {
 		for (int i = 0; i < buildings.length; i++) {
-			buildings[1]
+			buildings[i] = new Building(null, i, false);
 		}
 	}
 }

@@ -68,10 +68,7 @@ public class CCGUI extends JFrame implements ActionListener {
 					"The character " + cc.getChar1().getName() + " with the HP of " + cc.getChar1().getHp() + " has been created."
 							+ "\nThe character was saved as " + lasName + "_" + firName + ".");
 		}
-		/*int dialogButton = JOptionPane.showConfirmDialog(null, "Testing", "Warning", JOptionPane.YES_NO_OPTION);
-		if (dialogButton == JOptionPane.NO_OPTION) {
-			w.setVisible(false);
-		}*/
+		w.setVisible(false);
 	}
 
 	public void start() {

@@ -5,8 +5,8 @@ import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 public class CharacterCreator {
-	private Character char1 = null;
-	private void saveSystem(String name) {
+	protected Character char1 = null; // Protected only to be able to be modified by MainGUI
+	protected void saveSystem(String name) {
 		try {
 			File filePath = new File(name + ".chr");
 			filePath.createNewFile();
