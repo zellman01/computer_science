@@ -108,6 +108,14 @@ public class Character implements Serializable {
 	public Rune getEquippedRunes() { return this.equippedRunes; }
 	public String getStatuses() { return allStatuses(); }
 	public int getRuneCount() { return this.equippedRunes.runeTotal(); }
+	public String saveName() { 
+		String chr = "";
+		if (this.getName().indexOf(" ") > -1)
+			chr = this.getName().substring(this.getIdentification().length()+1) + "_" + this.getIdentification(); 
+		else
+			chr = this.getName();
+		return chr;
+		}
 
 	public String toString() {
 		String str = "Name: " + this.getName() + "\nHP: " + this.getHp() + "\nEnergy: " + this.getEnergy() + "\nAlive?: " + this.getAlive();
