@@ -8,7 +8,12 @@ public class CharacterCreator {
 	protected Character char1 = null; // Protected only to be able to be modified by MainGUI
 	protected void saveSystem(String name) {
 		try {
-			File filePath = new File(name + ".chr");
+			File filePath;
+			if (name.contains(".chr")) {
+				filePath = new File(name);
+			} else {
+				filePath = new File(name + ".chr");
+			}
 			filePath.createNewFile();
 			FileOutputStream fileOut = new FileOutputStream(filePath);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -22,18 +27,18 @@ public class CharacterCreator {
 			System.out.println(ex);
 		}
 	}
-	
-	public void system(String fName, String lName, int hp) {
+
+	public void system(String fName, String lName, int hp, String name) {
 		if (lName.equalsIgnoreCase("n/a") || lName.equalsIgnoreCase("")) {
 			char1 = new Character(fName, hp, 0, fName);
-			this.saveSystem(getChar1().getName());
+			this.saveSystem(name/* + getChar1().getName()*/);
 		} else {
 			char1 = new Character(fName + " " + lName, hp, 0, fName);
-			Character ch = getChar1();
-			this.saveSystem(ch.getName().substring(ch.getIdentification().length()+1) + "_" + ch.getIdentification());
+			//Character ch = getChar1();
+			this.saveSystem(name /*+ ch.getName().substring(ch.getIdentification().length()+1) + "_" + ch.getIdentification()*/);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		CharacterCreator cc = new CharacterCreator();
 		Scanner kboard = new Scanner(System.in);
@@ -47,9 +52,9 @@ public class CharacterCreator {
 			System.out.println("\nHow much HP does " + fname + " " + lname + " have?");
 		int hp = kboard.nextInt();
 		System.out.println();
-		
+
 		kboard.close();
-		
+
 		if (lname.equalsIgnoreCase("N/A")) {
 			cc.char1 = new Character(fname, hp, 0, fname);
 			cc.saveSystem(fname);
