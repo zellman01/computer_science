@@ -18,14 +18,31 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Changelog:
+ * 1.4:
+ * 	-Change endTurn to handle label updates and the such, sense those were called every time a turn ended
+ *  -Moved JLabels to a global private variable to allow changing them outside of the constructor
+ *  -Change button layout and window size - May be reverted back to how it was.
+ *  -Add cursed status effect
+ *  -Updated changeStatus to have a String to reflect Cursed requirements
+ *  -Changed every function that can be private to private.
+ *  -Some comments for better upkeep
+ *  -Update changeStatus call to work for cursed
+ *  -Disabled Cursed as there are bugs.
+ *  
+ * @author Zachary Wellman
+ * @version 1.4
+ * @since 1.0
+ */
 public class MainGUI extends JFrame implements ActionListener {
 	private MainGUI w;
 	private static final long serialVersionUID = 1L;
 	private JFileChooser jc;
 	private Character test;
 	private final Color currentTurn = Color.GREEN, notTurn = Color.RED;
-	private final Object[] STATUSES = {"Burned", "Frozen", "Paralysis", "Time Frozen", "Poisoned", "Slow", "Blinded", "Binded"};
-	JLabel hp, hp1, name, name1, charge, charge1, statuses, statuses1, turnStarted, turnStatus, rune, runeList;
+	private final Object[] STATUSES = {"Burned", "Frozen", "Paralysis", "Time Frozen", "Poisoned", "Slow", "Blinded", "Binded", "Cursed"};
+	private JLabel hp, hp1, name, name1, charge, charge1, statuses, statuses1, turnStarted, turnStatus, rune, runeList;
 
 	// Closes the character information GUI and asks if you want to save it, then saves it as a character file
 	@Override
@@ -59,7 +76,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		statuses = new JLabel("Statuses:");
 		statuses1 = new JLabel(test.getStatuses());
 
-		turnStarted = new JLabel("Turn?");
+		turnStarted = new JLabel("Turn:");
 		turnStatus = new JLabel(test.turnAlignment());
 
 		rune = new JLabel("Runes:");
@@ -82,7 +99,7 @@ public class MainGUI extends JFrame implements ActionListener {
 						"Damage", JOptionPane.QUESTION_MESSAGE);
 				test.modifyHp(Integer.parseInt(damage)*-1);
 				hp1.setText(Integer.toString(test.getHp()));
-				if (test.getHp() > 0 && !test.getAlive()) {
+				if (test.getHp() > 0 && !test.getAlive()) { // Potentially put this somewhere else
 					test.alive(true);
 					statuses1.setText(test.getStatuses()); // For removing the "Dead" status
 					JOptionPane.showMessageDialog(w, test.getName() + " has been revived.", "Alive",
@@ -162,8 +179,8 @@ public class MainGUI extends JFrame implements ActionListener {
 				String s = (String)JOptionPane.showInputDialog(w, "What status is being added/removed?", "Status Menu", JOptionPane.PLAIN_MESSAGE, null, STATUSES, STATUSES[0]);
 				if ((s != null) && (s.length() > 0)) {
 					if (s == "Paralysis" || s == "Slow" || s == "Blinded") {
-						changeStatus(s, 0);
-					} else {
+						changeStatus(s, 0, "");
+					} else { // Help for statuses
 						String add = (String)JOptionPane.showInputDialog(w, "Please input the additional information based on the below chart "
 								+ "and the status being added (Do not use negative numbers):"
 								+ "\nBurned - The given level (0-4) (0 to disable the status). Inputting anything bigger will not add "
@@ -171,12 +188,16 @@ public class MainGUI extends JFrame implements ActionListener {
 								+ "\nPoisoned - Amount of damage done every turn (set to 0 to disable)"
 								+ "\nFrozen - Amount of turns frozen (set to 0 to disable)"
 								+ "\nTime Frozen - Amount of turns time frozen (set to 0 to disable)"
-								+ "\nBinded - Amount of turns bound (set to 0 to disable)",
+								+ "\nBinded - Amount of turns bound (set to 0 to disable)"
+								+ "\nCursed - The name of the curse",
 								"Additional information", JOptionPane.QUESTION_MESSAGE);
 						try {
-							changeStatus(s, Integer.parseInt(add));
+							changeStatus(s, Integer.parseInt(add), add);
 						} catch (NumberFormatException b) {
-							numError();
+							if (s != "Cursed")
+								numError();
+							else
+								changeStatus(s, 0, add);
 						}
 					}
 					statuses1.setText(test.getStatuses());
@@ -291,7 +312,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		p.add(rune); p.add(runeList);
 
 		JPanel s = new JPanel(); // Actions
-		s.setLayout(new GridLayout(5,2));
+		s.setLayout(new GridLayout(2,5));
 
 		s.add(close); s.add(damage); s.add(startTurn); s.add(endTurn); s.add(addStatus); s.add(modifyCharge); s.add(runeAdd); 
 		s.add(runeRemove); s.add(save); s.add(reset);
@@ -326,7 +347,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		return null;
 	}
 
-	private void changeStatus(String name, int additional) {
+	private void changeStatus(String name, int additional, String add1) {
 		name = name.toLowerCase();
 		switch (name) {
 		case "paralysis":
@@ -353,6 +374,13 @@ public class MainGUI extends JFrame implements ActionListener {
 		case "blinded":
 			test.blind(!test.getBlind());
 			break;
+		case "cursed":
+			/*if (add1 == "")
+				test.curse(null);
+			else
+				test.curse(add1);*/
+			sysError();
+			break;
 		default:
 			error();
 			break;
@@ -368,6 +396,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	private void numError() {
 		JOptionPane.showMessageDialog(w, "What you inputted was not a number.", "Number Error", JOptionPane.ERROR_MESSAGE);
 		throw new Error("Input of number went wrong");
+	}
+	
+	private void sysError() {
+		JOptionPane.showMessageDialog(w, "This action is proving to cause bugs - as such, it is disabled for now.", "Programming Error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void endTurn(boolean endTurn) { // Have to do it this way so that both startTurn and endTurn actionlisteners can use it
@@ -401,7 +434,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	public void start() {
 		w = new MainGUI(1);
 		w.pack();
-		w.setBounds(300,300,300,275); // Only modify the last one - height
+		w.setBounds(300,300,570,250); // Only modify the last one - height
 		w.setLocationRelativeTo(null);
 		w.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		w.setVisible(true);
@@ -413,7 +446,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 * @param name The name of the character
 	 * @return The loaded character
 	 */
-	public Character loadCharSystem(String name) {
+	private Character loadCharSystem(String name) {
 		File file = new File(name + ".chr");
 		System.out.println(name);
 		try {

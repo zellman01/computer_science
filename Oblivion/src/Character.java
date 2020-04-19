@@ -108,6 +108,7 @@ public class Character implements Serializable {
 	public Rune getEquippedRunes() { return this.equippedRunes; }
 	public String getStatuses() { return allStatuses(); }
 	public int getRuneCount() { return this.equippedRunes.runeTotal(); }
+	
 	public String saveName() { 
 		String chr = "";
 		if (this.getName().indexOf(" ") > -1)
@@ -414,6 +415,12 @@ public class Character implements Serializable {
 					first = false;
 				} else
 					str += ", Bound";
+			/*if(this.curse != null) // Bugs out
+				if (first) {
+					str += "Cursed (" + this.curse + ")";
+					first = false;
+				} else
+					str += ", Cursed";*/
 		}
 		if (!first)
 			str += ".";
