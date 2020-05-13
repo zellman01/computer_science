@@ -38,8 +38,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * - Make saving clearer as to what character it is asking you to save
  * - Rearrange buttons
  *  
+ *  1.6.1:
+ *  - Message edits
+ *  
  * @author Zachary Wellman
- * @version 1.6
+ * @version 1.6.1
  * @since 1.0
  */
 public class MainGUI extends JFrame implements ActionListener {
@@ -60,7 +63,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	public MainGUI(boolean a) {
-		super("Battle Simulator 1.6");
+		super("Battle Simulator 1.6.1");
 		if (a) {
 
 			// Setup file searcher
@@ -114,7 +117,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			startTurn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (character.getTurn() || !character.getAlive()) {
-						JOptionPane.showMessageDialog(w, character.getName() + "'s turn has already started, or is killed", "Action Unavailable", 
+						JOptionPane.showMessageDialog(w, character.getName() + "'s turn has already started", "Action Unavailable", 
 								JOptionPane.ERROR_MESSAGE);
 						return;
 					} else {
@@ -144,8 +147,8 @@ public class MainGUI extends JFrame implements ActionListener {
 							}
 						}
 						if (character.getBound()) {
-							JOptionPane.showMessageDialog(w, character.getName() + "'s turn has started, but their actions are limited from being bound "
-									+ "to something.", "Action Information", 
+							JOptionPane.showMessageDialog(w, character.getName() + "'s turn has started, but their actions are limited from "
+									+ "being bound to something.", "Action Information", 
 									JOptionPane.WARNING_MESSAGE);
 							character.bind(character.getBoundTime()-1);
 							statuses1.setText(character.getStatuses());
@@ -161,7 +164,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			endTurn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (!character.getTurn()) {
-						JOptionPane.showMessageDialog(w, character.getName() + "'s turn has not started yet, or is killed", "Action unavailable", 
+						JOptionPane.showMessageDialog(w, character.getName() + "'s turn has not started yet", "Action unavailable", 
 								JOptionPane.ERROR_MESSAGE);
 					} else {
 						endTurn(true);
@@ -172,7 +175,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			addStatus = new JButton("Statuses");
 			addStatus.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String s = (String)JOptionPane.showInputDialog(w, "What status is being added/removed?", "Status Menu", JOptionPane.PLAIN_MESSAGE, null, STATUSES, STATUSES[0]);
+					String s = (String)JOptionPane.showInputDialog(w, "What status is being added/removed?", "Status Menu", JOptionPane.QUESTION_MESSAGE, null, STATUSES, STATUSES[0]);
 					if ((s != null) && (s.length() > 0)) {
 						if (s == "Paralysis" || s == "Slow" || s == "Blinded" || s == "Cursed") {
 							changeStatus(s, 0);
@@ -184,8 +187,7 @@ public class MainGUI extends JFrame implements ActionListener {
 									+ "\nPoisoned - Amount of damage done every turn (set to 0 to disable)"
 									+ "\nFrozen - Amount of turns frozen (set to 0 to disable)"
 									+ "\nTime Frozen - Amount of turns time frozen (set to 0 to disable)"
-									+ "\nBinded - Amount of turns bound (set to 0 to disable)"
-									+ "\nCursed - The name of the curse",
+									+ "\nBinded - Amount of turns bound (set to 0 to disable)",
 									"Additional information", JOptionPane.QUESTION_MESSAGE);
 							changeStatus(s, Integer.parseInt(add));
 						}
@@ -203,8 +205,7 @@ public class MainGUI extends JFrame implements ActionListener {
 					try {
 						character.updateEnergy(Integer.parseInt(charge));
 						if (character.getEnergy() < 0) {
-							JOptionPane.showMessageDialog(w, character.getName() + " does not have enough stored to do what they planed on doing", 
-									"General Error", JOptionPane.ERROR_MESSAGE);
+							error(character.getName() + " does not have enough stored to do what they planed on doing");
 							character.updateEnergy(Integer.parseInt(charge)*-1);
 						}
 						charge1.setText(Integer.toString(character.getEnergy()));
@@ -227,8 +228,7 @@ public class MainGUI extends JFrame implements ActionListener {
 							error("Rune names cannot be empty");
 						}
 					} else {
-						JOptionPane.showMessageDialog(w, character.getName() + " already has three equipped runes.", "Rune Error", 
-								JOptionPane.ERROR_MESSAGE);
+						error(character.getName() + " already has three equipped runes.");
 					}
 				}
 			});
@@ -271,7 +271,7 @@ public class MainGUI extends JFrame implements ActionListener {
 						else
 							turnStatus.setForeground(notTurn);
 
-						turnStatus.setText(character.turnAlignment());
+						turnStatus.setText(character.turnAlignment()); // Update turn
 						statuses1.setText(character.getStatuses()); // Update statuses
 						hp1.setText(Integer.toString(character.getHp())); // Update HP
 						character.updateEnergy(character.getEnergy()); // Update energy
