@@ -312,6 +312,13 @@ public class Character implements Serializable {
 	public void curse(String cursed) {
 		this.curse = cursed;
 	}
+	
+	public void curse(boolean on) {
+		if (on)
+			this.curse = "hi";
+		else
+			this.curse = null;
+	}
 
 	/**
 	 * Marks if a character is blinded or not
@@ -366,6 +373,7 @@ public class Character implements Serializable {
 		boolean first = true;
 		if (!this.alive) {
 			str += "Dead";
+			first = false;
 		} else {
 			if (this.burn)
 				if (first) {
@@ -415,12 +423,12 @@ public class Character implements Serializable {
 					first = false;
 				} else
 					str += ", Bound";
-			/*if(this.curse != null) // Bugs out
+			if(this.curse != null)
 				if (first) {
-					str += "Cursed (" + this.curse + ")";
+					str += "Cursed"; //(" + this.curse + ")"; <- Useless right now
 					first = false;
 				} else
-					str += ", Cursed";*/
+					str += ", Cursed";
 		}
 		if (!first)
 			str += ".";
