@@ -38,11 +38,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * - Make saving clearer as to what character it is asking you to save
  * - Rearrange buttons
  *  
- *  1.6.1:
- *  - Message edits
+ * 1.6.1:
+ * - Message edits
+ *
+ * 1.7:
+ * - Make changes done right before a switch statement to make it work in the switch call
+ * - Remove unnecessary calculations
+ * - Remove redundant statements and condense them down to run once under a certain condition
+ * - Add more error() statements
+ * - Add warning() method and use it in several instances
+ * - Enable/Disable start/end turn buttons based on turn status
+ * - Fix potential bug with resetting the character
+ * - Add info() method and use it in several instances
+ * - Add question() method and use it where possible
+ * - checkTurn added for reset button and for constructor
  *  
  * @author Zachary Wellman
- * @version 1.6.1
+ * @version 1.7
  * @since 1.0
  */
 public class MainGUI extends JFrame implements ActionListener {
@@ -63,7 +75,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	public MainGUI(boolean a) {
-		super("Battle Simulator 1.6.1");
+		super("Battle Simulator 1.7");
 		if (a) {
 
 			// Setup file searcher
@@ -93,12 +105,6 @@ public class MainGUI extends JFrame implements ActionListener {
 			rune = new JLabel("Runes:");
 			runeList = new JLabel(character.getEquippedRunes().toString());
 
-			if (character.getTurn()) {
-				turnStatus.setForeground(currentTurn);
-			} else {
-				turnStatus.setForeground(notTurn);
-			}
-
 			// Buttons
 			close = new JButton("Close");
 			close.addActionListener(this);
@@ -106,8 +112,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			damage = new JButton("Damage");
 			damage.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String damage = JOptionPane.showInputDialog(w, "How much is " + character.getName() + " damaged for? (negative number for healing)",
-							"Damage", JOptionPane.QUESTION_MESSAGE);
+					String damage = question("How much is " + character.getName() + " damaged for? (negative number for healing)", "Damage");
 					character.modifyHp(Integer.parseInt(damage)*-1);
 					checkHealth(true);
 				}
@@ -116,59 +121,46 @@ public class MainGUI extends JFrame implements ActionListener {
 			startTurn = new JButton("Start turn");
 			startTurn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (character.getTurn() || !character.getAlive()) {
-						JOptionPane.showMessageDialog(w, character.getName() + "'s turn has already started", "Action Unavailable", 
-								JOptionPane.ERROR_MESSAGE);
-						return;
-					} else {
-						if (character.getTimeFrozen()) {
-							JOptionPane.showMessageDialog(w, character.getName() + "'s turn has been stopped from being time frozen.", "Action Unavailable", 
-									JOptionPane.ERROR_MESSAGE);
-							character.timeFrozen(character.getTimeFrozenTimer()-1);
-							statuses1.setText(character.getStatuses());
-							endTurn(true);
-							return;
-						}
-						if (character.getFrozen()) {
-							JOptionPane.showMessageDialog(w, character.getName() + "'s turn has been stopped from being frozen.", "Action Unavailable", 
-									JOptionPane.ERROR_MESSAGE);
-							character.frozen(character.getFrozenTimer()-1);
-							statuses1.setText(character.getStatuses());
-							endTurn(true);
-							return;
-						}
-						if (character.getPayalysis()) {
-							int random = ThreadLocalRandom.current().nextInt(1, 20);
-							if (random < 11) {
-								JOptionPane.showMessageDialog(w, character.getName() + "'s turn has been stopped from being paralyzed.", "Action Unavailable", 
-										JOptionPane.ERROR_MESSAGE);
-								endTurn(true);
-								return;
-							}
-						}
-						if (character.getBound()) {
-							JOptionPane.showMessageDialog(w, character.getName() + "'s turn has started, but their actions are limited from "
-									+ "being bound to something.", "Action Information", 
-									JOptionPane.WARNING_MESSAGE);
-							character.bind(character.getBoundTime()-1);
-							statuses1.setText(character.getStatuses());
-						}
-						character.turn(true);
-						turnStatus.setForeground(currentTurn);
-						turnStatus.setText(character.turnAlignment());
+					boolean stopTurn = false;
+					if (character.getTimeFrozen()) {
+						error(character.getName() + "'s turn has been stopped from being time frozen.");
+						character.timeFrozen(character.getTimeFrozenTimer()-1);
+						stopTurn = true;
 					}
+					if (character.getFrozen()) {
+						error(character.getName() + "'s turn has been stopped from being frozen.");
+						character.frozen(character.getFrozenTimer()-1);
+						stopTurn = true;
+					}
+					if (character.getPayalysis()) {
+						int random = ThreadLocalRandom.current().nextInt(1, 20);
+						if (random < 11) {
+							error(character.getName() + "'s turn has been stopped from being paralyzed.");
+							stopTurn = true;
+						}
+					}
+					if (character.getBound()) {
+						warning(character.getName() + "'s turn has started, but their actions are limited from "
+								+ "being bound to something.");
+						character.bind(character.getBoundTime()-1);
+					}
+					if (stopTurn) {
+						statuses1.setText(character.getStatuses());
+						endTurn(true);
+						return;
+					}
+					character.turn(true);
+					turnStatus.setForeground(currentTurn);
+					turnStatus.setText(character.turnAlignment());
+					turnStart(true);
 				}
 			});
 
 			endTurn = new JButton("End Turn");
 			endTurn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (!character.getTurn()) {
-						JOptionPane.showMessageDialog(w, character.getName() + "'s turn has not started yet", "Action unavailable", 
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						endTurn(true);
-					}
+					endTurn(true);
+					turnStart(false);
 				}
 			});
 
@@ -180,15 +172,14 @@ public class MainGUI extends JFrame implements ActionListener {
 						if (s == "Paralysis" || s == "Slow" || s == "Blinded" || s == "Cursed") {
 							changeStatus(s, 0);
 						} else { // Help for statuses
-							String add = (String)JOptionPane.showInputDialog(w, "Please input the additional information based on the below chart "
+							String add = question("Please input the additional information based on the below chart "
 									+ "and the status being added (Do not use negative numbers):"
 									+ "\nBurned - The given level (0-4) (0 to disable the status). Inputting anything bigger will not add "
 									+ "the status."
 									+ "\nPoisoned - Amount of damage done every turn (set to 0 to disable)"
 									+ "\nFrozen - Amount of turns frozen (set to 0 to disable)"
 									+ "\nTime Frozen - Amount of turns time frozen (set to 0 to disable)"
-									+ "\nBinded - Amount of turns bound (set to 0 to disable)",
-									"Additional information", JOptionPane.QUESTION_MESSAGE);
+									+ "\nBinded - Amount of turns bound (set to 0 to disable)", "Additional Information");
 							changeStatus(s, Integer.parseInt(add));
 						}
 						statuses1.setText(character.getStatuses());
@@ -199,9 +190,8 @@ public class MainGUI extends JFrame implements ActionListener {
 			modifyCharge = new JButton("Charge");
 			modifyCharge.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String charge = JOptionPane.showInputDialog(w, "How much does " + character.getName() + " charge for? "
-							+ "(negative number for removing charge)",
-							"Charge", JOptionPane.QUESTION_MESSAGE);
+					String charge = question("How much does " + character.getName() + " charge for? "
+							+ "(negative number for removing charge)", "Charge");
 					try {
 						character.updateEnergy(Integer.parseInt(charge));
 						if (character.getEnergy() < 0) {
@@ -219,8 +209,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			runeAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (character.getRuneCount() < 3) {
-						String name = JOptionPane.showInputDialog(w, "What is the name of the rune being equipped?",
-								"Add Rune", JOptionPane.QUESTION_MESSAGE);
+						String name = question("What is the name of the rune being equipped?", "Add Rune");
 						if ((name != null) && name.length() > 0) {
 							character.runeEquip(name, -1);
 							runeList.setText(character.getEquippedRunes().toString());
@@ -236,8 +225,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			runeRemove = new JButton("Remove rune");
 			runeRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String name = JOptionPane.showInputDialog(w, "What is the name of the rune being removed?", "Remove Rune",
-							JOptionPane.QUESTION_MESSAGE);
+					String name = question("What is the name of the rune being removed?", "Remove Rune");
 					if ((name != null) && (name.length() > 0)) {
 						character.runeEquip("", character.obtainRunePos(name));
 						runeList.setText(character.getEquippedRunes().toString());
@@ -274,21 +262,25 @@ public class MainGUI extends JFrame implements ActionListener {
 						turnStatus.setText(character.turnAlignment()); // Update turn
 						statuses1.setText(character.getStatuses()); // Update statuses
 						hp1.setText(Integer.toString(character.getHp())); // Update HP
-						character.updateEnergy(character.getEnergy()); // Update energy
+						charge1.setText(Integer.toString(character.getEnergy())); // Update energy
 						runeList.setText(character.getEquippedRunes().toString()); // Upodate runes
+						
+						checkTurn();
 
-						JOptionPane.showMessageDialog(w, "Successful reset.", "Reset", JOptionPane.INFORMATION_MESSAGE);
+						info("Successful reset");
 
 						break;
 					case 1: // Needed or else an error message would appear when they selected "no"
 						break;
 					default:
-						JOptionPane.showConfirmDialog(w, "Error: Window was either closed or something went wrong.");
+						error("Window was closed or an internal error actually occured");
 					}
 				}
 			});
 
 
+			checkTurn();
+			
 			Container c = getContentPane();
 			c.setBackground(Color.GREEN);
 
@@ -314,19 +306,27 @@ public class MainGUI extends JFrame implements ActionListener {
 
 		}
 	}
+	
+	private void checkTurn() {
+		if (character.getTurn()) {
+			turnStatus.setForeground(currentTurn);
+			turnStart(true);
+		} else {
+			turnStatus.setForeground(notTurn);
+			turnStart(false);
+		}
+	}
 
 	private void checkHealth(boolean damageUse) {
 		if (character.getHp() > 0 && !character.getAlive()) {
 			character.alive(true);
-			JOptionPane.showMessageDialog(w, character.getName() + " has been revived.", "Alive",
-					JOptionPane.INFORMATION_MESSAGE);
+			info(character.getName() + " has been revived.");
 			startTurn.setEnabled(true);
 			endTurn.setEnabled(true);
 
 		} else if (character.getHp() <= 0) {
 			if (character.getAlive())
-				JOptionPane.showMessageDialog(w, character.getName() + " has been killed.", "Dead",
-						JOptionPane.INFORMATION_MESSAGE);
+			info(character.getName() + " has been killed.");
 			character.alive(false);
 			startTurn.setEnabled(false);
 			endTurn.setEnabled(false);
@@ -335,12 +335,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 		statuses1.setText(character.getStatuses());
 		hp1.setText(Integer.toString(character.getHp()));
-	}
-
-	// Test
-	protected boolean isDead() {
-		System.out.println(character);
-		return !character.getAlive();
 	}
 
 	// Asks to either load or create a new character
@@ -357,6 +351,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		} else if (n == 1) {
 			CCGUI e = new CCGUI();
 			e.start();
+			return null;
 		} else {
 			error("Error creating or loading a character");
 		}
@@ -367,8 +362,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	private void changeStatus(String name, int additional) {
-		name = name.toLowerCase();
-		switch (name) {
+		switch (name.toLowerCase()) {
 		case "paralysis":
 			character.paralysis(!character.getPayalysis());
 			break;
@@ -399,7 +393,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			else if (character.getCurse() != null)
 				character.curse(false);
 			else
-				error("cursed status condition - Internal Error");
+				error("Cursed status condition - Internal Error");
 			break;
 		default:
 			error("Status change error");
@@ -413,8 +407,20 @@ public class MainGUI extends JFrame implements ActionListener {
 		throw new Error("Something horribly went wrong: " + desc);
 	}
 
+	private void warning(String desc) {
+		JOptionPane.showMessageDialog(w, "Warning: " + desc, "Warning", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	private void info(String desc) {
+		JOptionPane.showMessageDialog(w, desc, "Info", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private String question(String desc, String title) {
+		return JOptionPane.showInputDialog(w, desc, title, JOptionPane.QUESTION_MESSAGE);
+	}
+
 	private void numError() {
-		JOptionPane.showMessageDialog(w, "What you inputted was not a number.", "Number Error", JOptionPane.ERROR_MESSAGE);
+		error("What you inputted was not a number");
 		throw new Error("Input of number went wrong");
 	}
 
@@ -422,20 +428,28 @@ public class MainGUI extends JFrame implements ActionListener {
 		if (endTurn) {
 			if (character.getBurn()) {
 				int[] burnDamage = {25, 50, 75, 100};
-				character.modifyHp(-burnDamage[character.getBurnLevel()-1]);
-				JOptionPane.showMessageDialog(w, character.getName() + " took " + burnDamage[character.getBurnLevel()-1] + " in burn damage.", "Burn Damage",
-						JOptionPane.INFORMATION_MESSAGE);
+				int temp = character.getBurnLevel()-1;
+				character.modifyHp(-burnDamage[temp]);
+				info(character.getName() + " took " + burnDamage[temp] + " in burn damage.");
 			}
 			if (character.getPoison()) {
 				character.modifyHp(-character.getPoisonDamage());
-				JOptionPane.showMessageDialog(w, character.getName() + " took " + character.getPoisonDamage() + " in poison damage.", "Poison Damage",
-						JOptionPane.INFORMATION_MESSAGE);
+				info(character.getName() + " took " + character.getPoisonDamage() + " in poison damage.");
 			}
 			checkHealth(false);
 		}
 		character.turn(false);
 		turnStatus.setForeground(notTurn);
 		turnStatus.setText(character.turnAlignment());
+	}
+
+	/**
+	 * 
+	 * @param start If a turn has started or not (true = yes, false = no)
+	 */
+	private void turnStart(boolean start) {
+		startTurn.setEnabled(!start);
+		endTurn.setEnabled(start);
 	}
 
 	public void start() {
@@ -447,7 +461,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		w.setVisible(true);
 		w.setResizable(false);
 	}
-	
+
 	/**
 	 * Loads a character into the program
 	 * @param name The name of the character

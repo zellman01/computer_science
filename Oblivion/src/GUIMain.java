@@ -18,11 +18,11 @@ public class GUIMain extends JFrame implements ActionListener {
 	@SuppressWarnings("unused")
 	private HOLO battle;
 	private static final long serialVersionUID = 1L;
-	JMenuBar menuBar;
-	JMenu menu, subMenu;
-	JMenuItem menuItem;
-	JTextField commands;
-	JButton confirm;
+	private JMenuBar menuBar;
+	private JMenu menu, subMenu;
+	private JMenuItem menuItem;
+	private JTextField commands;
+	private JButton confirm;
 
 	public GUIMain() {
 		super("Test");

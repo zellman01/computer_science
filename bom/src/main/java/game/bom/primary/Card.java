@@ -1,4 +1,4 @@
-package primary;
+package game.bom.primary;
 
 import java.io.Serializable;
 
@@ -38,7 +38,7 @@ public class Card {
 	}
 	
 	public String getName() { return this.cardName; }
-	public int getManaCost() { return this.manaCost.retrieveManaAmount(); }
+	public int getManaCost() { return this.manaCost.retrieveCardManaCost(); }
 	public String getPosition() { return this.pos.getName(); }
 	
 	/**
@@ -55,8 +55,8 @@ public class Card {
 	public String toString() {
 		String str = "";
 		str += "Card name: " + getName();
-		str += "\nCost for card: " + getManaCost();
-		str += "\nCard Position: " + getPosition();
+		str += ", Cost for card: " + getManaCost();
+		str += ", Card Position: " + getPosition();
 		return str;
 	}
 }

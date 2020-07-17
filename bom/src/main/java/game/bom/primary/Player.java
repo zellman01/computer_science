@@ -1,4 +1,4 @@
-package primary;
+package game.bom.primary;
 
 /**
  * Primary character class
@@ -12,21 +12,21 @@ public class Player {
 	private int health;
 	
 	public Player(int mana, String name) {
-		manaPool = new Mana(mana);
+		manaPool = new Mana(mana, 0, 0);
 		this.name = name;
 		health = 30;
 	}
 	
 	public int remainingMana() {
-		return getManaPool().retrieveManaAmount();
+		return getManaPool().retrieveCharacterManaAmount();
 	}
 	
 	public void lockMana(int amount) { getManaPool().lockMana(amount); }
 	
-	public void usedMana(int amount) { getManaPool().usedMana(amount); }
+	public void usedMana(int amount) { getManaPool().useMana(amount); }
 	
 	public void turnEnd(int manaRecovered) { 
-		getManaPool().resetMana(manaRecovered);
+		getManaPool().recoverMana(manaRecovered);
 		getManaPool().addTemp(-getManaPool().totalTemp()); // Remove any temporary mana
 	}
 	

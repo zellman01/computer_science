@@ -1,4 +1,4 @@
-package primary;
+package game.bom.primary;
 
 public enum Position {
 	frontLine("Frontline"),
