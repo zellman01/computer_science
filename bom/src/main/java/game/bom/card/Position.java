@@ -1,4 +1,4 @@
-package game.bom.primary;
+package game.bom.card;
 
 public enum Position {
 	frontLine("Frontline"),
@@ -19,6 +19,6 @@ public enum Position {
 	 * @return If the card is played in a valid position
 	 */
 	public boolean validPosition(String posName) {
-		return posName.equals(this.getName());
+		return posName.equalsIgnoreCase(this.getName());
 	}
 }

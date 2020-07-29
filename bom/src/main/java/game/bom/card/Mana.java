@@ -1,4 +1,8 @@
-package game.bom.primary;
+package game.bom.card;
+
+import java.io.Serializable;
+
+import game.bom.player.Player;
 
 /**
  * General Mana class for Brawl of Minds card game.
@@ -6,7 +10,8 @@ package game.bom.primary;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class Mana {
+public class Mana implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final int MAX = 10;
 	private int available, tempMana, locked; // Last one is character-only
 	

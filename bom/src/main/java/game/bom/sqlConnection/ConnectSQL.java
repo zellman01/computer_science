@@ -5,8 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import game.bom.error.ErrorCodes;
+import game.bom.global.Globals;
+
 public class ConnectSQL {
-	private final String userName = "bom_user_2", password = "*58545256b*"; // SECURITY ISSUE 
+	private final String userName = "bom_user", password = "*58545256a*"; // SECURITY ISSUE 
 	
 	private Connection getConnection() throws SQLException {
 
@@ -15,9 +18,10 @@ public class ConnectSQL {
 	    connectionProps.put("user", this.userName );
 	    connectionProps.put("password", this.password);
 	    String sqlConn = "jdbc:mariadb://" +
-                "50.25.5.20" +
+                Globals.DATABASE_IP +
                 ":3306/brawl_of_minds";
 	    conn = DriverManager.getConnection(sqlConn, connectionProps);
+	    connectionProps.clear();
 	    System.out.println("Connected to database");
 	    return conn;
 	}
@@ -29,7 +33,8 @@ public class ConnectSQL {
 			conn = getConnection();
 		} catch(SQLException e) {
 			e.printStackTrace();
-			throw new Error("Connection error to database.");
+			System.err.println(ErrorCodes.E300);
+			//System.exit(300);
 		}
 		return conn;
 	}

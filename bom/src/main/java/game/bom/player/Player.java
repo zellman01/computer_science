@@ -1,4 +1,6 @@
-package game.bom.primary;
+package game.bom.player;
+
+import game.bom.card.Mana;
 
 /**
  * Primary character class

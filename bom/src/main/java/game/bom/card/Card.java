@@ -1,6 +1,8 @@
-package game.bom.primary;
+package game.bom.card;
 
 import java.io.Serializable;
+
+import game.bom.player.Player;
 
 /**
  * Class for Card objects
@@ -8,13 +10,14 @@ import java.io.Serializable;
  * @version 0.0.1
  * @since 0.0.1
  */
-@SuppressWarnings("unused")
-public class Card {
+public class Card implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Position pos; // If a card is frontline, backline, or both
 	private Mana manaCost;
 	private String cardName;
+	private int id, atk, hp;
 	
-	public Card(String position, int mCost, String name) {
+	public Card(String position, int mCost, String name, int idNum, int atk, int hp) {
 		switch(position) {
 		case "Both":
 		case "Any":
@@ -35,11 +38,26 @@ public class Card {
 		
 		manaCost = new Mana(mCost);
 		cardName = name;
+		id = idNum;
+		this.atk = atk;
+		this.hp = hp;
+	}
+	
+	public Card(Position posi, Mana mana, String name, int idNum, int atk, int hp) {
+		pos = posi;
+		manaCost = mana;
+		cardName = name;
+		id = idNum;
+		this.atk = atk;
+		this.hp = hp;
 	}
 	
 	public String getName() { return this.cardName; }
 	public int getManaCost() { return this.manaCost.retrieveCardManaCost(); }
 	public String getPosition() { return this.pos.getName(); }
+	public int getIdNumber() { return this.id; }
+	public int getHealth() { return this.hp; }
+	public int getAttack() { return this.atk; }
 	
 	/**
 	 * Checks to see if a player has the correct amount to use a card.
@@ -52,11 +70,22 @@ public class Card {
 		return manaCost.useable(player);
 	}
 	
+	public boolean isSame(Card test) {
+		return
+				this.getName().equals(test.getName()) &&
+				this.getManaCost() == test.getManaCost() &&
+				this.getPosition().equals(test.getPosition()) &&
+				this.getIdNumber() == test.getIdNumber() &&
+				this.getHealth() == test.getHealth() &&
+				this.getAttack() == test.getAttack();
+	}
+	
 	public String toString() {
 		String str = "";
-		str += "Card name: " + getName();
+		str += "Card ID: " + getIdNumber();
+		str += ", Card name: " + getName();
 		str += ", Cost for card: " + getManaCost();
-		str += ", Card Position: " + getPosition();
+		str += ", Card Position: " + getPosition() + "\n";
 		return str;
 	}
 }

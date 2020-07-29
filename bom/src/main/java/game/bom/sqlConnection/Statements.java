@@ -18,7 +18,6 @@ public class Statements {
 		Statement stmt;
 		try {
 			stmt = database.getConnect().createStatement();
-			//stmt.executeUpdate("SELECT * FROM `brawl_of_minds`.`card_data`");
 			stmt.executeUpdate(statement);
 			rs = stmt.getResultSet();
 			stmt.close();
