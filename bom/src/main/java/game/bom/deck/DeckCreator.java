@@ -3,19 +3,18 @@ package game.bom.deck;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-
 import game.bom.card.Card;
 import game.bom.global.Globals;
 import game.bom.utilities.Loader;
 import game.bom.utilities.Saver;
 
-
-public class DeckCreator extends JFrame {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+/**
+ * Class to create decks
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+public class DeckCreator {
 	private ArrayList<Integer> cardId;
 	private Deck deck;
 
@@ -71,16 +70,6 @@ public class DeckCreator extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		/*DeckCreator dc = new DeckCreator();
-		dc.addCard(2);
-		System.exit(1);
-		dc.addCard(1);
-		try {
-			dc.createDeck("Default");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		System.out.println(Globals.NUM_CARDS);
 	}
 }

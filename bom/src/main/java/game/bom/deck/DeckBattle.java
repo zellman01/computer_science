@@ -6,6 +6,12 @@ import java.util.Collections;
 import game.bom.card.Card;
 import game.bom.utilities.Loader;
 
+/**
+ * Class for setting up decks for battling with them
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class DeckBattle {
 	private Deck deck;
 	private ArrayList<Card> cardOrder;

@@ -7,6 +7,12 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Custom saving class
+ * @author zellma01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class Saver {
 	public static void createDirectory(String dir) throws IOException {
 		if (!Files.exists(Paths.get(dir + "/"))) {

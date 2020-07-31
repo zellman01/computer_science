@@ -19,6 +19,12 @@ import game.bom.error.ErrorCodes;
 import game.bom.utilities.Loader;
 import game.bom.utilities.Update;
 
+/**
+ * GUI for viewing individual cards
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class CardViewer extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLabel id, name, hp, atk, displayId, displayName, displayHp, displayAtk;

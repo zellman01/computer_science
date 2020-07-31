@@ -19,7 +19,15 @@ import game.bom.card.CardViewer;
 import game.bom.global.Globals;
 import game.bom.utilities.Loader;
 
+/**
+ * GUI for creating decks
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+@SuppressWarnings("unused")
 public class DeckGUI extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Integer> possibleCards, selectedCards;
 	
 	public DeckGUI() {

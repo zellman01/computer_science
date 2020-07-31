@@ -19,6 +19,12 @@ import game.bom.card.Card;
 import game.bom.error.ErrorCodes;
 import game.bom.utilities.Loader;
 
+/**
+ * Views cards in a deck, like {@link game.bom.card.CardViewer.java}
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 //TODO: Create a clicker to view cards without having to go through another popup menu
 public class DeckViewer extends JFrame {
 	private static final long serialVersionUID = 1L;

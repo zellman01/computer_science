@@ -8,6 +8,12 @@ import java.io.ObjectInputStream;
 import game.bom.card.Card;
 import game.bom.deck.Deck;
 
+/**
+ * Custom Loader class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class Loader {
 	public static Card card(String id) {
 		File file = new File("cards/" + id + ".crd");

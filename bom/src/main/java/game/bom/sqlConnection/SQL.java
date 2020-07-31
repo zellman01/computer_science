@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import game.bom.sqlConnection.ConnectSQL;
 import game.bom.error.ErrorCodes;
 
+/**
+ * SQL class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class SQL {
 	private Connection connect;
 

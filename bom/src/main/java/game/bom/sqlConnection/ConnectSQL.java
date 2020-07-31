@@ -8,6 +8,12 @@ import java.util.Properties;
 import game.bom.error.ErrorCodes;
 import game.bom.global.Globals;
 
+/**
+ * SQL Connection help
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class ConnectSQL {
 	private final String userName = "bom_user", password = "*58545256a*"; // SECURITY ISSUE 
 	

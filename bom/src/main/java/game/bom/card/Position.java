@@ -1,5 +1,11 @@
 package game.bom.card;
 
+/**
+ * Positions for cards
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public enum Position {
 	frontLine("Frontline"),
 	backLine("Backline"),

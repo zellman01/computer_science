@@ -5,10 +5,10 @@ import java.io.Serializable;
 import game.bom.player.Player;
 
 /**
- * General Mana class for Brawl of Minds card game.
- * @author Zachary Wellman
- * @version 0.0.1
- * @since 0.0.1
+ * General Mana class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
  */
 public class Mana implements Serializable {
 	private static final long serialVersionUID = 1L;

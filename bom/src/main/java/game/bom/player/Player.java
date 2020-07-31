@@ -3,10 +3,10 @@ package game.bom.player;
 import game.bom.card.Mana;
 
 /**
- * Primary character class
- * @author Admin
- * @version 0.0.1
- * @since 0.0.1
+ * Class for characters
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
  */
 public class Player {
 	private Mana manaPool;

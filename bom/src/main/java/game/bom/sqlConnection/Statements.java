@@ -6,6 +6,12 @@ import java.sql.Statement;
 
 import game.bom.sqlConnection.SQL;
 
+/**
+ * SQL Statements class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class Statements {
 	private SQL database;
 

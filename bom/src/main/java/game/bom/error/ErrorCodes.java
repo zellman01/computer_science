@@ -12,6 +12,12 @@ Error code series:
 8xx - N/A
 900 - Unknown (reserved)
  */
+/**
+ * Error codes for all of Brawl of Minds
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public enum ErrorCodes implements ErrorClass {
 	E200(200, "Result Set is unable to be used"),
 	E201(201, "Unable to update cards"),

@@ -6,6 +6,12 @@ import game.bom.card.Card;
 import game.bom.player.Player;
 import game.bom.battle.TerminateNumber;
 
+/**
+ * Basic battle class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 @SuppressWarnings("unused")
 public class Battle {
 	private Player player, opponent, winner;

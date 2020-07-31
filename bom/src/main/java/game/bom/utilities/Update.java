@@ -10,6 +10,12 @@ import game.bom.sqlConnection.Statements;
 import game.bom.card.Card;
 import game.bom.error.ErrorCodes;
 
+/**
+ * Updater class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class Update {
 	private SQL sql;
 	private Statements stmt;

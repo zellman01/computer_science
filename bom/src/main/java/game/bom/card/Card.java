@@ -5,10 +5,10 @@ import java.io.Serializable;
 import game.bom.player.Player;
 
 /**
- * Class for Card objects
- * @author Zachary Wellman
- * @version 0.0.1
- * @since 0.0.1
+ * Card object class
+ * @author zellman01
+ * @version 0.1.0
+ * @since 0.1.0
  */
 public class Card implements Serializable {
 	private static final long serialVersionUID = 1L;
