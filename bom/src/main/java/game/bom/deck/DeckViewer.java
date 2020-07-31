@@ -20,7 +20,7 @@ import game.bom.error.ErrorCodes;
 import game.bom.utilities.Loader;
 
 /**
- * Views cards in a deck, like {@link game.bom.card.CardViewer.java}
+ * Views cards in a deck, like {@link game.bom.card.CardViewer}
  * @author zellman01
  * @version 0.1.0
  * @since 0.1.0
@@ -34,9 +34,9 @@ public class DeckViewer extends JFrame {
 	private String deckName;
 	private Card card;
 	private Deck deck;
-	DeckViewer r;
+	private DeckViewer r;
 
-	public DeckViewer() {
+	private DeckViewer() {
 		super("Deck Viewer");
 		
 		deckPos = 0;
@@ -110,7 +110,7 @@ public class DeckViewer extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 	}
 
-	private void start() {
+	public void start() {
 			Path path = Paths.get("deck/");
 			if(!Files.exists(path)) {
 				JOptionPane.showMessageDialog(r, ErrorCodes.E600, "Fatal Error", 
