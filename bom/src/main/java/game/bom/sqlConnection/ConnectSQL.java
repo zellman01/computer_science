@@ -15,7 +15,7 @@ import game.bom.global.Globals;
  * @since 0.1.0
  */
 public class ConnectSQL {
-	private final String userName = "bom_user", password = "*58545256a*"; // SECURITY ISSUE 
+	private String userName = "bom_user", password = "*58545256a*"; 
 	
 	private Connection getConnection() throws SQLException {
 
@@ -23,6 +23,7 @@ public class ConnectSQL {
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", this.userName );
 	    connectionProps.put("password", this.password);
+	    userName = null; password = null;
 	    String sqlConn = "jdbc:mariadb://" +
                 Globals.DATABASE_IP +
                 ":3306/brawl_of_minds";
