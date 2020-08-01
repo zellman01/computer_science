@@ -34,10 +34,11 @@ public class Battle {
 			opponentDeck = getDeck(name);
 	}
 	
-	private boolean win() {
+	private boolean winCond1() {
 		boolean playerDead = player.getHealth() <= 0, opponentDead = opponent.getHealth() <= 0;
 		if (playerDead && opponentDead) {
 			battleTerminator = TerminateNumber.normal;
+			winner = new Player(-1, "Tie");
 			return true;
 		}
 		if (playerDead || opponentDead) {
@@ -52,8 +53,22 @@ public class Battle {
 	}
 	
 	public void executeBattle() {
-		while (!win()) {
+		while (!winCond1()) {
+			player.modifyHealth(-1);
+			try {
+			System.out.println(playerDeck.draw());
+			} catch(Exception e) {
+				setUsedDeck(1, "Default");
+			}
+			opponent.modifyHealth(-3);
 			
 		}
+		System.out.println(battleTerminator + "\nWinner: " + winner.getName());
+	}
+	
+	public static void main(String[] args) {
+		Battle b = new Battle(new Player(10, "Test"), new Player(10, "Test2"));
+		b.setUsedDeck(1, "Default");
+		b.executeBattle();
 	}
 }
