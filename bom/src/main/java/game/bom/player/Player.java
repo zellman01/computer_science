@@ -36,6 +36,14 @@ public class Player {
 		getManaPool().addTemp(amount);
 	}
 	
+	/**
+	 * Modifies the player's health
+	 * @param modifier Positive number to recover, negative number to damage
+	 */
+	public void modifyHealth(int modifier) {
+		health += modifier;
+	}
+	
 	public Mana getManaPool() { return manaPool; }
 	public String getName() { return name; }
 	public int getHealth() { return health; }
