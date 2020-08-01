@@ -57,10 +57,11 @@ public class DeckCreator {
 		for (int i : cardId) {
 			Card insert = null;
 			insert = Loader.card(Integer.toString(i));
-			if (!insert.equals(null))
+try {
 			deck.addCard(insert);
-			else
+} catch(Exception e) {
 				System.err.println("Card with ID " + i + " does not exist.");
+}
 		}
 		try {
 			Saver.saveFile("deck", deckName, "dek", deck);
