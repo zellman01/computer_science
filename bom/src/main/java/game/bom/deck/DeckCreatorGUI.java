@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import game.bom.card.CardViewer;
 import game.bom.global.Globals;
 import game.bom.utilities.Loader;
 
@@ -26,17 +25,14 @@ import game.bom.utilities.Loader;
  * @version 0.1.0
  * @since 0.1.0
  */
-@SuppressWarnings("unused")
 public class DeckCreatorGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel p;
 	private ArrayList<Integer> possibleCards, selectedCards;
-	private ArrayList<JCheckBox> checkBoxes;
 	private int[][] pages;
 	private int pageNum;
 	private DeckCreatorGUI w;
 
-	//TODO: Add a way to add multiple of the same card
 	private JCheckBox generateCheckbox(int pos) {
 		JCheckBox b = new JCheckBox(Loader.card(Integer.toString(possibleCards.get(pages[pageNum][pos]))).getName());
 		int d = pages[pageNum][pos]+1;
@@ -136,7 +132,6 @@ public class DeckCreatorGUI extends JFrame {
 		super("Deck Creator");
 		possibleCards = new ArrayList<>();
 		selectedCards = new ArrayList<>();
-		checkBoxes = new ArrayList<>();
 		pages = new int[(int)Math.ceil(Globals.NUM_CARDS/5.0)][5];
 		pageNum = 0;
 		p = new JPanel();
