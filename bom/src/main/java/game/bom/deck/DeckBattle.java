@@ -12,6 +12,8 @@ import game.bom.utilities.Loader;
  * @version 0.1.0
  * @since 0.1.0
  */
+
+//TODO: Extend Deck into this
 public class DeckBattle {
 	private Deck deck;
 	private ArrayList<Card> cardOrder;
@@ -34,7 +36,12 @@ public class DeckBattle {
 	}
 	
 	public Card draw() { return cardOrder.remove(0); }
+	
 	public void addCard(Card card, int pos) {
 		cardOrder.add(pos, card);
+	}
+	
+	public String deckName() {
+		return deck.getName();
 	}
 }

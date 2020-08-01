@@ -65,9 +65,13 @@ public class Deck implements Serializable {
 	public int getDeckSize() { return cardList.size(); }
 	protected ArrayList<Integer> getCardList() { return cardList; }
 	
+	public String getName() {
+		return deckName;
+	}
+	
 	public String toString() {
 		String str = "";
-		str += "Deck name: " + deckName;
+		str += "Deck name: " + getName();
 		str +="\nCards in deck: " + getDeckSize();
 		str += "\nCard list: \n" + displayCards();
 		return str;
