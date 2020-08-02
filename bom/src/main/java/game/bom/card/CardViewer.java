@@ -2,7 +2,6 @@ package game.bom.card;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Files;
@@ -11,11 +10,11 @@ import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import game.bom.error.ErrorCodes;
+import game.bom.utilities.CardGUIViewer;
 import game.bom.utilities.Loader;
 import game.bom.utilities.Update;
 
@@ -26,22 +25,17 @@ import game.bom.utilities.Update;
  * @since 0.1.0
  */
 public class CardViewer extends JFrame {
-	private static final long serialVersionUID = 1L;
-	private JLabel id, name, hp, atk, displayId, displayName, displayHp, displayAtk;
+	private static final long serialVersionUID = 1L;;
 	private JButton cardSel;
 	private int idNum;
 	private Card card;
-	CardViewer r;
+	private CardViewer r;
+	private Container c;
 
 	public CardViewer() {
 		super("Card Viewer");
 
 		idNum = 1;
-
-		id = new JLabel("ID: ");
-		name = new JLabel("Name: ");
-		hp = new JLabel("HP: ");
-		atk = new JLabel("ATK: ");
 
 		cardSel = new JButton("Select Card ID");
 		cardSel.addActionListener(new ActionListener() {
@@ -52,26 +46,14 @@ public class CardViewer extends JFrame {
 			}
 		});
 
-		displayId = new JLabel("");
-		displayName = new JLabel("");
-		displayHp = new JLabel("");
-		displayAtk = new JLabel("");
-
+		c = getContentPane();
+		
 		loadCard();
 
-		Container c = getContentPane();
-
-		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(4,4));
-		p.add(id); p.add(displayId);
-		p.add(name); p.add(displayName);
-		p.add(hp); p.add(displayHp);
-		p.add(atk); p.add(displayAtk);
 
 		JPanel s = new JPanel();
 		s.add(cardSel);
 
-		c.add(p, BorderLayout.CENTER);
 		c.add(s, BorderLayout.SOUTH);
 	}
 
@@ -82,14 +64,12 @@ public class CardViewer extends JFrame {
 		this.card = Loader.card(Integer.toString(idNum));
 		try {
 			if (!card.equals(null)) {
-				displayId.setText(Integer.toString(card.getIdNumber()));
-				displayName.setText(card.getName());
-				displayHp.setText(Integer.toString(card.getHealth()));
-				displayAtk.setText(Integer.toString(card.getAttack()));
+				c.add(CardGUIViewer.viewCard(card), BorderLayout.CENTER);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(r, ErrorCodes.E500, "Error", 
 					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 
