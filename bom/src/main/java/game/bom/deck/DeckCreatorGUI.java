@@ -132,7 +132,7 @@ public class DeckCreatorGUI extends JFrame {
 		super("Deck Creator");
 		possibleCards = new ArrayList<>();
 		selectedCards = new ArrayList<>();
-		pages = new int[(int)Math.ceil(Globals.NUM_CARDS/5.0)][5];
+		pages = new int[(int)Math.ceil(Globals.NUM_CARDS/6.0)][6];
 		pageNum = 0;
 		p = new JPanel();
 
