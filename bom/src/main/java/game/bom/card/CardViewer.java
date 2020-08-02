@@ -1,6 +1,7 @@
 package game.bom.card;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,18 +32,24 @@ public class CardViewer extends JFrame {
 	private Card card;
 	private CardViewer r;
 	private Container c;
+	private Component p;
 
 	public CardViewer() {
 		super("Card Viewer");
 
 		idNum = 1;
+		
+		p = CardGUIViewer.viewCard(Loader.card(Integer.toString(idNum)));
 
 		cardSel = new JButton("Select Card ID");
 		cardSel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				idNum = Integer.parseInt(JOptionPane.showInputDialog(r, "Input the card ID number you want to view", "Card ID Select", 
 						JOptionPane.QUESTION_MESSAGE));
+				c.remove(p);
 				loadCard();
+				revalidate();
+				repaint();
 			}
 		});
 
@@ -64,7 +71,8 @@ public class CardViewer extends JFrame {
 		this.card = Loader.card(Integer.toString(idNum));
 		try {
 			if (!card.equals(null)) {
-				c.add(CardGUIViewer.viewCard(card), BorderLayout.CENTER);
+				p = CardGUIViewer.viewCard(card);
+				c.add(p, BorderLayout.CENTER);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(r, ErrorCodes.E500, "Error", 
