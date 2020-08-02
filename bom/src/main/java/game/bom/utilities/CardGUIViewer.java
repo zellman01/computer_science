@@ -1,5 +1,6 @@
 package game.bom.utilities;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -9,7 +10,7 @@ import game.bom.card.Card;
 
 public class CardGUIViewer {
 	
-	public static JPanel viewCard(Card card) {
+	public static Component viewCard(Card card) {
 		JLabel id = new JLabel("ID: " + card.getIdNumber());
 		JLabel name = new JLabel("Name: " + card.getName());
 		JLabel hp = new JLabel("HP: " + card.getHealth());
