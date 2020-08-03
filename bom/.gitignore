@@ -3,5 +3,6 @@
 /deck/*
 /src/main/java/game/bom/global/*
 /src/main/java/game/bom/sqlConnection/*
+/src/main/java/game/bom/testing/*
 /doc/*
 /.settings/*
