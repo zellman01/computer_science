@@ -61,7 +61,10 @@ public class DeckViewer extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				deckName = JOptionPane.showInputDialog(r, "Input the deck name you want to view", "Deck Selection", 
 						JOptionPane.QUESTION_MESSAGE);
+				c.remove(p);
 				loadDeck();
+				revalidate();
+				repaint();
 			}
 		});
 
@@ -80,10 +83,10 @@ public class DeckViewer extends JFrame {
 
 	private void loadCard() {
 		this.card = deck.getCard(deckPos);
-		if (!card.equals(null)) {
+		try {
 			p = CardGUIViewer.viewCard(card);
 			c.add(p, BorderLayout.CENTER);
-		} else {
+		} catch(NullPointerException e) {
 			JOptionPane.showMessageDialog(r, ErrorCodes.E500, "Error", 
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -92,6 +95,7 @@ public class DeckViewer extends JFrame {
 	private void loadDeck() {
 		this.deck = Loader.deck(deckName);
 		if (!deck.equals(null)) {
+			deckPos = 0;
 			loadCard();
 		} else
 			JOptionPane.showMessageDialog(r, ErrorCodes.E600, "Error",

@@ -70,14 +70,11 @@ public class CardViewer extends JFrame {
 	private void loadCard() {
 		this.card = Loader.card(Integer.toString(idNum));
 		try {
-			if (!card.equals(null)) {
 				p = CardGUIViewer.viewCard(card);
 				c.add(p, BorderLayout.CENTER);
-			}
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
 			JOptionPane.showMessageDialog(r, ErrorCodes.E500, "Error", 
 					JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
