@@ -19,7 +19,6 @@ public class GUIMain extends JFrame implements ActionListener {
 	private HOLO battle;
 	private static final long serialVersionUID = 1L;
 	private JMenuBar menuBar;
-	private JMenu menu, subMenu;
 	private JMenuItem menuItem;
 	private JTextField commands;
 	private JButton confirm;
@@ -43,14 +42,14 @@ public class GUIMain extends JFrame implements ActionListener {
 
 	private void addMenus() {
 		menuBar = new JMenuBar();
-		menu = new JMenu("File");
+		JMenu menu = new JMenu("File");
 		menu.setMnemonic(KeyEvent.VK_A);
 		menu.getAccessibleContext().setAccessibleDescription("Primary menu area");
 		menuBar.add(menu);
 		
 		
 
-		subMenu = new JMenu("Creators");
+		JMenu subMenu = new JMenu("Creators");
 		menuItem = new JMenuItem("Character Creator");
 		menuItem.getAccessibleContext().setAccessibleDescription("");
 		menuItem.addActionListener(new ActionListener() {
