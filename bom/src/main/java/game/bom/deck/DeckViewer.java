@@ -37,7 +37,7 @@ public class DeckViewer extends JFrame {
 	private Container c;
 	private Component p;
 
-	private DeckViewer() {
+	public DeckViewer() {
 		super("Deck Viewer");
 
 		deckPos = 0;
@@ -78,9 +78,6 @@ public class DeckViewer extends JFrame {
 		c.add(s, BorderLayout.SOUTH);
 	}
 
-	public DeckViewer(boolean b) {
-	}
-
 	private void loadCard() {
 		this.card = deck.getCard(deckPos);
 		try {
@@ -113,13 +110,7 @@ public class DeckViewer extends JFrame {
 		r.pack();
 		r.setBounds(0, 0, 300, 250);
 		r.setLocationRelativeTo(null);
-		r.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		r.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		r.setVisible(true);
-	}
-
-
-	public static void main(String[] args) {
-		DeckViewer s = new DeckViewer(true);
-		s.start();
 	}
 }

@@ -219,13 +219,13 @@ public class DeckCreatorGUI extends JFrame {
 
 		w = this;
 	}
-
-	public static void main(String[] args) {
+	
+	public void start() {
 		DeckCreatorGUI s = new DeckCreatorGUI();
 		s.pack();
 		s.setBounds(0, 0, 250, 250);
 		s.setLocationRelativeTo(null);
-		s.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		s.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		s.setVisible(true);
 	}
 }

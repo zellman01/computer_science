@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import game.bom.error.ErrorCodes;
 import game.bom.utilities.CardGUIViewer;
 import game.bom.utilities.Loader;
-import game.bom.utilities.Update;
 
 /**
  * GUI for viewing individual cards
@@ -26,7 +25,7 @@ import game.bom.utilities.Update;
  * @since 0.1.0
  */
 public class CardViewer extends JFrame {
-	private static final long serialVersionUID = 1L;;
+	private static final long serialVersionUID = 1L;
 	private JButton cardSel;
 	private int idNum;
 	private Card card;
@@ -64,9 +63,6 @@ public class CardViewer extends JFrame {
 		c.add(s, BorderLayout.SOUTH);
 	}
 
-	public CardViewer(boolean b) {
-	}
-
 	private void loadCard() {
 		this.card = Loader.card(Integer.toString(idNum));
 		try {
@@ -78,9 +74,8 @@ public class CardViewer extends JFrame {
 		}
 	}
 
-	private void start() {
-		Update u = new Update();
-		if (!u.updateCards(true)) {
+	public void start(boolean successUpdate) {
+		if (!successUpdate) {
 			JOptionPane.showMessageDialog(r, ErrorCodes.E300 + " Checking if the directory exists.", "Error", 
 					JOptionPane.ERROR_MESSAGE);
 			Path path = Paths.get("cards/");
@@ -94,14 +89,7 @@ public class CardViewer extends JFrame {
 		r.pack();
 		r.setBounds(0, 0, 250, 250);
 		r.setLocationRelativeTo(null);
-		r.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		r.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		r.setVisible(true);
 	}
-
-
-	public static void main(String[] args) {
-		CardViewer s = new CardViewer(true);
-		s.start();
-	}
-
 }
