@@ -201,7 +201,7 @@ public class DeckCreatorGUI extends JFrame {
 		JButton nextPage = new BasicArrowButton(BasicArrowButton.EAST);
 		nextPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (pageNum < pages.length) {
+				if (pageNum < pages.length-1) {
 					pageNum++;
 					c.remove(p);
 					p.removeAll();
