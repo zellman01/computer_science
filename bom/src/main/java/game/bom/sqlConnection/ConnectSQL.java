@@ -29,7 +29,7 @@ public class ConnectSQL {
                 ":3306/brawl_of_minds";
 	    conn = DriverManager.getConnection(sqlConn, connectionProps);
 	    connectionProps.clear();
-	    System.out.println("Connected to database");
+	    if (Globals.DEBUG_BUILD) System.out.println("Connected to database");
 	    return conn;
 	}
 	

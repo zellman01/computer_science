@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import game.bom.sqlConnection.ConnectSQL;
 import game.bom.error.ErrorCodes;
+import game.bom.global.Globals;
 
 /**
  * SQL class
@@ -25,7 +26,7 @@ public class SQL {
 		try {
 			if (!connect.isClosed()) {
 				connect.close();
-				System.out.println("Database connection closed.");
+				if (Globals.DEBUG_BUILD) System.out.println("Database connection closed.");
 			}
 		} catch (SQLException | NullPointerException e) {
 			System.err.println(ErrorCodes.E900);
