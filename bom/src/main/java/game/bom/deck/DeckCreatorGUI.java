@@ -34,8 +34,8 @@ public class DeckCreatorGUI extends JFrame {
 	private DeckCreatorGUI w;
 
 	private JCheckBox generateCheckbox(int pos) {
-		JCheckBox b = new JCheckBox(Loader.card(Integer.toString(possibleCards.get(pages[pageNum][pos]))).getName());
-		int d = pages[pageNum][pos]+1;
+		final JCheckBox b = new JCheckBox(Loader.card(Integer.toString(possibleCards.get(pages[pageNum][pos]))).getName());
+		final int d = pages[pageNum][pos]+1;
 		b.setSelected(selectedCards.contains(d));
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -150,7 +150,7 @@ public class DeckCreatorGUI extends JFrame {
 
 		addCheckboxes();
 
-		Container c = getContentPane();
+		final Container c = getContentPane();
 		p.setLayout(new GridLayout(2,2));
 
 
@@ -180,7 +180,7 @@ public class DeckCreatorGUI extends JFrame {
 
 		JPanel page = new JPanel();
 
-		JLabel pageNumb = new JLabel(Integer.toString(pageNum));
+		final JLabel pageNumb = new JLabel(Integer.toString(pageNum));
 
 		JButton prevPage = new BasicArrowButton(BasicArrowButton.WEST);
 		prevPage.addActionListener(new ActionListener() {
