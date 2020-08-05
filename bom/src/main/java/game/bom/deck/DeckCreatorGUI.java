@@ -192,6 +192,8 @@ public class DeckCreatorGUI extends JFrame {
 					pageNumb.setText(Integer.toString(pageNum));
 					addCheckboxes();
 					c.add(p, BorderLayout.CENTER);
+					revalidate();
+					repaint();
 				}
 			}
 		});
@@ -206,6 +208,8 @@ public class DeckCreatorGUI extends JFrame {
 					pageNumb.setText(Integer.toString(pageNum));
 					addCheckboxes();
 					c.add(p, BorderLayout.CENTER);
+					revalidate();
+					repaint();
 				}
 			}
 		});
