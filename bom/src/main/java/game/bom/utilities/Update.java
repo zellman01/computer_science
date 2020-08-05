@@ -40,8 +40,8 @@ public class Update {
 					String idNum = Integer.toString(card.getIdNumber());
 					cardNums++;
 					try {
-						if (card.isSame(Loader.card(idNum)) && Globals.DEBUG_BUILD)
-							System.err.println(idNum + " is the same - skipping");
+						if (card.isSame(Loader.card(idNum)))
+							if (Globals.DEBUG_BUILD) System.err.println(idNum + " is the same - skipping");
 						else
 							create = true;
 					} catch(Exception e) {
@@ -67,13 +67,12 @@ public class Update {
 		}
 
 		File rootDir = new File("cards/");
-		System.out.println(cardNums + "|" + rootDir.list().length);
 		if (cardNums < rootDir.list().length) { // Check length of cards checked against the amount of card files existing
 			if (Globals.DEBUG_BUILD)
 				System.err.println("Cards exist that do not exist in database - deleting...");
 			for (int i = cardNums+1; i <= rootDir.list().length; i++) {
-				if (Deleter.deleteFile("cards", Integer.toString(i), "crd") && Globals.DEBUG_BUILD) {
-					System.out.println("Card " + i + " has been deleted.");
+				if (Deleter.deleteFile("cards", Integer.toString(i), "crd")) {
+					if (Globals.DEBUG_BUILD) System.out.println("Card " + i + " has been deleted.");
 				}
 			}
 		}
