@@ -10,10 +10,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import game.bom.utilities.Update;
+import game.bom.card.CardViewer;
 import game.bom.deck.DeckCreatorGUI;
 import game.bom.deck.DeckViewer;
-import game.bom.card.CardViewer;
+import game.bom.utilities.Update;
 
 /**
  * Primary jar file
@@ -45,7 +45,6 @@ public class BrawlOfMinds extends JFrame {
 		JMenuItem menuItem = new JMenuItem("Deck creator");
 		menuItem.getAccessibleContext().setAccessibleDescription("GUI for creating a deck");
 		menuItem.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				DeckCreatorGUI a = new DeckCreatorGUI();
 				a.start();
@@ -60,7 +59,6 @@ public class BrawlOfMinds extends JFrame {
 		menuItem = new JMenuItem("View deck");
 		menuItem.getAccessibleContext().setAccessibleDescription("GUI for viewing the deck");
 		menuItem.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				DeckViewer a = new DeckViewer();
 				a.start();
@@ -72,7 +70,6 @@ public class BrawlOfMinds extends JFrame {
 		menuItem = new JMenuItem("View collection");
 		menuItem.getAccessibleContext().setAccessibleDescription("GUI for viewing account card collection");
 		menuItem.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardViewer a = new CardViewer();
 				a.start(cardSuccessUpdate);
