@@ -96,6 +96,21 @@ public class Update {
 			finished();
 		return num;
 	}
+	
+	public long rarityCheck(boolean finalU) {
+		long checksum = -1;
+		try {
+			ResultSet rs = stmt.execStatements("CHECKSUM TABLE `rarity`");
+			rs.next();
+			checksum = rs.getLong(2);
+		} catch(Exception e) {
+			System.err.println(ErrorCodes.E900);
+			e.printStackTrace();
+		}
+		if (finalU)
+			finished();
+		return checksum;
+	}
 
 	// Should be the last thing called. Closes SQL connection, without a way to restart it
 	// TODO: Check if sql was unable to start, and throw an error code (TBD) if true
