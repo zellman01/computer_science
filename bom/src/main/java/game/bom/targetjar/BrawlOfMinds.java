@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -84,6 +85,7 @@ public class BrawlOfMinds extends JFrame {
 	public static void main(String[] args) {
 		Update u = new Update();
 		BrawlOfMinds bom = new BrawlOfMinds();
+		Globals.cardArray = new ArrayList<Integer>();
 		if (u.rarityCheck(false) == Globals.RARITY_CHECK) {
 			System.out.println(Globals.NUM_CARDS);
 			u.updateCards(true);

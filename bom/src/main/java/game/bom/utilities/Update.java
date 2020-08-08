@@ -2,7 +2,6 @@ package game.bom.utilities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,7 +31,6 @@ public class Update {
 	public boolean updateCards(boolean finalU){
 		boolean comp = false;
 		int cardNums = 0;
-		ArrayList<Integer> cardsExist = new ArrayList<Integer>();
 		try {
 			ResultSet rs = stmt.execStatements("Select * FROM card_data;");
 			try {
@@ -40,7 +38,7 @@ public class Update {
 				while (rs.next()) {
 					Card card = new Card(rs.getString(5), rs.getInt(6), rs.getString(2), rs.getInt(1), rs.getInt(4), rs.getInt(3));
 					String idNum = Integer.toString(card.getIdNumber());
-					cardsExist.add(card.getIdNumber());
+					Globals.cardArray.add(card.getIdNumber());
 					cardNums++;
 					try {
 						if (card.isSame(Loader.card(idNum))) {
@@ -74,7 +72,7 @@ public class Update {
 			if (Globals.DEBUG_BUILD)
 				System.err.println("Cards exist that do not exist in database - deleting...");
 			for (int i = 0; i <= rootDir.list().length; i++) {
-				if (!cardsExist.contains(i)) {
+				if (!Globals.cardArray.contains(i)) {
 					if (Deleter.deleteFile("cards", Integer.toString(i), "crd")) {
 						if (Globals.DEBUG_BUILD) System.out.println("Card " + i + " has been deleted.");
 					}
