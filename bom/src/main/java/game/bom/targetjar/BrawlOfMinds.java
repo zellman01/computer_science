@@ -25,7 +25,6 @@ import game.bom.utilities.Update;
 public class BrawlOfMinds extends JFrame {
 	private static final long serialVersionUID = 5727027099384772746L;
 	private JMenuBar menuBar;
-	private boolean cardSuccessUpdate;
 
 	public BrawlOfMinds() {
 		super("Brawl of Minds");
@@ -73,7 +72,7 @@ public class BrawlOfMinds extends JFrame {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardViewer a = new CardViewer();
-				a.start(cardSuccessUpdate);
+				a.start(a);
 			}
 		});
 
@@ -87,7 +86,7 @@ public class BrawlOfMinds extends JFrame {
 		BrawlOfMinds bom = new BrawlOfMinds();
 		if (u.rarityCheck(false) == Globals.RARITY_CHECK) {
 			System.out.println(Globals.NUM_CARDS);
-			bom.cardSuccessUpdate = u.updateCards(true);
+			u.updateCards(true);
 			bom.setBounds(400,400,400,400);
 			bom.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			bom.setVisible(true);
