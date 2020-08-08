@@ -40,9 +40,9 @@ public class Update {
 					String idNum = Integer.toString(card.getIdNumber());
 					cardNums++;
 					try {
-						if (card.isSame(Loader.card(idNum)))
+						if (card.isSame(Loader.card(idNum))) {
 							if (Globals.DEBUG_BUILD) System.err.println(idNum + " is the same - skipping");
-						else
+						} else
 							create = true;
 					} catch(Exception e) {
 						create = true;
