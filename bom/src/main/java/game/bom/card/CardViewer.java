@@ -31,7 +31,7 @@ public class CardViewer extends JFrame {
 		super("Card Viewer");
 
 		cardButton = new ArrayList<JButton>();
-		addButtons();
+		addButtons(this);
 
 		Container c = getContentPane();
 
@@ -43,9 +43,9 @@ public class CardViewer extends JFrame {
 	}
 
 		// TODO: Check account collection, and add only cards in said collection
-		private void addButtons() {
-			for (int i = 0; i < Globals.NUM_CARDS; i++) {
-				final int id = i+1;
+		private void addButtons(final CardViewer cv) {
+			for (final int id : Globals.cardArray) {
+				//final int id = i+1;
 				final JButton a = new JButton(Loader.card(Integer.toString(id)).getName());
 				a.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -60,6 +60,7 @@ public class CardViewer extends JFrame {
 						c.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 						c.pack();
 						c.setBounds(x, y, width, height);
+						c.setLocationRelativeTo(cv);
 						c.setVisible(true);
 					}
 				});
