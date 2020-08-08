@@ -224,8 +224,7 @@ public class DeckCreatorGUI extends JFrame {
 		w = this;
 	}
 	
-	public void start() {
-		DeckCreatorGUI s = new DeckCreatorGUI();
+	public void start(DeckCreatorGUI s) {
 		s.pack();
 		s.setBounds(0, 0, 250, 250);
 		s.setLocationRelativeTo(null);

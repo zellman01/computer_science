@@ -99,14 +99,13 @@ public class DeckViewer extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 	}
 
-	public void start() {
+	public void start(DeckViewer r) {
 		Path path = Paths.get("deck/");
 		if(!Files.exists(path)) {
 			JOptionPane.showMessageDialog(r, ErrorCodes.E600, "Fatal Error", 
 					JOptionPane.ERROR_MESSAGE);
 			throw new Error(ErrorCodes.E600.toString());
 		}
-		r = new DeckViewer();
 		r.pack();
 		r.setBounds(0, 0, 300, 250);
 		r.setLocationRelativeTo(null);

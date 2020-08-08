@@ -47,7 +47,7 @@ public class BrawlOfMinds extends JFrame {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DeckCreatorGUI a = new DeckCreatorGUI();
-				a.start();
+				a.start(a);
 			}
 		});
 
@@ -61,7 +61,7 @@ public class BrawlOfMinds extends JFrame {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DeckViewer a = new DeckViewer();
-				a.start();
+				a.start(a);
 			}
 		});
 
