@@ -23,11 +23,11 @@ import game.bom.utilities.Update;
  * @version 0.1.0
  * @since 0.1.0
  */
-public class BrawlOfMinds extends JFrame {
+public class Game extends JFrame {
 	private static final long serialVersionUID = 5727027099384772746L;
 	private JMenuBar menuBar;
 
-	public BrawlOfMinds() {
+	public Game() {
 		super("Brawl of Minds");
 		addMenu();
 
@@ -84,7 +84,7 @@ public class BrawlOfMinds extends JFrame {
 
 	public static void main(String[] args) {
 		Update u = new Update();
-		BrawlOfMinds bom = new BrawlOfMinds();
+		Game bom = new Game();
 		Globals.cardArray = new ArrayList<Integer>();
 		System.out.println(Globals.NUM_CARDS);
 		u.updateCards(true);
