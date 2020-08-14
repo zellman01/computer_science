@@ -21,13 +21,20 @@ public class Update {
 	private SQL sql;
 	private Statements stmt;
 
+	/**
+	 * Create the Update object
+	 */
 	public Update() {
 		sql = new SQL();
 
 		stmt = new Statements(sql);
 	}
 
-	// -1 for HP or ATK means that does not exist
+	/**
+	 * Low-level update function for cards
+	 * @param finalU If it is the final function of the object
+	 * @return If the update was successful or not
+	 */
 	public boolean updateCards(boolean finalU){
 		boolean comp = false;
 		int cardNums = 0;
@@ -71,7 +78,7 @@ public class Update {
 		if (cardNums < rootDir.list().length) { // Check length of cards checked against the amount of card files existing
 			if (Globals.DEBUG_BUILD)
 				System.err.println("Cards exist that do not exist in database - deleting...");
-			for (int i = 0; i <= rootDir.list().length; i++) {
+			for (int i = 0; i <= rootDir.list().length; i++) { // If run, delete card ids not present
 				if (!Globals.cardArray.contains(i)) {
 					if (Deleter.deleteFile("cards", Integer.toString(i), "crd")) {
 						if (Globals.DEBUG_BUILD) System.out.println("Card " + i + " has been deleted.");
@@ -85,6 +92,11 @@ public class Update {
 		return comp;
 	}
 
+	/**
+	 * Calculate the total amount of cards present in the database
+	 * @param finalU If it is the final function of the object
+	 * @return Total number of cards in the database
+	 */
 	public int numCards(boolean finalU) {
 		int num = -1;
 		try {
@@ -100,7 +112,12 @@ public class Update {
 		return num;
 	}
 
-	@Deprecated
+	/**
+	 * Get the checksum of the rarity table
+	 * @param finalU If it is the final function of the object
+	 * @return The checksum of the rarity table
+	 * @deprecated Useless method check. Will be removed before next test release
+	 */
 	public long rarityCheck(boolean finalU) {
 		long checksum = -1;
 		try {

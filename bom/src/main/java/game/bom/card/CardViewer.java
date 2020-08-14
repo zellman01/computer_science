@@ -27,6 +27,9 @@ public class CardViewer extends JFrame {
 	private static final long serialVersionUID = 5211072213416027189L;
 	private ArrayList<JButton> cardButton;
 
+	/**
+	 * Create the CardViewer object
+	 */
 	public CardViewer() {
 		super("Card Viewer");
 
@@ -68,6 +71,10 @@ public class CardViewer extends JFrame {
 			}
 		}
 		
+		/**
+		 * Start the CardViewer
+		 * @param s The CardViewer to use
+		 */
 		public void start(CardViewer a) {
 			final int x = 400, y = 400, width = 400, height = 400;
 			a.setBounds(x, y, width, height);

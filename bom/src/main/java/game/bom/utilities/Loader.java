@@ -15,12 +15,22 @@ import game.bom.deck.Deck;
  * @since 0.1.0
  */
 public class Loader {
+	/**
+	 * Load a card object
+	 * @param id The id number of the card to load
+	 * @return The card if it exists, or null otherwise
+	 */
 	public static Card card(String id) {
 		File file = new File("cards/" + id + ".crd");
 		Card crd = (Card) loadFile(file);
 		return crd;
 	}
 	
+	/**
+	 * Load a deck object
+	 * @param name The name of the deck to load
+	 * @return The deck if it exists, or null otherwise
+	 */
 	public static Deck deck(String name) {
 		File file = new File("deck/" + name + ".dek");
 		Deck dek = (Deck) loadFile(file);

@@ -17,6 +17,15 @@ public class Card implements Serializable {
 	private String cardName;
 	private int id, atk, hp;
 	
+	/**
+	 * Create a card
+	 * @param position The starting position of the card
+	 * @param mCost Mana cost to use on the card
+	 * @param name Card name
+	 * @param idNum Identification number of the card from the database
+	 * @param atk The given attack of the card (-1 means no atk)
+	 * @param hp The given health of a card (-1 means no health)
+	 */
 	public Card(String position, int mCost, String name, int idNum, int atk, int hp) {
 		switch(position) {
 		case "Both":
@@ -43,6 +52,16 @@ public class Card implements Serializable {
 		this.hp = hp;
 	}
 	
+	/**
+	 * Create a card object
+	 * @param posi
+	 * @param mana
+	 * @param name
+	 * @param idNum
+	 * @param atk
+	 * @param hp
+	 * @deprecated Better to use the other Card object constructor
+	 */
 	public Card(Position posi, Mana mana, String name, int idNum, int atk, int hp) {
 		pos = posi;
 		manaCost = mana;
@@ -70,6 +89,11 @@ public class Card implements Serializable {
 		return manaCost.useable(player);
 	}
 	
+	/**
+	 * Test two cards to see if they are the same card
+	 * @param test The card to check against
+	 * @return If the cards are the same
+	 */
 	public boolean isSame(Card test) {
 		return
 				this.getName().equals(test.getName()) &&

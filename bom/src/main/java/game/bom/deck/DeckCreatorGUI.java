@@ -138,6 +138,9 @@ public class DeckCreatorGUI extends JFrame {
 		}
 	}
 
+	/**
+	 * Create a DeckCreator object
+	 */
 	public DeckCreatorGUI() {
 		super("Deck Creator");
 		possibleCards = new ArrayList<>();
@@ -234,6 +237,10 @@ public class DeckCreatorGUI extends JFrame {
 		w = this;
 	}
 	
+	/**
+	 * Start the DeckCreatorGUI
+	 * @param s The DeckCreatorGUI to use
+	 */
 	public void start(DeckCreatorGUI s) {
 		s.pack();
 		s.setBounds(0, 0, 250, 250);

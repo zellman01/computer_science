@@ -9,7 +9,11 @@ import javax.swing.JPanel;
 import game.bom.card.Card;
 
 public class CardGUIViewer {
-	
+	/**
+	 * Low-level card viewer
+	 * @param card The card to view
+	 * @return Component showing the card
+	 */
 	public static Component viewCard(Card card) {
 		JLabel id = new JLabel("ID: " + card.getIdNumber());
 		JLabel name = new JLabel("Name: " + card.getName());

@@ -20,6 +20,14 @@ public class Saver {
 		}
 	}
 	
+	/**
+	 * Save a given file
+	 * @param dir The directory to use when saving (will be created if it does not exist)
+	 * @param name The name of the file to save
+	 * @param ext The extension to use
+	 * @param save The object to save
+	 * @throws Exception If it is incapable of saving the object for whatever reason
+	 */
 	public static void saveFile(String dir, String name, String ext, Object save) throws Exception {
 		createDirectory(dir);
 		File filePath = new File(dir + "/" + name + "." + ext);
