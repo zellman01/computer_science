@@ -100,6 +100,7 @@ public class Update {
 		return num;
 	}
 
+	@Deprecated
 	public long rarityCheck(boolean finalU) {
 		long checksum = -1;
 		try {

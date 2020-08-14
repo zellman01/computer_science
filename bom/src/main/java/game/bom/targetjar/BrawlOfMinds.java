@@ -86,12 +86,10 @@ public class BrawlOfMinds extends JFrame {
 		Update u = new Update();
 		BrawlOfMinds bom = new BrawlOfMinds();
 		Globals.cardArray = new ArrayList<Integer>();
-		if (u.rarityCheck(false) == Globals.RARITY_CHECK) {
-			System.out.println(Globals.NUM_CARDS);
-			u.updateCards(true);
-			bom.setBounds(400,400,400,400);
-			bom.setDefaultCloseOperation(EXIT_ON_CLOSE);
-			bom.setVisible(true);
-		}
+		System.out.println(Globals.NUM_CARDS);
+		u.updateCards(true);
+		bom.setBounds(400,400,400,400);
+		bom.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		bom.setVisible(true);
 	}
 }
