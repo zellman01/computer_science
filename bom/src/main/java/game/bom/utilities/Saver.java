@@ -14,7 +14,7 @@ import java.nio.file.Paths;
  * @since 0.1.0
  */
 public class Saver {
-	public static void createDirectory(String dir) throws IOException {
+	private static void createDirectory(String dir) throws IOException {
 		if (!Files.exists(Paths.get(dir + "/"))) {
 			Files.createDirectories(Paths.get(dir + "/"));
 		}
@@ -26,9 +26,9 @@ public class Saver {
 	 * @param name The name of the file to save
 	 * @param ext The extension to use
 	 * @param save The object to save
-	 * @throws Exception If it is incapable of saving the object for whatever reason
+	 * @throws IOException If it is incapable of saving the object for whatever reason
 	 */
-	public static void saveFile(String dir, String name, String ext, Object save) throws Exception {
+	public static void saveFile(String dir, String name, String ext, Object save) throws IOException {
 		createDirectory(dir);
 		File filePath = new File(dir + "/" + name + "." + ext);
 		filePath.createNewFile();
