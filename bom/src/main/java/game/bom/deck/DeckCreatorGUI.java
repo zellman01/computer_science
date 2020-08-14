@@ -86,7 +86,8 @@ public class DeckCreatorGUI extends JFrame {
 		Object[] options = {0, 1, 2, 3, 4, 5};
 		int s = (int) JOptionPane.showInputDialog(
 				this,
-				"How many of the card " + box.getText() + " would you like to add?",
+				"How many of the card " + box.getText() + " would you like to add? (There are " + cardAmount(idNum) + " of this card in your "
+						+ "deck",
 				"Add Card",
 				JOptionPane.QUESTION_MESSAGE,
 				null,
@@ -116,6 +117,15 @@ public class DeckCreatorGUI extends JFrame {
 		default:
 			box.setSelected(true);
 		}
+	}
+	
+	private int cardAmount(int id) {
+		int a = 0;
+		for (int i : selectedCards) {
+			if (i == id)
+				a++;
+		}
+		return a;
 	}
 
 	private void addCheckboxes() {
