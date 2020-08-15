@@ -31,7 +31,7 @@ public class DeckCreator {
 			}
 		return false;
 	}
-	
+
 	/**
 	 * Adds a card to the deck based off of ID
 	 * @param card The ID number of the card
@@ -47,30 +47,26 @@ public class DeckCreator {
 			}
 		return false;
 	}
-	
+
 	protected void setCardArray(ArrayList<Integer> cardList) {
 		cardId = cardList;
 	}
-	
+
 	public void createDeck(String deckName) throws IOException {
 		deck = new Deck(deckName);
 		for (int i : cardId) {
 			Card insert = null;
 			insert = Loader.card(Integer.toString(i));
-try {
-			deck.addCard(insert);
-} catch(Exception e) {
+			try {
+				deck.addCard(insert);
+			} catch(Exception e) {
 				System.err.println("Card with ID " + i + " does not exist.");
-}
+			}
 		}
 		try {
 			Saver.saveFile("deck", deckName, "dek", deck);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(Globals.NUM_CARDS);
 	}
 }
