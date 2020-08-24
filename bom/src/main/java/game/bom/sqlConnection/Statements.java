@@ -1,8 +1,9 @@
 package game.bom.sqlConnection;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import game.bom.sqlConnection.SQL;
 
@@ -21,12 +22,29 @@ public class Statements {
 
 	public ResultSet execStatements(String statement) {
 		ResultSet rs = null;
-		Statement stmt;
+		PreparedStatement stmt;
 		try {
-			stmt = database.getConnect().createStatement();
-			stmt.executeUpdate(statement);
+			Connection con = database.getConnect();
+			stmt = con.prepareStatement(statement);
+			stmt.execute();
 			rs = stmt.getResultSet();
 			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet execStatements(String statement, String param) {
+		ResultSet rs = null;
+		PreparedStatement stmt;
+		try {
+			Connection con = database.getConnect();
+			stmt = con.prepareStatement(statement);
+			stmt.setString(1, param);
+			stmt.execute();
+			rs = stmt.getResultSet();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
