@@ -42,6 +42,7 @@ public class SQL {
 	private void checkConnection() {
 		try { // Probably a better way to see if the connection is null
 			if (connect != null);
+			Globals.CONNECTION = true;
 		} catch(NullPointerException e) {
 			if (Globals.DEBUG_BUILD) System.err.println(ErrorCodes.E300);
 			else System.exit(ErrorCodes.E300.errorNum());
