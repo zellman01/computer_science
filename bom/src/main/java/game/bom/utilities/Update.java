@@ -129,6 +129,24 @@ public class Update {
 		return checksum;
 	}
 	
+	/**
+	 * Obtain the password of a given user. Protected because nothing outside of the utilities package needs this
+	 * @param username The username to get the hashed password of
+	 * @return The hashed password
+	 */
+	protected String password(String username) {
+		String str = "";
+		try {
+			ResultSet rs = stmt.execStatements("SELECT * FROM `users` WHERE `username` == '?'", username);
+			rs.next();
+			str = rs.getString("password");
+		} catch(SQLException e) {
+			exceptionPrint(e, ErrorCodes.E900);
+		}
+		finished();
+		return str;
+	}
+	
 	private void exceptionPrint(Exception e, ErrorCodes ec) {
 		System.err.println(ec);
 		if (Globals.DEBUG_BUILD) e.printStackTrace();
