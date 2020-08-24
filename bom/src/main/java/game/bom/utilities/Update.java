@@ -62,16 +62,13 @@ public class Update {
 				System.out.println("Successfully updates cards");
 				comp = true;
 			} catch (SQLException | IOException e) {
-				System.err.println(ErrorCodes.E201);
-				e.printStackTrace();
+				exceptionPrint(e, ErrorCodes.E201);
 			} catch (Exception e) {
-				System.err.println(ErrorCodes.E900);
-				e.printStackTrace();
+				exceptionPrint(e, ErrorCodes.E900);
 			}
 		} catch (NullPointerException e) {
-			System.err.println(ErrorCodes.E200);
 			finished();
-			e.printStackTrace();
+			exceptionPrint(e, ErrorCodes.E200);
 		}
 
 		File rootDir = new File("cards/");
@@ -104,8 +101,7 @@ public class Update {
 			rs.next();
 			num = rs.getInt(1);
 		} catch (Exception e) {
-			System.err.println(ErrorCodes.E900);
-			e.printStackTrace();
+			exceptionPrint(e, ErrorCodes.E900);
 		}
 		if (finalU)
 			finished();
@@ -125,12 +121,16 @@ public class Update {
 			rs.next();
 			checksum = rs.getLong(2);
 		} catch(Exception e) {
-			System.err.println(ErrorCodes.E900);
-			e.printStackTrace();
+			exceptionPrint(e, ErrorCodes.E900);
 		}
 		if (finalU)
 			finished();
 		return checksum;
+	}
+	
+	private void exceptionPrint(Exception e, ErrorCodes ec) {
+		System.err.println(ec);
+		if (Globals.DEBUG_BUILD) e.printStackTrace();
 	}
 
 	// Should be the last thing called. Closes SQL connection, without a way to restart it
