@@ -19,13 +19,37 @@ Error code series:
  * @since 0.1.0
  */
 public enum ErrorCodes implements ErrorClass {
+	/**
+	 * Issue with the Result Set of a statement
+	 */
 	E200(200, "Result Set is unable to be used"),
+	/**
+	 * Card update failed for some reason
+	 */
 	E201(201, "Unable to update cards"),
+	/**
+	 * Database connection could not happen
+	 */
 	E300(300, "Database connection failed"),
+	/**
+	 * Card does not exist
+	 */
 	E500(500, "Card does not exist"),
+	/**
+	 * Card directory was not detected
+	 */
 	E501(501, "Card directory does not exist"),
+	/**
+	 * Selected deck no longer exists
+	 */
 	E600(600, "Selected deck does not exist"),
+	/**
+	 * There are too many cards in one deck
+	 */
 	E601(601, "Too many cards in your deck"),
+	/**
+	 * Unknown error, could be anything
+	 */
 	E900(900, "Unknown error");
 	
 	private int errorCode;
