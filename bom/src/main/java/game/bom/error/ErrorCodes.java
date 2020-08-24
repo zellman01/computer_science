@@ -2,9 +2,9 @@ package game.bom.error;
 
 /*
 Error code series:
-1xx - Login failures (reserved)
+1xx - Login failures
 2xx - Update errors
-3xx - Database errors (reserved)
+3xx - Database errors
 4xx - N/A
 5xx - Card errors (reserved)
 6xx - Deck errors (reserved)
@@ -28,6 +28,18 @@ public enum ErrorCodes implements ErrorClass {
 	 */
 	E101(101, "Username/password not found"),
 	/**
+	 * Account restrictions found
+	 */
+	E102(102, "Your account has restrictions placed on it."),
+	/**
+	 * Account temporarily banned
+	 */
+	E103(103, "Your account has been locked"),
+	/**
+	 * Account banned forever
+	 */
+	E104(104, "Account has been banned."),
+	/**
 	 * Issue with the Result Set of a statement
 	 */
 	E200(200, "Result Set is unable to be used"),
@@ -39,6 +51,10 @@ public enum ErrorCodes implements ErrorClass {
 	 * Database connection could not happen
 	 */
 	E300(300, "Database connection failed"),
+	/**
+	 * Table not found
+	 */
+	E301(301, "Database table does not exist anymore"),
 	/**
 	 * Card does not exist
 	 */
