@@ -102,6 +102,7 @@ public class Update {
 			num = rs.getInt(1);
 		} catch (Exception e) {
 			exceptionPrint(e, ErrorCodes.E900);
+			num = new File("cards/").list().length;
 		}
 		if (finalU)
 			finished();
