@@ -20,6 +20,14 @@ Error code series:
  */
 public enum ErrorCodes implements ErrorClass {
 	/**
+	 * Unable to contact login database
+	 */
+	E100(100, "Login database not accessible"),
+	/**
+	 * Incorrect credentials
+	 */
+	E101(101, "Username/password not found"),
+	/**
 	 * Issue with the Result Set of a statement
 	 */
 	E200(200, "Result Set is unable to be used"),
