@@ -43,8 +43,8 @@ public class SQL {
 		try { // Probably a better way to see if the connection is null
 			if (connect != null);
 		} catch(NullPointerException e) {
-			System.err.println(ErrorCodes.E300);
-			//System.exit(300);
+			if (Globals.DEBUG_BUILD) System.err.println(ErrorCodes.E300);
+			else System.exit(ErrorCodes.E300.errorNum());
 		}
 	}
 }
