@@ -43,7 +43,7 @@ public class Update {
 			try {
 				boolean create = false;
 				while (rs.next()) {
-					Card card = new Card(rs.getString(5), rs.getInt(6), rs.getString(2), rs.getInt(1), rs.getInt(4), rs.getInt(3));
+					Card card = new Card(rs.getString(5), rs.getInt(6), rs.getString(2), rs.getInt(1), rs.getInt(4), rs.getInt(3), rs.getString(7));
 					String idNum = Integer.toString(card.getIdNumber());
 					Globals.cardArray.add(card.getIdNumber());
 					cardNums++;
@@ -107,26 +107,6 @@ public class Update {
 		if (finalU)
 			finished();
 		return num;
-	}
-
-	/**
-	 * Get the checksum of the rarity table
-	 * @param finalU If it is the final function of the object
-	 * @return The checksum of the rarity table
-	 * @deprecated Useless method check. Will be removed before next test release
-	 */
-	public long rarityCheck(boolean finalU) {
-		long checksum = -1;
-		try {
-			ResultSet rs = stmt.execStatements("CHECKSUM TABLE `rarity`");
-			rs.next();
-			checksum = rs.getLong(2);
-		} catch(Exception e) {
-			exceptionPrint(e, ErrorCodes.E900);
-		}
-		if (finalU)
-			finished();
-		return checksum;
 	}
 	
 	/**

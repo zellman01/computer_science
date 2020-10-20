@@ -14,7 +14,7 @@ public class Card implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Position pos; // If a card is frontline, backline, or both
 	private Mana manaCost;
-	private String cardName;
+	private String cardName, rarity;
 	private int id, atk, hp;
 	
 	/**
@@ -26,7 +26,7 @@ public class Card implements Serializable {
 	 * @param atk The given attack of the card (-1 means no atk)
 	 * @param hp The given health of a card (-1 means no health)
 	 */
-	public Card(String position, int mCost, String name, int idNum, int atk, int hp) {
+	public Card(String position, int mCost, String name, int idNum, int atk, int hp, String rarity) {
 		switch(position) {
 		case "Both":
 		case "Any":
@@ -50,25 +50,7 @@ public class Card implements Serializable {
 		id = idNum;
 		this.atk = atk;
 		this.hp = hp;
-	}
-	
-	/**
-	 * Create a card object
-	 * @param posi
-	 * @param mana
-	 * @param name
-	 * @param idNum
-	 * @param atk
-	 * @param hp
-	 * @deprecated Better to use the other Card object constructor
-	 */
-	public Card(Position posi, Mana mana, String name, int idNum, int atk, int hp) {
-		pos = posi;
-		manaCost = mana;
-		cardName = name;
-		id = idNum;
-		this.atk = atk;
-		this.hp = hp;
+		this.rarity = rarity;
 	}
 	
 	public String getName() { return this.cardName; }
@@ -77,6 +59,7 @@ public class Card implements Serializable {
 	public int getIdNumber() { return this.id; }
 	public int getHealth() { return this.hp; }
 	public int getAttack() { return this.atk; }
+	public String getRarity() { return this.rarity; }
 	
 	/**
 	 * Checks to see if a player has the correct amount to use a card.
@@ -101,7 +84,8 @@ public class Card implements Serializable {
 				this.getPosition().equals(test.getPosition()) &&
 				this.getIdNumber() == test.getIdNumber() &&
 				this.getHealth() == test.getHealth() &&
-				this.getAttack() == test.getAttack();
+				this.getAttack() == test.getAttack() &&
+				this.getRarity() == test.getRarity();
 	}
 	
 	public String toString() {
