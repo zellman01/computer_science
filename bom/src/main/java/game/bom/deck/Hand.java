@@ -28,7 +28,7 @@ public class Hand extends Deck {
 		if (getDeckSize() < Globals.MAX_HAND) {
 			cardList.add(card);
 		} else {
-			throw new Error(ErrorCodes.E601.toString());
+			throw new Error(ErrorCodes.E602.toString());
 		}
 	}
 	

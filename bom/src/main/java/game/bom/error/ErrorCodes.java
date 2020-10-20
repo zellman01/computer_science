@@ -48,13 +48,17 @@ public enum ErrorCodes implements ErrorClass {
 	 */
 	E201(201, "Unable to update cards"),
 	/**
+	 * Pack update failed
+	 */
+	E202(202, "Pack update failure"),
+	/**
 	 * Database connection could not happen
 	 */
 	E300(300, "Database connection failed"),
 	/**
 	 * Table not found
 	 */
-	E301(301, "Database table does not exist anymore"),
+	E301(301, "Database table does not exist"),
 	/**
 	 * Card does not exist
 	 */
@@ -71,6 +75,14 @@ public enum ErrorCodes implements ErrorClass {
 	 * There are too many cards in one deck
 	 */
 	E601(601, "Too many cards in your deck"),
+	/**
+	 * There are too many cards in your hand
+	 */
+	E602(602, "Too many cards in your hand to add anymore."),
+	/**
+	 * Card already exists in the pack
+	 */
+	E603(603, "Current card already exists in the card pack"),
 	/**
 	 * Unknown error, could be anything
 	 */
