@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import game.bom.card.Card;
 
 public class CardGUIViewer {
+	//TODO: Make it work on an image
 	/**
 	 * Low-level card viewer
 	 * @param card The card to view
@@ -19,7 +20,6 @@ public class CardGUIViewer {
 		JLabel name = new JLabel("Name: " + card.getName());
 		JLabel hp = new JLabel("HP: " + card.getHealth());
 		JLabel atk = new JLabel("ATK: " + card.getAttack());
-		
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(4,4));
 		p.add(id);
