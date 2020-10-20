@@ -8,6 +8,7 @@ import java.io.IOException;
 import game.bom.sqlConnection.SQL;
 import game.bom.sqlConnection.Statements;
 import game.bom.card.Card;
+import game.bom.card.CardPack;
 import game.bom.error.ErrorCodes;
 import game.bom.global.Globals;
 
@@ -125,6 +126,36 @@ public class Update {
 		}
 		finished();
 		return str;
+	}
+	
+	/**
+	 * Update the packs in the local directory (MUST be used after cards are updated)
+	 * @param finalU If this is the final function of the object
+	 * @return If updating was successful
+	 */
+	public boolean updatePacks(boolean finalU) {
+		boolean comp = false;
+		try {
+			ResultSet rs = stmt.execStatements("SELECT * FROM `booster_packs`");
+			while(rs.next()) {
+				String name = rs.getString(2);
+				CardPack addPack = new CardPack(name);
+				String temp = rs.getString(3);
+				String[] cardIdArray = temp.split(",");
+				Card[] cardArray = new Card[cardIdArray.length];
+				for (int i = 0; i < cardArray.length; i++) {
+					cardArray[i] = Loader.card(cardIdArray[i]);
+				}
+				for (int i = 0; i < cardArray.length; i++) {
+					addPack.addCard(cardArray[i]);
+				}
+				Saver.saveFile("packs/", name, ".pck", addPack);
+			}
+			comp = true;
+		} catch (SQLException | IOException e) {
+			exceptionPrint(e, ErrorCodes.E202);
+		}
+		return comp;
 	}
 	
 	private void exceptionPrint(Exception e, ErrorCodes ec) {
