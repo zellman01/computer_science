@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import game.bom.card.Card;
+import game.bom.card.CardPack;
 import game.bom.deck.Deck;
 
 /**
@@ -35,6 +36,12 @@ public class Loader {
 		File file = new File("deck/" + name + ".dek");
 		Deck dek = (Deck) loadFile(file);
 		return dek;
+	}
+	
+	public static CardPack cardPack(String name) {
+		File file = new File("packs/" + name + ".pck");
+		CardPack pck = (CardPack)loadFile(file);
+		return pck;
 	}
 	
 	private static Object loadFile(File file) {
