@@ -32,7 +32,7 @@
 				<directory>${basedir}/</directory>
 			</resource>
 		</resources>
-		 <plugins>
+		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
