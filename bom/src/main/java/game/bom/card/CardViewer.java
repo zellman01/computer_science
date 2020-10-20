@@ -39,7 +39,6 @@ public class CardViewer extends JFrame {
 		Container c = getContentPane();
 
 		JPanel p = new JPanel();
-		System.out.println(cardButton.size());
 		for (JButton i : cardButton)
 			p.add(i);
 		c.add(p, BorderLayout.CENTER);
