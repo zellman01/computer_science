@@ -29,8 +29,7 @@ public class SQL {
 				if (Globals.DEBUG_BUILD) System.out.println("Database connection closed.");
 			}
 		} catch (SQLException | NullPointerException e) {
-			System.err.println(ErrorCodes.E900);
-			//System.exit(900);
+			System.exit(ErrorCodes.E900.errorNum());
 		}
 	}
 
@@ -42,10 +41,8 @@ public class SQL {
 	private void checkConnection() {
 		try { // Probably a better way to see if the connection is null
 			if (connect != null);
-			Globals.CONNECTION = true;
 		} catch(NullPointerException e) {
-			if (Globals.DEBUG_BUILD) System.err.println(ErrorCodes.E300);
-			else System.exit(ErrorCodes.E300.errorNum());
+			System.exit(ErrorCodes.E300.errorNum());
 		}
 	}
 }
