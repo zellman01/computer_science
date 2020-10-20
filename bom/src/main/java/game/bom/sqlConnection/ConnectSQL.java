@@ -24,9 +24,9 @@ public class ConnectSQL {
 	    connectionProps.put("user", this.userName );
 	    connectionProps.put("password", this.password);
 	    userName = null; password = null;
-	    String sqlConn = "jdbc:mariadb://" +
+	    String sqlConn = "jdbc:mysql://" +
                 Globals.DATABASE_IP +
-                ":3306/brawl_of_minds";
+                ":" + Globals.DATABASE_PORT + "/brawl_of_minds";
 	    conn = DriverManager.getConnection(sqlConn, connectionProps);
 	    connectionProps.clear();
 	    if (Globals.DEBUG_BUILD) System.out.println("Connected to database");
@@ -39,9 +39,8 @@ public class ConnectSQL {
 		try {
 			conn = getConnection();
 		} catch(SQLException e) {
-			e.printStackTrace();
-			System.err.println(ErrorCodes.E300);
-			//System.exit(300);
+			if (Globals.DEBUG_BUILD) e.printStackTrace();
+			System.exit(ErrorCodes.E300.errorNum());
 		}
 		return conn;
 	}
