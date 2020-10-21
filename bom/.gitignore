@@ -1,8 +1,0 @@
-/target/
-/cards/*
-/deck/*
-/src/main/java/game/bom/global/*
-/src/main/java/game/bom/server/sqlConnection/*
-/src/main/java/game/bom/client/testing/*
-/doc/*
-/.settings/*

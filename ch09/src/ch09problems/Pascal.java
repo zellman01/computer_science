@@ -38,7 +38,7 @@ private static int max = 0;
 	}
 	
 	public static void main(String[] args) {
-		int n = 23;
+		int n = 7;
 		int[][] pascal = pascalTriangle(n);
 		for (int i = 1; i<= n; i++) {
 			for (int k = n; k > i; k--) System.out.format("%-" + max + "s", " ");
