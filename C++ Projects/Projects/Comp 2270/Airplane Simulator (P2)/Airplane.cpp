@@ -22,3 +22,5 @@ void Airplane::update() {
 		}
 	}
 }
+
+bool Airplane::isCrashed() { return crashed; }
