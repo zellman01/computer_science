@@ -12,6 +12,7 @@ class Queue
 		void deleteNode();
 		void sort();
 		int getSize();
+		void updateNode(int);
 	private:
 		int size, maxSize;
 		Node * nodeArray;
