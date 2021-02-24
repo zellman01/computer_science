@@ -1,0 +1,1 @@
+This project uses command line arguments and calculates what is given.

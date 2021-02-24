@@ -1,0 +1,1 @@
+The only real problem I had was to get the mod operator to work, which I fixed by only getting the integer value from the command line arguments when % is used as the operator.

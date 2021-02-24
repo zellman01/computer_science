@@ -1,0 +1,1 @@
+This takes plaintext in the form of the file "plain.txt", in the same folder that the program resides, and then proceeds to encrypt it using both a ceasar and atbash cipher, printing the results to the console, and saving them into two different files.

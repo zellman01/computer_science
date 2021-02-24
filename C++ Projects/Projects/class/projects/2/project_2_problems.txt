@@ -1,0 +1,12 @@
+Problems:
+- Getting the alphabet to swap on the Casesar Cipher
+- Setting up the reverse alphabet on the atbash cipher
+- Outputting the results to the files
+- Arrays being modified from the encryption functions, and not being reset
+
+Solutions:
+- I hardcoded the alphabet array in both functions of encryption, but for the atbash funstion, I added a reverse char array that I then used a for loop to setup as a reverse alphabet
+- I just used the fstream library to get output to both files
+- Having the array be reset before the second encryption function
+
+I first started by using the example "GOOD BYE", and testing both functions with that, and then went to try the given plaintext that was required for the project

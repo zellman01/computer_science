@@ -1,0 +1,1 @@
+This program takes user input of how many rows and columns, and creates a checkerboard of numbers. Then, takes the user input for where to start, stop, and how many steps to take. It then prints out the last checkerboard, where only the start number, and every number up to the final number from the amount of steps are shown, leaving all other numbers as **.

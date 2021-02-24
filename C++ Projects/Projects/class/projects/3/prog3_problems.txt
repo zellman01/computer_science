@@ -1,0 +1,3 @@
+Does not remove the HTML tags yet (force it to explicitly look for < followed by >)
+Does not finish look through the html text array, then starts back at position 0 (resize the html text array)
+Random white space at the top (if br was found, add it. If not, skip)

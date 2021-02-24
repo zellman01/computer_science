@@ -1,0 +1,5 @@
+Mustard	14	.9
+Falcon	11	1
+Beetle  18	.6
+Mosquito	8	1.2
+Monster	25	.3

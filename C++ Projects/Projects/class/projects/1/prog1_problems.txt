@@ -1,0 +1,4 @@
+My first problem was figuring out how to do it without arrays. Which, then I just figured to use for loops and cout to substitute that.
+I was having a bit of problems with the final print board function. It was starting to make everything into "**"
+Another problem was getting the start position to work as it should, having everything before it being "**" and it always being a number
+A third problem I had was when printing it, it would just check if the step was equal to zero, meaning that any start position not 0 would result in everything being "**"
