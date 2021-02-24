@@ -3,7 +3,7 @@
 using namespace std;
 
 Automata::Automata() {
-  
+  currentState = "";
 }
 
 void Automata::addState() {
