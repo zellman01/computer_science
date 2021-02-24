@@ -1,4 +1,8 @@
 #include "Airport.h"
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
 
 Airport::Airport() {
 	landing = new Queue(6);
@@ -27,4 +31,10 @@ void Airport::departingPlane(Airplane & obj) {
 
 void Airport::departedPlane() {
 	takeOff->deleteNode();
+}
+
+void Airport::view(int timeUnits) {
+	cout << "Simulation ended after " << timeUnits << " time units." << endl;
+	cout << "Total number of planes processed:" << setw(50) << airplaneNumber-1 << endl;
+	
 }
