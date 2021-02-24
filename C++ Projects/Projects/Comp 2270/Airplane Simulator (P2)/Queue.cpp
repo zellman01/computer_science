@@ -18,6 +18,11 @@ void Queue::insertNode(Airplane & air, int airplaneNum) {
 	size++;
 }
 
+void Queue::updateNode(int nodeNum) {
+	if (nodeNum > size) return;
+	nodeArray[nodeNum].getObject().update();
+}
+
 void Queue::sort() {
 	int minCount, minValue;
 	
