@@ -11,6 +11,7 @@ class Queue
 		void insertNode(Airplane&, int);
 		void deleteNode();
 		void sort();
+		int getSize();
 	private:
 		int size, maxSize;
 		Node * nodeArray;
