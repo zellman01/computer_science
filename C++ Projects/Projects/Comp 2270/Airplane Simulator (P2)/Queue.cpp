@@ -6,34 +6,39 @@ using namespace std;
 Queue::Queue(int totalSize) {
 	size = 0;
 	maxSize = totalSize;
-	headNode = new Node();
+	nodeArray = new Node[totalSize];
 }
 
 void Queue::insertNode(Airplane & air, int airplaneNum) {
 	if (size == maxSize) return;
-	Node * insert = new Node(air, airplaneNum);
-	if (&headNode->nextPointer() == nullptr) { // First check if the headnode is empty. Create the headnode if it is.
-		headNode->update(*insert);
-		size++;
-		return;
-	}
-	
-	Node * test = headNode;
-	while (&test->nextPointer() != nullptr) {
-		test = &test->nextPointer();
-	}
-	
-	test->update(*insert);
+	Node insert(air, airplaneNum);
+	nodeArray[size] = insert;
 	size++;
+}
+
+void Queue::sort() {
+	int minCount, minValue;
+	
+	for (int seek = 0; seek < (size-1); seek++) {
+		minCount = seek;
+		minValue = nodeArray[seek].getObject().fuel();
+		
+		for (int index = seek+1; index < size; index++) {
+			if (nodeArray[index].getObject().fuel() > minValue) {
+				minValue = nodeArray[index].getObject().fuel();
+				minCount = index;
+			}
+		}
+		Node temp = nodeArray[seek];
+		nodeArray[minCount] = nodeArray[seek];
+		nodeArray[seek] = temp;
+	}
 }
 
 void Queue::deleteNode() {
 	if (size == 0) return;
-	Node * test = headNode;
-	headNode = &headNode->nextPointer();
-	delete test;
-}
-
-void Queue::list() {
-	cout << &headNode->nextPointer();
+	for (int i = 0; i < size; i++) {
+		nodeArray[i] = nodeArray[i+1]; // Work on this
+	}
+	size--;
 }

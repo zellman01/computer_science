@@ -1,25 +1,15 @@
 #include <iostream>
 #include <cmath>
-#include "Queue.h"
+#include "Airport.h"
 #include "Airplane.h"
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
+int PoissonRandom(float);
 
 int main(int argc, char** argv) {
-	Queue a(6);
-	Airplane b;
-	Airplane c;
-	a.list();
-	std::cout << std::endl;
-	a.insertNode(b, 1);
-	a.insertNode(c, 2);
-	a.list();
-	std::cout << std::endl;
-	a.deleteNode();
-	a.list();
-	a.deleteNode();
-	std::cout << std::endl;
-	a.list();
+	Airport a;
+	Airplane b(4);
+	a.landingPlane(b);
 	return 0;
 }
 

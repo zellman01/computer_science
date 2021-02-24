@@ -10,10 +10,10 @@ class Queue
 		Queue(int);
 		void insertNode(Airplane&, int);
 		void deleteNode();
-		void list();
+		void sort();
 	private:
 		int size, maxSize;
-		Node * headNode;
+		Node * nodeArray;
 };
 
 #endif

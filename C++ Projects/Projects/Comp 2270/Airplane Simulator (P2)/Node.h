@@ -8,10 +8,8 @@ class Node
 	public:
 		Node();
 		Node(Airplane&, int);
-		Node& nextPointer();
-		void update(Node&);
+		Airplane getObject();
 	private:
-		Node * next;
 		Airplane nodeInfo;
 		int airplaneNumber;
 };
