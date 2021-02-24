@@ -12,8 +12,7 @@ class Airport
 		void landedPlane(); // Will always assume that it is the top of the landing queue
 		void departingPlane(Airplane&);
 	private:
-		Queue * landing; // Planes requesting to land
-		Queue * departing; // Planes requesting to take off
+		Queue * landing, takeOff; // Planes requesting to land, and to take off
 		int airplaneNumber;
 };
 
