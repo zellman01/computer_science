@@ -12,13 +12,13 @@ class Automata
 		void addState();
 		void addSymbol();
 		void addTransition();
-		void setInitialState();
+		void setInitialState(std::string);
 		void addFinalState();
 		void description();
 		void validSymbol();
-		void currectState(); // Return value must be the current state
+		std::string currectState();
 		void changeStates();
-		void isFinal(); // Return value must indicate if it is a final state or not
+		bool isFinal();
 	private:
 		std::vector<std::string> states; // https://www.geeksforgeeks.org/vector-in-cpp-stl/
 		std::vector<std::string> inputSymbols;
