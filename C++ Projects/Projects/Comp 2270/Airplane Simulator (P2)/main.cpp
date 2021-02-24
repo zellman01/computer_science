@@ -7,6 +7,7 @@
 int PoissonRandom(float);
 
 int main(int argc, char** argv) {
+	int expectedDepartures, expectedLandings;
 	Airport a;
 	Airplane b(4);
 	a.landingPlane(b);
