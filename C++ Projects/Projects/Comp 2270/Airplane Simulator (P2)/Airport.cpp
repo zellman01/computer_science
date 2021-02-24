@@ -8,10 +8,21 @@ Airport::Airport() {
 	landing = new Queue(6);
 	departing = new Queue(6);
 	airplaneNumber = 1;
+	planesTakenOff = 0;
+	planesLanded = 0;
+	planesCrashed = 0;
+	planesRefused = 0;
 }
 
 Airport::~Airport() {
 	delete landing, departing;
+}
+
+void Airport::update() {
+	int landSize = landing->getSize();
+	for (int i = 0; i < landSize; i++) {
+		landing->updateNode(i); // Need to check if it crashed, and update the variable accordingly
+	}
 }
 
 void Airport::landingPlane(Airplane & obj) {
@@ -22,6 +33,7 @@ void Airport::landingPlane(Airplane & obj) {
 
 void Airport::landedPlane() {
 	landing->deleteNode();
+	planesLanded++;
 }
 
 void Airport::departingPlane(Airplane & obj) {
@@ -31,6 +43,7 @@ void Airport::departingPlane(Airplane & obj) {
 
 void Airport::departedPlane() {
 	takeOff->deleteNode();
+	planesTakenOff++;
 }
 
 void Airport::view(int timeUnits) {
