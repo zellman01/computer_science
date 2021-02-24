@@ -21,6 +21,10 @@ void Airport::landedPlane() {
 }
 
 void Airport::departingPlane(Airplane & obj) {
-	departing->insertNode(obj, airplaneNumber);
+	takeOff->insertNode(obj, airplaneNumber);
 	airplaneNumber++;
+}
+
+void Airport::departedPlane() {
+	takeOff->deleteNode();
 }
