@@ -8,6 +8,7 @@ class Airplane
 		Airplane();
 		void update();
 		int fuel();
+		bool isCrashed();
 	private:
 		int fuelLeft;
 		bool crashed;
