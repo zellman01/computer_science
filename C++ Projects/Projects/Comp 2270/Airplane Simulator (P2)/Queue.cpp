@@ -9,6 +9,8 @@ Queue::Queue(int totalSize) {
 	nodeArray = new Node[totalSize];
 }
 
+int Queue::getSize() { return size; }
+
 void Queue::insertNode(Airplane & air, int airplaneNum) {
 	if (size == maxSize) return;
 	Node insert(air, airplaneNum);
