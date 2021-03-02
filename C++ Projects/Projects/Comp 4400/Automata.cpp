@@ -42,10 +42,10 @@ string Automata::getCurrentState() {
   return currentState;
 }
 
-void Automata::changeStates(string symbol) { // TODO: seperate each symbol at this function and compare it if it exists
+bool Automata::changeStates(string symbol) { // symbol is one symbol being brought in
 	if (validSymbol(symbol)) {
-
-	}
+		cout << "thing";
+	} else return false; // Ends in an error
 	// Transition stuff
 }
 
