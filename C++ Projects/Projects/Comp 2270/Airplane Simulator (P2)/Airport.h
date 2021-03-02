@@ -14,8 +14,10 @@ class Airport
 		void departedPlane();
 		void view(int);
 		void update();
+		bool planeNeedsLanded();
+		bool planeReadyDepart();
 	private:
-		Queue * landing, takeOff; // Planes requesting to land, and to take off
+		Queue * landing, * takeOff; // Planes requesting to land, and to take off
 		int airplaneNumber, planesTakenOff, planesLanded, planesCrashed, planesRefused;
 };
 

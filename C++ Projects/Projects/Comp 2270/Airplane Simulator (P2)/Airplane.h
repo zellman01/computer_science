@@ -10,7 +10,7 @@ class Airplane
 		int fuel();
 		bool isCrashed();
 	private:
-		int fuelLeft;
+		int fuelLeft, timeWaiting;
 		bool crashed;
 };
 

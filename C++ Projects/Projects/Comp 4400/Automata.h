@@ -9,17 +9,17 @@ class Automata
 {
 	public:
 		Automata();
-		void addState();
-		void addSymbol();
-		void addTransition();
+		void addState(std::string);
+		void addSymbol(std::string);
+		void addTransition(std::string, std::string);
 		void setInitialState(std::string);
-		void addFinalState();
+		void addFinalState(std::string);
 		void description();
-		void validSymbol();
-		std::string currectState();
-		void changeStates();
+		std::string getCurrentState();
+		void changeStates(std::string);
 		bool isFinal();
 	private:
+		bool validSymbol(std::string);
 		std::vector<std::string> states; // https://www.geeksforgeeks.org/vector-in-cpp-stl/
 		std::vector<std::string> inputSymbols;
 		std::vector<std::string> finalStates;

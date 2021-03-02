@@ -6,16 +6,24 @@ using namespace std;
 
 Airport::Airport() {
 	landing = new Queue(6);
-	departing = new Queue(6);
 	airplaneNumber = 1;
 	planesTakenOff = 0;
+	takeOff = new Queue(6);
 	planesLanded = 0;
 	planesCrashed = 0;
 	planesRefused = 0;
 }
 
 Airport::~Airport() {
-	delete landing, departing;
+	delete landing, takeOff;
+}
+
+bool Airport::planeNeedsLanded() { // Always check first
+	return landing->getSize() >= 1;
+}
+
+bool Airport::planeReadyDepart() {
+	return takeOff->getSize() >= 1;
 }
 
 void Airport::update() {
@@ -47,7 +55,7 @@ void Airport::departedPlane() {
 }
 
 void Airport::view(int timeUnits) {
-	int spaces = 50;
+	const int spaces = 50;
 	cout << "Simulation ended after " << timeUnits << " time units." << endl;
 	cout << "Total number of planes processed:" << setw(spaces) << airplaneNumber-1 << endl;
 	cout << "Number of planes landed:" << setw(spaces) << planesLanded << endl;

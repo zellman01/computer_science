@@ -3,6 +3,10 @@
 
 using namespace std;
 
+Queue::Queue() {
+	
+}
+
 Queue::Queue(int totalSize) {
 	size = 0;
 	maxSize = totalSize;
@@ -18,9 +22,10 @@ void Queue::insertNode(Airplane & air, int airplaneNum) {
 	size++;
 }
 
-void Queue::updateNode(int nodeNum) {
-	if (nodeNum > size) return;
+bool Queue::updateNode(int nodeNum) {
+	if (nodeNum > size) return false;
 	nodeArray[nodeNum].getObject().update();
+	return nodeArray[nodeNum].getObject().isCrashed();
 }
 
 void Queue::sort() {

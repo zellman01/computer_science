@@ -1,47 +1,58 @@
 #include "Automata.h"
+#include <iterator>
 
 using namespace std;
 
 Automata::Automata() {
-  currentState = "";
+	currentState = "";
 }
 
-void Automata::addState() {
-  
+void Automata::addState(string state) {
+	states.insert(states.end(), state);
 }
 
-void Automata::addSymbol() {
-  
+void Automata::addSymbol(string symbol) {
+	inputSymbols.insert(inputSymbols.end(), symbol);
 }
 
-void Automata::addTransition() {
-  
+void Automata::addTransition(string symbolState, string endState) {
+	transitions.insert(pair<string, string>(symbolState, endState));
 }
 
 void Automata::setInitialState(string initState) {
-  currentState = initState;
+	currentState = initState;
 }
 
-void Automata::addFinalState() {
-  
+void Automata::addFinalState(string finalState) {
+	finalStates.insert(finalStates.end(), finalState);
 }
 
 void Automata::description() {
-  
+	// Look at documentation for this
 }
 
-void Automata::validSymbol() {
-  
+bool Automata::validSymbol(string symbol) {
+	for (int i = 0; i < inputSymbols.size(); i++) {
+		if (symbol == inputSymbols.at(i)) return true;
+	}
+	return false;
 }
 
-string Automata::currentState() {
+string Automata::getCurrentState() {
   return currentState;
 }
 
-void Automata::changeStates() {
-  
+void Automata::changeStates(string symbol) { // TODO: seperate each symbol at this function and compare it if it exists
+	if (validSymbol(symbol)) {
+
+	}
+	// Transition stuff
 }
 
 bool Automata::isFinal() {
-  
+	string state = getCurrentState();
+	for (int i = 0; i < finalStates.size(); i++) {
+		if (state == finalStates.at(i)) return true;
+	}
+	return false;
 }
