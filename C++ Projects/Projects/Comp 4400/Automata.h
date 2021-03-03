@@ -1,3 +1,8 @@
+// Name: Zachary Wellman
+// File Name: Automata.h
+// Date: 24 February, 2021
+// Description: Header file for the Automata objects
+
 #ifndef AUTOMATA_H
 #define AUTOMATA_H
 
