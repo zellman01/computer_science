@@ -1,6 +1,6 @@
 // Name: Zachary Wellman
 // File Name: Automata.cpp
-// Date: Day Month, Year
+// Date: 24 February, 2021
 // Description: Functions for the Automata class objects
 
 #include "Automata.h"
