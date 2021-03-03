@@ -1,3 +1,8 @@
+// Name: Zachary Wellman
+// File Name: program1.cpp
+// Date: 24 February, 2021
+// Description: Driver code to run the Automata class
+
 #include <iostream>
 #include <fstream>
 #include "Automata.h"
