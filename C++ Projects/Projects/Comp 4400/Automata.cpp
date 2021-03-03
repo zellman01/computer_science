@@ -1,3 +1,8 @@
+// Name: Zachary Wellman
+// File Name: Automata.cpp
+// Date: Day Month, Year
+// Description: Functions for the Automata class objects
+
 #include "Automata.h"
 #include <iterator>
 
