@@ -2,21 +2,21 @@
 #define QUEUE_H
 
 #include "Airplane.h"
-#include "Node.h"
 
 class Queue
 {
 	public:
 		Queue();
 		Queue(int);
-		void insertNode(Airplane&, int);
+		bool insertNode(Airplane&);
 		void deleteNode();
 		void sort();
 		int getSize();
 		bool updateNode(int); // returns if the plane crashed
+		Airplane getNode(int);
 	private:
 		int size, maxSize;
-		Node * nodeArray;
+		Airplane * nodeArray;
 };
 
 #endif

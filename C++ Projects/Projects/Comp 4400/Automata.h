@@ -16,7 +16,7 @@ class Automata
 		void addFinalState(std::string);
 		void description();
 		std::string getCurrentState();
-		void changeStates(std::string);
+		bool changeStates(std::string);
 		bool isFinal();
 	private:
 		bool validSymbol(std::string);

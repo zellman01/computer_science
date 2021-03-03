@@ -1,29 +1,38 @@
 #include <iostream>
 #include <cmath>
+#include <time.h>
 #include "Airport.h"
 #include "Airplane.h"
 
 using namespace std;
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-int PoissonRandom(float);
+int poissonRandom(float);
 
 int main(int argc, char** argv) {
-	const int expectedDepartures = 0.47, expectedLandings = 0.47;
+	const float expectedDepartures = 0.25, expectedLandings = 0.25;
 	Airport a;
 	cout << "How long would you like to run the simulation?" << endl;
-	int time = 0;
-	cin >> time;
-	for (int i = 0; i < time; i++) {
+	int timeUnit = 0, airplaneNumber = 1;
+	cin >> timeUnit;
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < timeUnit; i++) {
+		// Generate planes to depart
+		int takeoffPlanes = poissonRandom(expectedDepartures);
+		int landingPlanes = poissonRandom(expectedLandings);
+		for (int i = 0; i < takeoffPlanes; i++) {
+			Airplane b(rand()%8+1, airplaneNumber);
+			a.landingPlane(b);
+		}
 		// Do loop
 	}
-	a.view(time);
+	a.view(timeUnit);
 	return 0;
 }
 
-int PoissonRandom(float exValue) {
+int poissonRandom(float exValue) {
 	// srand needs to be seeded already
-	//Uses rank()
+	//Uses rand()
 	float limit = 0.0F;
 	int count = 0;
 	float max = 0.0F;

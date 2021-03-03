@@ -3,11 +3,12 @@
 Node::Node() {
 }
 
-Node::Node(Airplane & obj, int num) {
+Node::Node(Airplane & obj) {
 	nodeInfo = obj;
-	airplaneNumber = num;
 }
 
 Airplane Node::getObject() {
 	return nodeInfo;
 }
+
+int Node::getNum() { return airplaneNumber; }

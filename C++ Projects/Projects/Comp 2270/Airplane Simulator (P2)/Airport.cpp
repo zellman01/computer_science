@@ -6,7 +6,6 @@ using namespace std;
 
 Airport::Airport() {
 	landing = new Queue(6);
-	airplaneNumber = 1;
 	planesTakenOff = 0;
 	takeOff = new Queue(6);
 	planesLanded = 0;
@@ -33,10 +32,14 @@ void Airport::update() {
 	}
 }
 
-void Airport::landingPlane(Airplane & obj) {
-	landing->insertNode(obj, airplaneNumber); // Turn into a boolean, and if false, update the planes refused
-	airplaneNumber++;
-	landing->sort();
+bool Airport::landingPlane(Airplane & obj) {
+	if (landing->insertNode(obj)) { // Turn into a boolean, and if false, update the planes refused
+	   landing->sort();
+	   return true;
+	} else {
+	planesRefused++;
+	return false;
+	}
 }
 
 void Airport::landedPlane() {
@@ -45,8 +48,7 @@ void Airport::landedPlane() {
 }
 
 void Airport::departingPlane(Airplane & obj) {
-	takeOff->insertNode(obj, airplaneNumber);
-	airplaneNumber++;
+	takeOff->insertNode(obj);
 }
 
 void Airport::departedPlane() {
@@ -57,7 +59,7 @@ void Airport::departedPlane() {
 void Airport::view(int timeUnits) {
 	const int spaces = 50;
 	cout << "Simulation ended after " << timeUnits << " time units." << endl;
-	cout << "Total number of planes processed:" << setw(spaces) << airplaneNumber-1 << endl;
+	cout << "Total number of planes processed:" << setw(spaces) << -1 << endl;
 	cout << "Number of planes landed:" << setw(spaces) << planesLanded << endl;
 	cout << "Number of planes taken off:" << setw(spaces) << planesTakenOff << endl;
 	cout << "Number of planes refused to land:" << setw(spaces) << planesRefused << endl;

@@ -9,6 +9,7 @@ class Node
 		Node();
 		Node(Airplane&, int);
 		Airplane getObject();
+		int getNum();
 	private:
 		Airplane nodeInfo;
 		int airplaneNumber;

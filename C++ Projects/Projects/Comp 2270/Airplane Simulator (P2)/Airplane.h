@@ -4,13 +4,13 @@
 class Airplane
 {
 	public:
-		Airplane(int);
+		Airplane(int, int);
 		Airplane();
 		void update();
 		int fuel();
 		bool isCrashed();
 	private:
-		int fuelLeft, timeWaiting;
+		int fuelLeft, timeWaiting, airplaneNumber;
 		bool crashed;
 };
 

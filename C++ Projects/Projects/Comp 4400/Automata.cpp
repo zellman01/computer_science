@@ -44,7 +44,7 @@ string Automata::getCurrentState() {
 
 bool Automata::changeStates(string symbol) { // symbol is one symbol being brought in
 	if (validSymbol(symbol)) {
-		cout << "thing";
+		//cout << "thing";
 	} else return false; // Ends in an error
 	// Transition stuff
 }

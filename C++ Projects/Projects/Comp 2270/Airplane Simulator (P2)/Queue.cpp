@@ -10,22 +10,28 @@ Queue::Queue() {
 Queue::Queue(int totalSize) {
 	size = 0;
 	maxSize = totalSize;
-	nodeArray = new Node[totalSize];
+	nodeArray = new Airplane[totalSize];
 }
 
 int Queue::getSize() { return size; }
 
-void Queue::insertNode(Airplane & air, int airplaneNum) {
-	if (size == maxSize) return;
-	Node insert(air, airplaneNum);
-	nodeArray[size] = insert;
+bool Queue::insertNode(Airplane & air) {
+	if (size == maxSize) return false;
+	nodeArray[size] = air;
 	size++;
+	return true;
+}
+
+Airplane Queue::getNode(int nodeNum) {
+	if (nodeNum > size) return Airplane();
+	return nodeArray[nodeNum];
 }
 
 bool Queue::updateNode(int nodeNum) {
 	if (nodeNum > size) return false;
-	nodeArray[nodeNum].getObject().update();
-	return nodeArray[nodeNum].getObject().isCrashed();
+	//nodeArray[nodeNum].getObject().update();
+	//return nodeArray[nodeNum].getObject().isCrashed();
+	return false;
 }
 
 void Queue::sort() {

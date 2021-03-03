@@ -1,9 +1,10 @@
 #include "Airplane.h"
 
-Airplane::Airplane(int fuel) {
+Airplane::Airplane(int fuel, int num) {
 	fuelLeft = fuel;
 	crashed = false;
 	timeWaiting = 0;
+	airplaneNumber = num;
 }
 
 Airplane::Airplane() {
