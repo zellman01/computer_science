@@ -6,9 +6,10 @@ class Airplane
 	public:
 		Airplane(int, int);
 		Airplane();
-		void update();
+		void update(bool);
 		int fuel();
 		bool isCrashed();
+		int planeNum();
 	private:
 		int fuelLeft, timeWaiting, airplaneNumber;
 		bool crashed;

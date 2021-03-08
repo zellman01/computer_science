@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <time.h>
+#include <iomanip>
 #include "Airport.h"
 #include "Airplane.h"
 
@@ -10,7 +11,7 @@ using namespace std;
 int poissonRandom(float);
 
 int main(int argc, char** argv) {
-	const float expectedDepartures = 0.25, expectedLandings = 0.25;
+	const float expectedDepartures = 0.02, expectedLandings = 0.25;
 	Airport a;
 	cout << "How long would you like to run the simulation?" << endl;
 	int timeUnit = 0, airplaneNumber = 1;
@@ -24,6 +25,10 @@ int main(int argc, char** argv) {
 			Airplane b(rand()%8+1, airplaneNumber);
 			a.landingPlane(b);
 		}
+		//for (int i = 0; i < landingPlanes; i++) {
+		//	Airplane b(rand()%8+1, airplaneNumber);
+		//	a.departingPlane(b);
+		//}
 		// Do loop
 	}
 	a.view(timeUnit);
@@ -37,12 +42,12 @@ int poissonRandom(float exValue) {
 	int count = 0;
 	float max = 0.0F;
 	float product = 0.0F;
-	max = 4 + 1.0; // 4 is a constant given the max value rand will return
+	max = 6 + 1.0; // 6 is a constant given that the max value rand will return
 	limit = exp(-exValue);
-	product = rand()/max; // 0 <= product < 1
+	product = max/rand(); // 0 <= product < 1
 	while (product > limit) {
 		count++;
-		product *= rand()/max;
+		product = product *  (max/rand());
 	}
 	return count;
 }

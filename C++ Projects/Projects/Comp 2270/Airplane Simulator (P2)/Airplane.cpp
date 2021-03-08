@@ -15,15 +15,21 @@ int Airplane::fuel() {
 	return fuelLeft;
 }
 
-void Airplane::update() {
-	if (!crashed) {
+void Airplane::update(bool landing) { // landing - If the plane is trying to land onto the runway
+	if (!crashed && landing) {
 		if (fuelLeft > 0) {
 			fuelLeft--;
 			timeWaiting++;
 		} else {
 			crashed = true;
 		}
+	} else {
+		timeWaiting++;
 	}
 }
 
 bool Airplane::isCrashed() { return crashed; }
+
+int Airplane::planeNum() {
+	return airplaneNumber;
+}

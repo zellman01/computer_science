@@ -27,10 +27,9 @@ Airplane Queue::getNode(int nodeNum) {
 	return nodeArray[nodeNum];
 }
 
-bool Queue::updateNode(int nodeNum) {
+bool Queue::updateNode(int nodeNum, bool landing) {
 	if (nodeNum > size) return false;
-	//nodeArray[nodeNum].getObject().update();
-	//return nodeArray[nodeNum].getObject().isCrashed();
+	nodeArray[nodeNum].update(landing);
 	return false;
 }
 
@@ -39,24 +38,26 @@ void Queue::sort() {
 	
 	for (int seek = 0; seek < (size-1); seek++) {
 		minCount = seek;
-		minValue = nodeArray[seek].getObject().fuel();
+		minValue = nodeArray[seek].fuel();
 		
 		for (int index = seek+1; index < size; index++) {
-			if (nodeArray[index].getObject().fuel() > minValue) {
-				minValue = nodeArray[index].getObject().fuel();
+			if (nodeArray[index].fuel() > minValue) {
+				minValue = nodeArray[index].fuel();
 				minCount = index;
 			}
 		}
-		Node temp = nodeArray[seek];
+		Airplane temp = nodeArray[seek];
 		nodeArray[minCount] = nodeArray[seek];
 		nodeArray[seek] = temp;
 	}
 }
 
-void Queue::deleteNode() {
-	if (size == 0) return;
+bool Queue::deleteNode(Airplane & temp) {
+	if (size == 0) return false;
+	temp = nodeArray[0];
 	for (int i = 0; i < size; i++) {
 		nodeArray[i] = nodeArray[i+1]; // Work on this
 	}
 	size--;
+	return true;
 }

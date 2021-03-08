@@ -9,10 +9,10 @@ class Queue
 		Queue();
 		Queue(int);
 		bool insertNode(Airplane&);
-		void deleteNode();
+		bool deleteNode(Airplane&);
 		void sort();
 		int getSize();
-		bool updateNode(int); // returns if the plane crashed
+		bool updateNode(int, bool); // returns if the plane crashed
 		Airplane getNode(int);
 	private:
 		int size, maxSize;

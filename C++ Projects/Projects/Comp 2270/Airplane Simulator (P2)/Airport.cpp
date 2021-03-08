@@ -28,13 +28,18 @@ bool Airport::planeReadyDepart() {
 void Airport::update() {
 	int landSize = landing->getSize();
 	for (int i = 0; i < landSize; i++) {
-		landing->updateNode(i); // Need to check if it crashed, and update the variable accordingly
+		landing->updateNode(i, true); // Need to check if it crashed, and update the variable accordingly
+	}
+	int takeoffSize = takeOff->getSize();
+	for (int i = 0; i < takeoffSize; i++) {
+		takeOff->updateNode(i, false);
 	}
 }
 
 bool Airport::landingPlane(Airplane & obj) {
 	if (landing->insertNode(obj)) { // Turn into a boolean, and if false, update the planes refused
 	   landing->sort();
+	   cout << setw(5) << "Plane " << obj.planeNum() << " ready to land; " << obj.fuel() << " units of fuel remaining." << endl;
 	   return true;
 	} else {
 	planesRefused++;
@@ -43,7 +48,9 @@ bool Airport::landingPlane(Airplane & obj) {
 }
 
 void Airport::landedPlane() {
-	landing->deleteNode();
+	Airplane response;
+	landing->deleteNode(response);
+	cout << setw(5) << response.planeNum() << " landed; in queue " << endl; // Add int to calculate how long it was in queue for
 	planesLanded++;
 }
 
@@ -52,7 +59,9 @@ void Airport::departingPlane(Airplane & obj) {
 }
 
 void Airport::departedPlane() {
-	takeOff->deleteNode();
+	Airplane response;
+	takeOff->deleteNode(response);
+	cout << setw(5) << response.planeNum() << " took off; in queue " << endl; // Add int to calculate how long it was in queue for
 	planesTakenOff++;
 }
 
