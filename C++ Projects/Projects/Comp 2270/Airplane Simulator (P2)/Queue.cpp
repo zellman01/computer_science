@@ -30,7 +30,7 @@ Airplane Queue::getNode(int nodeNum) {
 bool Queue::updateNode(int nodeNum, bool landing) {
 	if (nodeNum > size) return false;
 	nodeArray[nodeNum].update(landing);
-	return false;
+	return nodeArray[nodeNum].isCrashed();
 }
 
 void Queue::sort() {
@@ -57,6 +57,15 @@ bool Queue::deleteNode(Airplane & temp) {
 	temp = nodeArray[0];
 	for (int i = 0; i < size; i++) {
 		nodeArray[i] = nodeArray[i+1]; // Work on this
+	}
+	size--;
+	return true;
+}
+
+bool Queue::deleteNode(int nodeNum) {
+	if (size == 0) return false;
+	for (int i = nodeNum; i < size; i++) {
+		nodeArray[i] = nodeArray[i+1];
 	}
 	size--;
 	return true;

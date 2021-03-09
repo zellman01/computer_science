@@ -15,6 +15,10 @@ int Airplane::fuel() {
 	return fuelLeft;
 }
 
+int Airplane::waited() {
+	return timeWaiting;
+}
+
 void Airplane::update(bool landing) { // landing - If the plane is trying to land onto the runway
 	if (!crashed && landing) {
 		if (fuelLeft > 0) {

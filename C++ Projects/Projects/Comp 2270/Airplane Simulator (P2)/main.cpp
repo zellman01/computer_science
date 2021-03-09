@@ -11,24 +11,37 @@ using namespace std;
 int poissonRandom(float);
 
 int main(int argc, char** argv) {
-	const float expectedDepartures = 0.02, expectedLandings = 0.25;
+	srand((unsigned)time(NULL));
+	const float expectedDepartures = 0.45, expectedLandings = 2;
 	Airport a;
 	cout << "How long would you like to run the simulation?" << endl;
 	int timeUnit = 0, airplaneNumber = 1;
 	cin >> timeUnit;
-	srand((unsigned)time(NULL));
 	for (int i = 0; i < timeUnit; i++) {
 		// Generate planes to depart
 		int takeoffPlanes = poissonRandom(expectedDepartures);
 		int landingPlanes = poissonRandom(expectedLandings);
-		for (int i = 0; i < takeoffPlanes; i++) {
-			Airplane b(rand()%8+1, airplaneNumber);
-			a.landingPlane(b);
+		for (int j = 0; j < landingPlanes; j++) {
+			Airplane * b = new Airplane(rand()%2+1, airplaneNumber);
+			airplaneNumber++;
+			a.landingPlane(*b);
+			delete b;
 		}
-		//for (int i = 0; i < landingPlanes; i++) {
-		//	Airplane b(rand()%8+1, airplaneNumber);
-		//	a.departingPlane(b);
-		//}
+		for (int k = 0; k < takeoffPlanes; k++) {
+			Airplane * b = new Airplane(rand()%2+1, airplaneNumber);
+			airplaneNumber++;
+			a.departingPlane(*b);
+			delete b;
+		}
+		cout << i+1 << ": ";
+		if (a.planeNeedsLanded()) {
+			a.landedPlane();
+		} else if (a.planeReadyDepart()) {
+			a.departedPlane();
+		} else {
+			a.isIdle();
+		}
+		a.update();
 		// Do loop
 	}
 	a.view(timeUnit);
@@ -42,12 +55,12 @@ int poissonRandom(float exValue) {
 	int count = 0;
 	float max = 0.0F;
 	float product = 0.0F;
-	max = 6 + 1.0; // 6 is a constant given that the max value rand will return
+	//max = 6 + 1.0F; // 6 is a constant given that the max value rand will return
 	limit = exp(-exValue);
-	product = max/rand(); // 0 <= product < 1
+	product = (rand()%100)/100.0; // 0 <= product < 1
 	while (product > limit) {
 		count++;
-		product = product *  (max/rand());
+		product = product *  (rand()%100)/100.0;
 	}
 	return count;
 }
