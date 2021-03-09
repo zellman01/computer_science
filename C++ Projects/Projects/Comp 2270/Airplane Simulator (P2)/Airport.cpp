@@ -30,16 +30,29 @@ bool Airport::planeReadyDepart() {
 
 void Airport::update() {
 	int landSize = landing->getSize();
+	//bool planeCrash = false;
 	for (int i = 0; i < landSize; i++) {
-		if (landing->updateNode(i, true)) {
+		if (landing->updateNode(i, true)) { // Plane has crashed
 			cout << setw(9) << "Plane " << landing->getNode(i).planeNum() << " has crashed." << endl;
 			planesCrashed++;
-			Airplane * temp = new Airplane(0, 0);
-			landing->deleteNode(*temp);
-			delete temp;
-			// Plane has crashed
+			//planeCrash = true;
+			landing->deleteNode(i);
+			i--;
+			landSize--;
 		}
 	}
+	/*while (planeCrash) { // Hopefully logically deletes a plane that has crashed
+		planeCrash = false;
+		for (int i = 0; i < landSize; i++) {
+			if (landing->getNode(i).isCrashed()) {
+				Airplane * test = new Airplane(0,0);
+				landing->deleteNode(*test);
+				delete test;
+				landSize--;
+				planeCrash = true;
+			}
+		}
+	}*/
 	int takeoffSize = takeOff->getSize();
 	for (int i = 0; i < takeoffSize; i++) {
 		takeOff->updateNode(i, false);
