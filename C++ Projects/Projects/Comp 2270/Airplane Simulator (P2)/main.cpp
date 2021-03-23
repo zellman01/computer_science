@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	int timeUnit = 0, airplaneNumber = 1;
 	cin >> timeUnit;
 	for (int i = 0; i < timeUnit; i++) {
-		// Generate planes to depart
+		// Generate planes to depart and land
 		int takeoffPlanes = poissonRandom(expectedDepartures);
 		int landingPlanes = poissonRandom(expectedLandings);
 		for (int j = 0; j < landingPlanes; j++) {
@@ -42,7 +42,6 @@ int main(int argc, char** argv) {
 			a.isIdle();
 		}
 		a.update();
-		// Do loop
 	}
 	a.view(timeUnit);
 	return 0;

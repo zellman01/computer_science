@@ -9,7 +9,7 @@ class Airport
 		Airport();
 		~Airport();
 		bool landingPlane(Airplane&);
-		void landedPlane(); // Will always assume that it is the top of the landing queue
+		bool landedPlane(); // Will always assume that it is the top of the landing queue
 		void departingPlane(Airplane&);
 		void departedPlane();
 		void view(int);
@@ -17,6 +17,7 @@ class Airport
 		bool planeNeedsLanded();
 		bool planeReadyDepart();
 		void isIdle();
+		bool checkCrashed();
 	private:
 		Queue * landing, * takeOff; // Planes requesting to land, and to take off
 		int planesTakenOff, planesLanded, planesCrashed, planesRefused, totalTimeWaitedLand, totalTimeWaitedTakeoff, idle;

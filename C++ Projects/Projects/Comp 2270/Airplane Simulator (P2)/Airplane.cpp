@@ -20,9 +20,10 @@ int Airplane::waited() {
 }
 
 void Airplane::update(bool landing) { // landing - If the plane is trying to land onto the runway
+	 fuelLeft--;
 	if (!crashed && landing) {
 		if (fuelLeft > 0) {
-			fuelLeft--;
+			//fuelLeft--;
 			timeWaiting++;
 		} else {
 			crashed = true;
