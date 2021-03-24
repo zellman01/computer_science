@@ -7,9 +7,15 @@ class Node {
 	public:
 		Node(int);
 		int getKeyValue();
+		Node * getLeftPointer();
+		Node * getRightPointer();
 		void updateLeft(Node&);
 		void updateRight(Node&);
+		bool checkForChildren();
+		void updateKey(int);
 	private:
-		int key;
+		int key, bf;
 		Node * left, * right;
-}
+};
+
+#endif
