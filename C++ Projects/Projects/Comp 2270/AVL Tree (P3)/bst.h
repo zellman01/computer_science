@@ -7,11 +7,14 @@ class BinarySearchTree {
 	public:
 		BinarySearchTree();
 		~BinarySearchTree();
-		void insertNode(Node&);
-		void InsertNode(int); // Override above to be able to create the node within this, and then send it over to the other insert node function
-		void deleteNode(int);
-		void searchNode(int);
+		void insertNode(Node&,Node&);
+		Node * deleteNode(int, Node *); // Look into
+		Node * searchNode(int,Node&);
 		void display();
+		Node * getRootNode();
 	private:
 		Node * headNode;
-}
+		Node * getPred(Node&);
+};
+
+#endif
