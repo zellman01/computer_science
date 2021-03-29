@@ -8,9 +8,9 @@ class BinarySearchTree {
 		BinarySearchTree();
 		~BinarySearchTree();
 		void insertNode(Node&,Node&);
-		Node * deleteNode(int, Node *); // Look into
+		Node * deleteNode(int, Node*); // Look into
 		Node * searchNode(int,Node&);
-		void display();
+		void display(Node &);
 		Node * getRootNode();
 	private:
 		Node * headNode;
