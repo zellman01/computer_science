@@ -147,7 +147,6 @@ void AVLTree::leftBalance(Node & root, bool & taller, Node & treeRoot) {
 			rotateLeft(*r); // Endless loop created here
 			root.updateLeft(*r);// Erasing 6 right here?
 			rotateRight(root);
-			treeRoot.updateLeft(root);
 			taller = false;
 			break;
 	}
