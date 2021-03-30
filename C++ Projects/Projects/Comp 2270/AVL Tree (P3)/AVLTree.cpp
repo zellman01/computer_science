@@ -9,8 +9,7 @@ AVLTree::AVLTree() {
 
 void AVLTree::rotateLeft(Node & root) {
 	Node * rightChild = nullptr;
-	Node * rootTest = &root; // To check for null
-	if (rootTest == nullptr) {
+	if (&root == nullptr) {
 		cout << "Rotation cannot happen on an empty subtree";
 		return;
 	}
@@ -19,7 +18,7 @@ void AVLTree::rotateLeft(Node & root) {
 		cout << "An empty subtree cannot be the root.";
 		return;
 	}
-	if (rootTest == headNode) {
+	if (&root == headNode) {
 		rightChild = headNode->getRightPointer();
 		headNode->updateRight(*rightChild->getLeftPointer());
 		rightChild->updateLeft(headNode);
@@ -59,12 +58,10 @@ void AVLTree::rotateRight(Node & root) {
 }
 
 Node * AVLTree::searchNode(int key, Node & root) {
+	if (&root == nullptr) return nullptr;
+	
 	if (key == root.getKeyValue()) {
 		return &root;
-	}
-
-	if (&root == nullptr) {	//root.getLeftPointer() == nullptr && root.getRightPointer() == nullptr) {
-		return nullptr; // If not able to be found
 	}
 
 	if (key<root.getKeyValue()) {
@@ -78,7 +75,6 @@ Node * AVLTree::searchNode(int key, Node & root) {
 	}
 }
 
-// Assume to be working
 void AVLTree::rightBalance(Node & root, bool & taller, Node & treeRoot) {
 	Node * r, * w; // If * does not work, change to &
 	r = root.getRightPointer();
@@ -92,7 +88,7 @@ void AVLTree::rightBalance(Node & root, bool & taller, Node & treeRoot) {
 		case 0:
 			cout << "Impossible case for right balance";
 			break;
-		case 1: // Update BF numbers
+		case 1:
 			w = r->getLeftPointer();
 			switch (w->getBF()) {
 				case -1:
@@ -118,7 +114,6 @@ void AVLTree::rightBalance(Node & root, bool & taller, Node & treeRoot) {
 	}
 }
 
-// Assume working
 void AVLTree::leftBalance(Node & root, bool & taller, Node & treeRoot) {
 	Node * r, * w;
 	r = root.getLeftPointer();
@@ -136,27 +131,23 @@ void AVLTree::leftBalance(Node & root, bool & taller, Node & treeRoot) {
 			w = r->getRightPointer();
 			switch (w->getBF()) {
 				case -1:
-					root.updateBF(1);
-					r->updateBF(0);
+					root.updateBF(0);
+					r->updateBF(-1);
 					break;
 				case 0:
 					root.updateBF(0);
 					r->updateBF(0);
 					break;
 				case 1:
-					root.updateBF(0);
-					r->updateBF(-1);
+					root.updateBF(1);
+					r->updateBF(0);
 					break;
 			}
 			w->updateBF(0);
-			//cout << "R root: " << r->getKeyValue() << endl << "R Right: " << r->getRightPointer()->getKeyValue() << endl;
 			rotateLeft(*r); // Endless loop created here
-			//cout << root.getLeftPointer()->getKeyValue() << endl;
 			root.updateLeft(*r);// Erasing 6 right here?
-			//cout << root.getLeftPointer()->getKeyValue() << endl;
-			//cout << "Root: " << root.getKeyValue() << endl << "Left: " << root.getLeftPointer()->getKeyValue() << endl << "Left left: " << root.getLeftPointer()->getLeftPointer()->getKeyValue() << endl;
 			rotateRight(root);
-			if (&treeRoot != headNode) treeRoot.updateRight(root);
+			treeRoot.updateLeft(root);
 			taller = false;
 			break;
 	}
@@ -216,19 +207,91 @@ void AVLTree::insertAVL(Node * root, Node * newNode, bool & taller, Node & treeR
 	}
 }
 
-void AVLTree::_clearTree(Node * root) {
-	if (root == nullptr) return;
+bool AVLTree::_clearTree(Node * root) {
+	if (root == nullptr) return false;
 	
-	_clearTree(root->getLeftPointer());
-	_clearTree(root->getRightPointer());
-	
-	root = nullptr;
+	if (_clearTree(root->getLeftPointer())) root->updateLeft(nullptr);
+	if (_clearTree(root->getRightPointer())) root->updateRight(nullptr);
+	delete root;
+	return true;
 }
 
 void AVLTree::clearTree() {
 	_clearTree(headNode);
-	delete headNode;
 	headNode = nullptr;
+}
+
+Node * AVLTree::nodeDelete(int key, Node * root) { // root = pointer
+	if (root == nullptr) return root;
+	
+	if (key < root->getKeyValue()) {
+		root->updateLeft(nodeDelete(key, root->getLeftPointer()));
+		switch (root->getBF()) {
+			case 1: {
+				root->updateBF(0);
+				break;
+			}
+			case 0: {
+				root->updateBF(-1);
+				break;
+			}
+			case -1: {
+				bool tall = false;
+				rightBalance(*root, tall, *root);
+				break;
+			}
+		}
+	} else if (key > root->getKeyValue()) {
+		root->updateRight(nodeDelete(key, root->getRightPointer()));
+		switch (root->getBF()) {
+			case 1: {
+				bool tall = false;
+				leftBalance(*root, tall, *root);
+				break;
+			}
+			case 0: {
+				root->updateBF(1);
+				break;
+			}
+			case -1: {
+				root->updateBF(0);
+				break;
+			}
+		}
+	}
+	else {
+		if (root->getLeftPointer() != nullptr && root->getRightPointer() != nullptr) {
+			Node * temp = immedeatePred(root->getRightPointer());
+			root->updateKey(temp->getKeyValue());
+			root->updateRight(nodeDelete(temp->getKeyValue(),root->getRightPointer()));
+		} else {
+			bool left = false;
+			Node * temp = nullptr;
+			if (root->getLeftPointer() != nullptr) {
+				temp = root->getLeftPointer();
+				left = true;
+			}
+			else temp = root->getRightPointer();
+			
+			if (temp == nullptr) { // If it is root/leaf (fails)
+				temp = root;
+				root = nullptr;
+			} else {
+				root->updateKey(temp->getKeyValue());
+			}
+			delete temp;
+		}
+		return root;
+	}
+}
+
+Node * AVLTree::immedeatePred(Node * root) { // Assume it is already on the right path
+	if (root->getLeftPointer() == nullptr) {
+		return root; // In case there is no more left to go
+	}
+	
+	return immedeatePred(root->getLeftPointer());
+	
 }
 
 Node * AVLTree::getHeadNode() {
