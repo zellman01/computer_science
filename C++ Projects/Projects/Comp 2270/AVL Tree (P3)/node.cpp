@@ -66,6 +66,9 @@ void Node::replaceNode(Node nodea) {
 	key = nodea.getKeyValue();
 	cout << "aaaaaaa";
 	left = nodea.getLeftPointer();
+	cout << "Test 2";
 	right = nodea.getRightPointer();
+	cout << "Test 3";
 	bf = nodea.getBF();
+	cout << "Test 4";
 }

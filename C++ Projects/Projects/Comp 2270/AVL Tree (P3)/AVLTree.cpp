@@ -27,8 +27,9 @@ void AVLTree::rotateLeft(Node & root) {
 	} else {
 		rightChild = root.getRightPointer();
 		root.updateRight(rightChild->getLeftPointer());
-		rightChild->updateLeft(root);
+		rightChild->updateLeft(root); // Right child is still 6 here
 		root = *rightChild; // Sets root and the previous node to the same address
+		// Right child is an endless loop at this point
 	}
 }
 
@@ -148,9 +149,12 @@ void AVLTree::leftBalance(Node & root, bool & taller, Node & treeRoot) {
 					break;
 			}
 			w->updateBF(0);
-			rotateLeft(*r);
-			root.updateLeft(*r);
-			cout << "Root: " << root.getKeyValue() << endl << "Left: " << root.getLeftPointer()->getKeyValue() << endl << "Left left: " << root.getLeftPointer()->getLeftPointer()->getKeyValue() << endl;
+			//cout << "R root: " << r->getKeyValue() << endl << "R Right: " << r->getRightPointer()->getKeyValue() << endl;
+			rotateLeft(*r); // Endless loop created here
+			//cout << root.getLeftPointer()->getKeyValue() << endl;
+			root.updateLeft(*r);// Erasing 6 right here?
+			//cout << root.getLeftPointer()->getKeyValue() << endl;
+			//cout << "Root: " << root.getKeyValue() << endl << "Left: " << root.getLeftPointer()->getKeyValue() << endl << "Left left: " << root.getLeftPointer()->getLeftPointer()->getKeyValue() << endl;
 			rotateRight(root);
 			if (&treeRoot != headNode) treeRoot.updateRight(root);
 			taller = false;
@@ -212,22 +216,36 @@ void AVLTree::insertAVL(Node * root, Node * newNode, bool & taller, Node & treeR
 	}
 }
 
+void AVLTree::_clearTree(Node * root) {
+	if (root == nullptr) return;
+	
+	_clearTree(root->getLeftPointer());
+	_clearTree(root->getRightPointer());
+	
+	root = nullptr;
+}
+
+void AVLTree::clearTree() {
+	_clearTree(headNode);
+	delete headNode;
+	headNode = nullptr;
+}
+
 Node * AVLTree::getHeadNode() {
 	return headNode;
 }
 
-void AVLTree::display(Node & root) { // Problem
-	/*if (!root.hasChildren()) {
-		cout << endl << root.getKeyValue() << " ";
+void AVLTree::display(Node & root, int level) { // Problem
+	if (!root.hasChildren()) {
+		cout << root.getKeyValue() << "(level: " << level << ") ";
 		return;
 	}
 
 	if (root.getLeftPointer() != nullptr) {
-	    display(*root.getLeftPointer());
+	    display(*root.getLeftPointer(), level+1);
 	}
 
-	cout << root.getKeyValue() << " ";
+	cout << root.getKeyValue() << "(level: " << level << ") ";
 
-	if (&root.getRightPointer() != nullptr) display(*root.getRightPointer());*/
-	cout << endl << endl << endl << root.hasChildren();
+	if (root.getRightPointer() != nullptr) display(*root.getRightPointer(), level+1);
 }
