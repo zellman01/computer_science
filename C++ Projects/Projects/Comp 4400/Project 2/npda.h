@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iterator>
 
 class npda {
 	public:
@@ -16,19 +17,19 @@ class npda {
 		void addFinalState(std::string);
 		void stackStart(std::string);
 		void description();
-		std::string getCurrentState();
-		bool changeStates(std::string);
+		std::string getCurrentState() { return currentState; }
+		bool transition(std::string, std::vector<std::string>, bool);
 		bool isFinal();
 		void reset();
+		std::string getOutputString();
 	private:
 		bool validSymbol(std::string);
-		void stackPush(std::string);
-		std::string stackPop();
+		std::string stackContent(std::vector<std::string>);
 		std::vector<std::string> states;
 		std::vector<std::string> inputSymbols;
 		std::vector<std::string> stackSymbols;
 		std::vector<std::string> finalStates;
-		std::vector<std::string> stack;
+		std::vector<std::string> outputString;
 		std::multimap<std::tuple<std::string, std::string, std::string>, std::pair<std::string, std::string>> transitions; // Need to change to a triple and a pair
 		std::string currentState, initialState, startingStack;
 };
