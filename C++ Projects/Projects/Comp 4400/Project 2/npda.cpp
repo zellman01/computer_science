@@ -1,6 +1,7 @@
 #include "npda.h"
 #include <iterator>
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
@@ -11,8 +12,6 @@ npda::npda() {
 
 void npda::reset() {
 	currentState = initialState;
-	stack.clear();
-	stackPush(startingStack);
 }
 
 void npda::addState(string state) {
@@ -45,18 +44,7 @@ void npda::addFinalState(string finalState) {
 }
 
 void npda::stackStart(string symbol) {
-	stack.insert(stack.begin(), symbol);
 	startingStack = symbol;
-}
-
-void npda::stackPush(string symbol) {
-	stack.insert(stack.begin(), symbol);
-}
-
-string npda::stackPop() {
-	string stackTop = stack.at(0);
-	stack.erase(stack.begin());
-	return stackTop;
 }
 
 void npda::description() {
@@ -82,32 +70,71 @@ void npda::description() {
 	cout << "-------------------------" << endl;
 }
 
-bool npda::validSymbol(string syymbol) {
+bool npda::validSymbol(string symbol) {
 	for (int i = 0; i < inputSymbols.size(); i++) {
 		if (inputSymbols.at(i) == symbol) return true;
 	}
 	return false;
 }
 
-string npda::getCurrentState() { // probably needs to change
-	return currentState;
+string npda::stackContent(vector<string> stack) {
+	string ret = "";
+	for (int i = 0; i < stack.size(); i++) {
+		ret += stack.at(i);
+	}
+	return ret;
 }
 
-bool npda::changeStates(string symbol) { // Recursive
-	if (validSymbol(symbol)) {
-		string autoState = currentState;
-		map<pair<string, string>, string>::iterator itr;
-		itr = transitions.find(make_pair(autoState, symbol));
-		if (itr != transitions.end()) {
-			currentState = itr->second;
+bool npda::transition(string symbol, vector<string> stack, bool first) {
+	if (first) {
+		// insert into the outputString
+		//string output = "(" + currentState + "," + symbol + "," + stack.at(0) + ")";
+		//cout << output << endl;
+		//outputString.push_back(output);
+	}
+	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
+	if (symbol.length() == 0) {
+		if (isFinal()) {
+			string output1 = "|- (" + currentState + ",*," + stackContent(stack) + ")";
+			cout << output1 << endl;
+			return true; // insert into the outputString
 		}
-	} else return false;
+		
+		newSymbol = "*";
+		sym = "*";
+	} else {
+		newSymbol = symbol.substr(1);
+		sym = symbol.substr(0,1);
+	}
+	if (stack.empty()) {
+		stackTop = "*";
+	} else {
+		stackTop = stack.at(0);
+		stack.erase(stack.begin());
+	}
+	auto itr1 = transitions.lower_bound(make_tuple(currentState, sym, stackTop));
+	auto itr2 = transitions.upper_bound(make_tuple(currentState, sym, stackTop));
+	while (itr1 != itr2) {
+		// Not accounting for lambda transitions
+		currentState = itr1->second.first;
+		if (itr1->second.second != "*") {
+			for (int i = itr1->second.second.length()-1; i > -1; i--) {
+				string a = itr1->second.second.substr(i,i+1);
+				stack.insert(stack.begin(), a);
+			}
+		}
+		if (transition(newSymbol, stack, false)) {
+			return true; // Insert into the outputString
+		}
+		itr1++;
+	}
+	return false;
 }
 
 bool npda::isFinal() {
 	string state = getCurrentState();
 	for (int i = 0; i < finalStates.size(); i++) {
-		if (State == finalStates.at(i)) return true;
+		if (state == finalStates.at(i)) return true;
 	}
 	return false;
 }
