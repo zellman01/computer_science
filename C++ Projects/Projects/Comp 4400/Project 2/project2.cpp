@@ -15,10 +15,11 @@ int main(int argc, char** argv) {
 		cout << "usage: <prog_name> <file_name>"; //Force a file name to be found
 		return -1;
 	}
-	const char * state = "<states>", * alphabet = "<alphabet>", * transition = "<transitions>", * initState = "<initial state>", * stackStart = "<stack start>",
+	const char * state = "<states>", * alphabet = "<input alphabet>", * transition = "<transitions>", * initState = "<initial state>", * stackStart = "<stack start>",
 	* finalStates = "<final states>", * stackAlphabet = "<stack alphabet>";
 	npda autom;
-
+	
+	string stackTop = "";
 	ifstream readFile(argv[1]);
 	if (!readFile) {
 		cout << "Automata file could not be opened!"; // If the file could not be read
@@ -44,7 +45,7 @@ int main(int argc, char** argv) {
 	if (strcmp(line, stackAlphabet)==0) {
 		while (strcmp(line, transition) != 0) {
 			readFile.getline(line, 59);
-			autom.addSymbol(line);
+			autom.addStackSymbol(line);
 		}
 	}
 
@@ -71,6 +72,7 @@ int main(int argc, char** argv) {
 	if (strcmp(line, stackStart) == 0) {
 		readFile.getline(line, 59);
 		autom.stackStart(line);
+		stackTop = line;
 	}
 	
 	readFile.getline(line, 59);
@@ -91,8 +93,11 @@ int main(int argc, char** argv) {
 		cout << endl << "Enter a string to process (Ctrl^C to end): ";
 		cin.getline(line, 59);
 		cout << endl;
+		vector<string> stack;
+		stack.push_back(stackTop);
+		autom.transition(line, stack, true);
 		// Below needs to be changed
-		cout << "[" << autom.getCurrentState() << "]";
+		/*cout << "[" << autom.getCurrentState() << "]";
 		for (int i = 0; i < strlen(line); i++) {
 			string str(1, line[i]);
 			if (autom.changeStates(str)) {
@@ -103,7 +108,8 @@ int main(int argc, char** argv) {
 				break;
 			}
 		}
-		cout << " : ";
+		cout << " : ";*/
+		cout << autom.getCurrentState() << endl;
 		if (autom.isFinal() && !invalid) cout << "Accepted" << endl;
 		else cout << "Rejected" << endl;
 	}
