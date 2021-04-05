@@ -1,0 +1,9 @@
+[{
+	"modid": "pixelmongym",
+	"name": "Pixelmon Gym",
+	"version": "0.0.1",
+	"description": "Player gym management for Pixelmon",
+	"authorlist": [
+		"zellman01"
+	]
+}]
