@@ -85,7 +85,9 @@ string npda::stackContent(vector<string> stack) {
 	return ret;
 }
 
-bool npda::transition(string symbol, vector<string> stack, bool first) {
+bool npda::transition(string symbol, vector<string> stack, bool first) { // What I think is happening: It is going into the lambda transition into a final state
+	// with just a in a^nb^n because it is checking strictly for if a lambda exists for the transition and taking it, when it should be ignoring it sense
+	// it should not be accepted
 	if (first) {
 		// insert into the outputString
 		//string output = "(" + currentState + "," + symbol + "," + stack.at(0) + ")";
@@ -138,7 +140,7 @@ bool npda::transition(string symbol, vector<string> stack, bool first) {
 		itr1++;
 	}
 	// If a lambda transition exists on the state if the above runs, and the lambda goes into a final state, the string is accepted with the below code
-	while (itr3 != itr4 && exist2 != transitions.end()) {
+	while (itr3 != itr4 && exist == transitions.end()) {
 		currentState = itr3->second.first;
 		if (itr3->second.second != "*") {
 			for (int i = itr3->second.second.length()-1; i > -1; i--) {
