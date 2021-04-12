@@ -64,18 +64,7 @@ void Graph::mst() { // Should be ran after displaying the full adjency matrix
 			if (edgeArray[i][j] != 0  && noEdges) noEdges = false;
 		}
 	}
-	if (!noEdges) { // Will satisfy very first condition, given the above loop (no edges in the graph)
-		// Search for smallest edge in the adjency graph (starting from top left cornor)
-		// put it in a vector of edges, and put the nodes in a vector in the order of the edge to get it to display later (set it to 0 on both sides so it will not be picked again)
-		// Check if it is completed
-		// If not, do it again. If it is, display the edges and weights of the MST, and then calculate the total weight
-
-		// (Cannot go back to a node to make a loop)
-
-		// (Vector setup: Pair (Pair (nodes that are in the edge), Weight)
-
-		// Probably needs to be a loop
-		vector<pair<pair<node, node>,int>> minSpanTree;
+	if (!noEdges) {
 		vector<node> nodesInGraph;
 		while (minSpanTree.size() != currentEdges-1 && !noEdges) {
 			noEdges = true;
@@ -103,20 +92,20 @@ void Graph::mst() { // Should be ran after displaying the full adjency matrix
 					jInGraph = true;
 				}
 			}
-			if (iInGraph && jInGraph) {
+			if (iInGraph && jInGraph && path(nodeArray[lowesti], nodeArray[lowestj], defaultNode, 0)) {
 				// Rejection
 			} else {
 				minSpanTree.push_back(make_pair(make_pair(nodeArray[lowesti], nodeArray[lowestj]), edgeArray[lowesti][lowestj]));
-				if (!iInGraph) nodesInGraph.push_back(nodeArray[lowesti]);
+				if (cycle(nodeArray[lowesti], defaultNode, defaultNode, true) && cycle(nodeArray[lowestj], defaultNode, defaultNode, true)) {
+					// rejection
+				} else {
+					if (!iInGraph) nodesInGraph.push_back(nodeArray[lowesti]);
 				if (!jInGraph) nodesInGraph.push_back(nodeArray[lowestj]);
+				}
+				
 			}
 			edgeArray[lowesti][lowestj] = 0;
 			edgeArray[lowestj][lowesti] = 0;
-			// Run through the adjency graph
-			// Find the lowest number (ignore any 0's)
-			// Once it is found, check if both are in the nodesInGraph vector. If they both are, then reject the edge.
-			// If the above is not true, add the edge to the minSpanTree vector, add the two nodes to the nodesInGraph, and then set it to 0 on both sides
-			// After the above is completely finished, then calculate the total weight given the int of the minSpanTree edge vector
 		}
 		
 		// Display the results
@@ -131,4 +120,51 @@ void Graph::mst() { // Should be ran after displaying the full adjency matrix
 		
 		cout << "Total weight: " << totalWeight;
 	}
+}
+
+// Needs to go through the path, not keep switch between two paths
+bool Graph::path(node target, node current, node previous, int tries) {
+	if (current.name == target.name) {
+		return true;
+	} else if (tries >= graphSize*2) {
+		return false;
+	}
+	
+	for (auto elem : minSpanTree) {
+		if (elem.first.first.name == current.name && previous.name != elem.first.second.name) {
+			tries++;
+			if (path(target, elem.first.second, current, tries)) return true;
+		}
+		if (elem.first.second.name == current.name && previous.name != elem.first.first.name) {
+			tries++;
+			if (path(target, elem.first.first, current, tries)) return true;
+		}
+	}
+	
+	return false;
+}
+
+// Target is the node, current and previous starts as default
+bool Graph::cycle(node target, node current, node previous, bool start) {
+	if (target.name == current.name) return true;
+	
+	if (start) {
+		int paths = 0;
+		for (auto elem : minSpanTree) {
+			if (elem.first.first.name == target.name) paths++;
+			else if (elem.first.second.name == target.name) paths++;
+		}
+		if (paths < 2) return false;
+		current = target;
+	}
+	
+	for (auto elem : minSpanTree) {
+		if (elem.first.first.name == current.name && previous.name != elem.first.second.name) {
+			if (cycle(target, elem.first.second, current, false)) return true;
+		}
+		if (elem.first.second.name == current.name && previous.name != elem.first.first.name) {
+			if (cycle(target, elem.first.first, current, false)) return true;
+		}
+	}
+	return false;
 }
