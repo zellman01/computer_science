@@ -26,7 +26,7 @@ class Graph
 		node defaultNode;
 		node * nodeArray;
 		int ** edgeArray;
-		int graphSize, totalEdges, currentNodes, currentEdges;
+		int graphSize, currentNodes, currentEdges;
 };
 
 #endif

@@ -1,3 +1,8 @@
+// Name: Zachary Wellman
+// File Name: program2.cpp
+// Date: 4 April, 2021
+// Description: NPDA class
+
 #ifndef NPDA_H
 #define NPDA_H
 
@@ -24,7 +29,6 @@ class npda {
 		std::string getOutputString();
 	private:
 		bool validSymbol(std::string);
-		std::string stackContent(std::vector<std::string>);
 		std::vector<std::string> states;
 		std::vector<std::string> inputSymbols;
 		std::vector<std::string> stackSymbols;

@@ -88,7 +88,6 @@ int main(int argc, char** argv) {
 	autom.description();
 
 	while (true) { // loop until control c is pressed
-		bool invalid = false;
 		autom.reset();
 		cout << endl << "Enter a string to process (Ctrl^C to end): ";
 		cin.getline(line, 59);
@@ -110,7 +109,7 @@ int main(int argc, char** argv) {
 		}
 		cout << " : ";*/
 		cout << autom.getCurrentState() << endl;
-		if (autom.isFinal() && !invalid) cout << "Accepted" << endl;
+		if (autom.isFinal()) cout << "Accepted" << endl;
 		else cout << "Rejected" << endl;
 	}
 	delete state, alphabet, transition, initState, finalStates, stackAlphabet;
