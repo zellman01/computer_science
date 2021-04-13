@@ -6,8 +6,6 @@
 
 using namespace std;
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
 int main(int argc, char** argv) {
 	vector<string> nodeNames;
 	vector<node> nodeList;
@@ -22,24 +20,30 @@ int main(int argc, char** argv) {
 	string inputHandler = "";
 	while (file >> inputHandler && !isdigit(inputHandler.at(0))) {
 		nodeNames.insert(nodeNames.end(), inputHandler);
-		file.ignore();
 	}
-	// Create the nodes for the graph
 	for (int i = 0; i < nodeNames.size(); i++) {
 		node a;
 		a.name = nodeNames.at(i);
 		nodeList.insert(nodeList.end(), a);
 	}
 	Graph g(nodeList.size());
-	// Insert the nodes into the graph
 	for (int i = 0; i < nodeList.size(); i++) {
 		g.addNode(nodeList.at(i));
 	}
-	g.print();
+	int row = 0, col = 1, number = atoi(inputHandler.c_str());
 	inputHandler = "";
-	int row = 0;
-	while (getline(file, inputHandler, '\n')) {
-		
+	g.addEdge(g.searchNode(row).name, g.searchNode(col).name, number);
+	col++;
+	while (file >> number) {
+		string rowNodeName = g.searchNode(row).name, colNodeName = g.searchNode(col).name;
+		col++;
+		if (file.peek() == '\n') {
+			row++;
+			col = row+1;
+		}
+		g.addEdge(rowNodeName, colNodeName, number);
 	}
-	return 3;
+	g.print();
+	g.mst();
+	return 0;
 }
