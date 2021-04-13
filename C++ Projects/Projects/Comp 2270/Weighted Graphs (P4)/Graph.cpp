@@ -3,7 +3,6 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-//#include <iterator>
 
 using namespace std;
 
@@ -31,6 +30,7 @@ int Graph::searchNode(string nodeName) {
 }
 
 void Graph::print() {
+	cout << "Adjency Matrix" << endl;
 	for (int i = 0; i < currentNodes; i++) {
 		cout << setw(5) << nodeArray[i].name;
 	}
@@ -118,7 +118,7 @@ void Graph::mst() { // Should be ran after displaying the full adjency matrix
 			cout << endl;
 		}
 		
-		cout << "Total weight: " << totalWeight;
+		cout << "The total weight of the mininal spaning tree is: " << totalWeight;
 	}
 }
 
