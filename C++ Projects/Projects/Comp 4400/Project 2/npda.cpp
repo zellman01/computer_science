@@ -82,7 +82,7 @@ bool npda::validSymbol(string symbol) {
 	return false;
 }
 
-bool npda::transition(string symbol, vector<string> stack, bool first) { // What I think is happening: It is going into the lambda transition into a final state
+/*bool npda::transition(string symbol, vector<string> stack, bool first) { // What I think is happening: It is going into the lambda transition into a final state
 	// with just a in a^nb^n because it is checking strictly for if a lambda exists for the transition and taking it, when it should be ignoring it sense
 	// it should not be accepted
 	if (first) {
@@ -107,19 +107,20 @@ bool npda::transition(string symbol, vector<string> stack, bool first) { // What
 	}
 	
 	if (stack.empty()) {
+		return false;
 		stackTop = "";
 	} else {
 		stackTop = stack.at(0);
 		stack.erase(stack.begin());
 	}
 	
-	auto itr1 = transitions.find(make_tuple(currentState, sym, stackTop));
-	auto itr2 = transitions.find(make_tuple(currentState, "*", stackTop));
-	if (itr1 == transitions.end() && itr2 == transitions.end()) {
+	auto itr = transitions.find(make_tuple(currentState, sym, stackTop));
+	auto itra = transitions.find(make_tuple(currentState, "*", stackTop));
+	if (itr == transitions.end() && itra == transitions.end()) {
 		return false; // No transition exists
 	}
 	
-	if (itr1 != transitions.end() && sym != "*") {
+	/*if (itr1 != transitions.end() && sym != "*") {
 		currentState = itr1->second.first;
 		for (int i = itr1->second.second.length()-1; i > -1; i--) {
 			string a = itr1->second.second.substr(i,i+1);
@@ -134,7 +135,7 @@ bool npda::transition(string symbol, vector<string> stack, bool first) { // What
 		}
 		if (transition(symbol, stack, false)) return true;
 	}
-	/*auto itr1 = transitions.lower_bound(make_tuple(currentState, sym, stackTop));
+	auto itr1 = transitions.lower_bound(make_tuple(currentState, sym, stackTop));
 	auto itr2 = transitions.upper_bound(make_tuple(currentState, sym, stackTop));
 	auto itr3 = transitions.lower_bound(make_tuple(currentState, "*", stackTop));
 	auto itr4 = transitions.upper_bound(make_tuple(currentState, "*", stackTop));
@@ -165,7 +166,112 @@ bool npda::transition(string symbol, vector<string> stack, bool first) { // What
 			return true; // Insert into the outputString
 		}
 		itr3++;
-	}*/
+	}
+	return false;
+}*/
+
+bool npda::transition(string symbol, vector<string> stack, bool first) { // What I think is happening: It is going into the lambda transition into a final state
+	// with just a in a^nb^n because it is checking strictly for if a lambda exists for the transition and taking it, when it should be ignoring it sense
+	// it should not be accepted
+	if (first) {
+		// insert into the outputString
+		string output = "(" + currentState + "," + symbol + ",";// + stack.at(0) + ")";
+			for (int i = 0; i < stack.size(); i++) {
+				output += stack.at(i);
+			}
+			output += ")";
+		cout << output << endl;
+		//outputString.push_back(output);
+	}
+	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
+	if (symbol.length() == 0) {
+		if (isFinal()) {
+			//string output1 = "|- (" + currentState + ",*," + stackContent(stack) + ")";
+			//cout << output1 << endl;
+			return true; // insert into the outputString
+		}
+
+		newSymbol = "*";
+		sym = "*";
+	} else {
+		newSymbol = symbol.substr(1);
+		sym = symbol.substr(0,1);
+	}
+
+	if (stack.empty()) {
+		stackTop = "";
+	} else {
+		stackTop = stack.at(0);
+		stack.erase(stack.begin());
+	}
+
+	auto exist = transitions.find(make_tuple(currentState, sym, stackTop)); // To check if the transition exists
+	auto exist2 = transitions.find(make_tuple(currentState, "*", stackTop)); // To check if a lambda transition exists with the give state and stack top
+	if (exist == transitions.end()) {
+		return false; // If the transition does not even exist
+	}
+	auto itr1 = transitions.lower_bound(make_tuple(currentState, sym, stackTop));
+	auto itr2 = transitions.upper_bound(make_tuple(currentState, sym, stackTop));
+	auto itr3 = transitions.lower_bound(make_tuple(currentState, "*", stackTop));
+	auto itr4 = transitions.upper_bound(make_tuple(currentState, "*", stackTop));
+	while (itr1 != itr2 && exist != transitions.end()) {
+		// Not accounting for lambda transitions
+		currentState = itr1->second.first;
+		if (itr1->second.second != "*") {
+			for (int i = itr1->second.second.length()-1; i > -1; i--) {
+				string a = itr1->second.second.substr(i,i+1);
+				stack.insert(stack.begin(), a);
+			}
+		}
+		if (transition(newSymbol, stack, false)) {
+		string output = "(" + currentState + "," + newSymbol + ",";// + stack.at(0) + ")";
+			for (int i = 0; i < stack.size(); i++) {
+				output += stack.at(i);
+			}
+			output += ")";
+		cout << output << endl;
+			return true; // Insert into the outputString
+		} else {
+			string output = "(" + currentState + "," + newSymbol + ",";// + stack.at(0) + ")";
+			for (int i = 0; i < stack.size(); i++) {
+				output += stack.at(i);
+			}
+			output += ")";
+		cout << output << endl;
+			symbol = sym + newSymbol;
+			cout << "Symbol: " << symbol << endl;
+		}
+		itr1++;
+	}
+	// If a lambda transition exists on the state if the above runs, and the lambda goes into a final state, the string is accepted with the below code
+	while (itr3 != itr4 && exist == transitions.end()) {
+		currentState = itr3->second.first;
+		if (itr3->second.second != "*") {
+			for (int i = itr3->second.second.length()-1; i > -1; i--) {
+				string a = itr3->second.second.substr(i,i+1);
+				stack.insert(stack.begin(), a);
+			}
+		}
+		if (transition(symbol, stack, false)) {
+			string output = "(" + currentState + "," + symbol + ",";// + stack.at(0) + ")";
+			for (int i = 0; i < stack.size(); i++) {
+				output += stack.at(i);
+			}
+			output += ")";
+		cout << output << endl;
+			return true; // Insert into the outputString
+		} else {
+			string output = "(" + currentState + "," + symbol + ",";// + stack.at(0) + ")";
+			for (int i = 0; i < stack.size(); i++) {
+				output += stack.at(i);
+			}
+			output += ")";
+		cout << output << endl;
+			symbol = sym + newSymbol;
+			cout << "Symbol: " << symbol << endl;
+		}
+		itr3++;
+	}
 	return false;
 }
 
