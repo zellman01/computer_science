@@ -1,8 +1,3 @@
-// Name: Zachary Wellman
-// File Name: program2.cpp
-// Date: 4 April, 2021
-// Description: Class code for the NODA
-
 #include "npda.h"
 #include <iterator>
 #include <iostream>
@@ -82,18 +77,26 @@ bool npda::validSymbol(string symbol) {
 	return false;
 }
 
-/*bool npda::transition(string symbol, vector<string> stack, bool first) { // What I think is happening: It is going into the lambda transition into a final state
-	// with just a in a^nb^n because it is checking strictly for if a lambda exists for the transition and taking it, when it should be ignoring it sense
-	// it should not be accepted
+string npda::stackContent(vector<string> stack) {
+	string ret = "";
+	for (int i = 0; i < stack.size(); i++) {
+		ret += stack.at(i);
+	}
+	return ret;
+}
+
+bool npda::transition(string symbol, vector<string> stack, bool first) {
+	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
 	if (first) {
 		// insert into the outputString
 		//string output = "(" + currentState + "," + symbol + "," + stack.at(0) + ")";
 		//cout << output << endl;
 		//outputString.push_back(output);
+		debug(prevState, symbol, stack);
 	}
-	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
 	if (symbol.length() == 0) {
 		if (isFinal()) {
+			debug(prevState, symbol, stack);
 			//string output1 = "|- (" + currentState + ",*," + stackContent(stack) + ")";
 			//cout << output1 << endl;
 			return true; // insert into the outputString
@@ -107,104 +110,12 @@ bool npda::validSymbol(string symbol) {
 	}
 	
 	if (stack.empty()) {
-		return false;
 		stackTop = "";
 	} else {
 		stackTop = stack.at(0);
 		stack.erase(stack.begin());
 	}
 	
-	auto itr = transitions.find(make_tuple(currentState, sym, stackTop));
-	auto itra = transitions.find(make_tuple(currentState, "*", stackTop));
-	if (itr == transitions.end() && itra == transitions.end()) {
-		return false; // No transition exists
-	}
-	
-	/*if (itr1 != transitions.end() && sym != "*") {
-		currentState = itr1->second.first;
-		for (int i = itr1->second.second.length()-1; i > -1; i--) {
-			string a = itr1->second.second.substr(i,i+1);
-			stack.insert(stack.begin(), a);
-		}
-		if (transition(newSymbol, stack, false)) return true;
-	} if (itr2 != transitions.end()) {
-		currentState = itr2->second.first;
-		for (int i = itr2->second.second.length()-1; i > -1; i--) {
-			string a = itr2->second.second.substr(i,i+1);
-			stack.insert(stack.begin(), a);
-		}
-		if (transition(symbol, stack, false)) return true;
-	}
-	auto itr1 = transitions.lower_bound(make_tuple(currentState, sym, stackTop));
-	auto itr2 = transitions.upper_bound(make_tuple(currentState, sym, stackTop));
-	auto itr3 = transitions.lower_bound(make_tuple(currentState, "*", stackTop));
-	auto itr4 = transitions.upper_bound(make_tuple(currentState, "*", stackTop));
-	while (itr1 != itr2) {
-		// Not accounting for lambda transitions
-		currentState = itr1->second.first;
-		if (itr1->second.second != "*") {
-			for (int i = itr1->second.second.length()-1; i > -1; i--) {
-				string a = itr1->second.second.substr(i,i+1);
-				stack.insert(stack.begin(), a);
-			}
-		}
-		if (transition(newSymbol, stack, false)) {
-			return true; // Insert into the outputString
-		}
-		itr1++;
-	}
-	// If a lambda transition exists on the state if the above runs, and the lambda goes into a final state, the string is accepted with the below code
-	while (itr3 != itr4) {
-		currentState = itr3->second.first;
-		if (itr3->second.second != "*") {
-			for (int i = itr3->second.second.length()-1; i > -1; i--) {
-				string a = itr3->second.second.substr(i,i+1);
-				stack.insert(stack.begin(), a);
-			}
-		}
-		if (transition(symbol, stack, false)) {
-			return true; // Insert into the outputString
-		}
-		itr3++;
-	}
-	return false;
-}*/
-
-bool npda::transition(string symbol, vector<string> stack, bool first) { // What I think is happening: It is going into the lambda transition into a final state
-	// with just a in a^nb^n because it is checking strictly for if a lambda exists for the transition and taking it, when it should be ignoring it sense
-	// it should not be accepted
-	if (first) {
-		// insert into the outputString
-		string output = "(" + currentState + "," + symbol + ",";// + stack.at(0) + ")";
-			for (int i = 0; i < stack.size(); i++) {
-				output += stack.at(i);
-			}
-			output += ")";
-		cout << output << endl;
-		//outputString.push_back(output);
-	}
-	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
-	if (symbol.length() == 0) {
-		if (isFinal()) {
-			//string output1 = "|- (" + currentState + ",*," + stackContent(stack) + ")";
-			//cout << output1 << endl;
-			return true; // insert into the outputString
-		}
-
-		newSymbol = "*";
-		sym = "*";
-	} else {
-		newSymbol = symbol.substr(1);
-		sym = symbol.substr(0,1);
-	}
-
-	if (stack.empty()) {
-		stackTop = "";
-	} else {
-		stackTop = stack.at(0);
-		stack.erase(stack.begin());
-	}
-
 	auto exist = transitions.find(make_tuple(currentState, sym, stackTop)); // To check if the transition exists
 	auto exist2 = transitions.find(make_tuple(currentState, "*", stackTop)); // To check if a lambda transition exists with the give state and stack top
 	if (exist == transitions.end()) {
@@ -224,27 +135,18 @@ bool npda::transition(string symbol, vector<string> stack, bool first) { // What
 			}
 		}
 		if (transition(newSymbol, stack, false)) {
-		string output = "(" + currentState + "," + newSymbol + ",";// + stack.at(0) + ")";
-			for (int i = 0; i < stack.size(); i++) {
-				output += stack.at(i);
-			}
-			output += ")";
-		cout << output << endl;
+			debug(prevState, newSymbol, stack);
 			return true; // Insert into the outputString
 		} else {
-			string output = "(" + currentState + "," + newSymbol + ",";// + stack.at(0) + ")";
-			for (int i = 0; i < stack.size(); i++) {
-				output += stack.at(i);
+			if (transition(symbol, stack, false)) {
+				debug(prevState, symbol, stack);
+				return true;
 			}
-			output += ")";
-		cout << output << endl;
-			symbol = sym + newSymbol;
-			cout << "Symbol: " << symbol << endl;
 		}
 		itr1++;
 	}
 	// If a lambda transition exists on the state if the above runs, and the lambda goes into a final state, the string is accepted with the below code
-	while (itr3 != itr4 && exist == transitions.end()) {
+	while (itr3 != itr4 && exist2 != transitions.end()) {
 		currentState = itr3->second.first;
 		if (itr3->second.second != "*") {
 			for (int i = itr3->second.second.length()-1; i > -1; i--) {
@@ -253,26 +155,24 @@ bool npda::transition(string symbol, vector<string> stack, bool first) { // What
 			}
 		}
 		if (transition(symbol, stack, false)) {
-			string output = "(" + currentState + "," + symbol + ",";// + stack.at(0) + ")";
-			for (int i = 0; i < stack.size(); i++) {
-				output += stack.at(i);
-			}
-			output += ")";
-		cout << output << endl;
+			debug(prevState, symbol, stack);
 			return true; // Insert into the outputString
 		} else {
-			string output = "(" + currentState + "," + symbol + ",";// + stack.at(0) + ")";
-			for (int i = 0; i < stack.size(); i++) {
-				output += stack.at(i);
-			}
-			output += ")";
-		cout << output << endl;
-			symbol = sym + newSymbol;
-			cout << "Symbol: " << symbol << endl;
+			if (transition(symbol, stack, false)) {
+				debug(prevState, symbol, stack);
+			}//return true;
 		}
 		itr3++;
 	}
 	return false;
+}
+
+void npda::debug(string state, string symbols, vector<string> stack) {
+	cout << "(" << state << "," << symbols << ",";
+	for (int i = 0; i < stack.size(); i++) {
+		cout << stack.at(i);
+	}
+	cout << ")" << endl;
 }
 
 bool npda::isFinal() {
