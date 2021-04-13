@@ -4,11 +4,6 @@
 #include <string>
 #include <vector>
 
-/*struct edge {
-	std::string pointa, pointb; // pointa is one node in the connection. pointb is the second node in the connection
-	int weight;
-};*/ // Using a 2-d array of ints for edges
-
 struct node {
 	std::string name;
 };
@@ -20,6 +15,7 @@ class Graph
 		void print();
 		//edge searchEdge(std::string, std::string);
 		int searchNode(std::string);
+		node searchNode(int pos) { return nodeArray[pos]; }
 		void addNode(node);
 		void addEdge(std::string, std::string, int);
 		void mst(); // Check for disjointed sets
