@@ -1,3 +1,8 @@
+// Name: Zachary Wellman
+// File Name: npda.cpp
+// Date: 4 April, 2021
+// Description: Function definitions for the npda class
+
 #include "npda.h"
 #include <iterator>
 #include <iostream>
@@ -12,6 +17,7 @@ npda::npda() {
 
 void npda::reset() {
 	currentState = initialState;
+	outputString.clear();
 }
 
 void npda::addState(string state) {
@@ -77,21 +83,13 @@ bool npda::validSymbol(string symbol) {
 	return false;
 }
 
-bool npda::transition(string symbol, vector<string> stack, bool first) {
+bool npda::transition(const string symbol, vector<string> stack, bool first) {
 	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
-	if (first) {
-		// insert into the outputString
-		//string output = "(" + currentState + "," + symbol + "," + stack.at(0) + ")";
-		//cout << output << endl;
-		//outputString.push_back(output);
-		debug(prevState, symbol, stack);
-	}
+	if (first) debug(prevState, symbol, stack, true);
+	
 	if (symbol.length() == 0) {
 		if (isFinal()) {
-			debug(prevState, symbol, stack);
-			//string output1 = "|- (" + currentState + ",*," + stackContent(stack) + ")";
-			//cout << output1 << endl;
-			return true; // insert into the outputString
+			return true;
 		}
 	} else {
 		newSymbol = symbol.substr(1);
@@ -113,40 +111,66 @@ bool npda::transition(string symbol, vector<string> stack, bool first) {
 	if (exist != transitions.end()) {
 		// Not accounting for lambda transitions
 		currentState = exist->second.first;
+		prevState = currentState;
 		if (exist->second.second != "*") {
-			for (int i = exist->second.second.length()-1; i > -1; i--) {
-				string a = exist->second.second.substr(i,i+1);
-				stack.insert(stack.begin(), a);
+			if (exist->second.second == stackTop) {
+				stack.insert(stack.begin(), stackTop);
+			} else {
+				for (int i = exist->second.second.length()-1; i > -1; i--) {
+					string a = exist->second.second.substr(i,i+1);
+					stack.insert(stack.begin(), a);
+				}
 			}
 		}
 		if (transition(newSymbol, stack, false)) {
-			debug(prevState, newSymbol, stack);
-			return true; // Insert into the outputString
+			debug(prevState, newSymbol, stack, false);
+			return true;
 		}
 	}
 	// If a lambda transition exists on the state if the above runs, and the lambda goes into a final state, the string is accepted with the below code
 	if (exist2 != transitions.end()) {
 		currentState = exist2->second.first;
+		prevState = currentState;
 		if (exist2->second.second != "*") {
-			for (int i = exist2->second.second.length()-1; i > -1; i--) {
-				string a = exist2->second.second.substr(i,i+1);
-				stack.insert(stack.begin(), a);
+			if (exist2->second.second == stackTop) {
+				stack.insert(stack.begin(), stackTop);
+			} else {
+				for (int i = exist2->second.second.length()-1; i > -1; i--) {
+					string a = exist2->second.second.substr(i,i+1);
+					stack.insert(stack.begin(), a);
+				}
 			}
 		}
 		if (transition(symbol, stack, false)) {
-			debug(prevState, symbol, stack);
-			return true; // Insert into the outputString
+			debug(prevState, symbol, stack, false);
+			return true;
 		}
 	}
 	return false;
 }
 
-void npda::debug(string state, string symbols, vector<string> stack) {
-	cout << "(" << state << "," << symbols << ",";
-	for (int i = 0; i < stack.size(); i++) {
-		cout << stack.at(i);
+
+void npda::debug(string state, string symbols, vector<string> stack, bool first) {
+	string input = "";
+	if (!first) input += "|- ";
+	input += "(" + state + ",";// + "," + symbols + ",";
+	
+	if (symbols.length() == 0) input += "*,";
+	else input += symbols + ",";
+	
+	if (stack.empty()) input += "*";
+	else {
+		for (int i = 0; i < stack.size(); i++) {
+			input += stack.at(i);
+		}
 	}
-	cout << ")" << endl;
+	input += ")";
+	outputString.insert(outputString.end(), input);
+}
+
+void npda::output() {
+	cout << outputString.at(0) << endl;
+	for (int i = outputString.size()-1; i > 0; i--) cout << outputString.at(i) << endl;
 }
 
 bool npda::isFinal() {
