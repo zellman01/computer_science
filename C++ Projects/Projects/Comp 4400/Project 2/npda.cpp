@@ -77,14 +77,6 @@ bool npda::validSymbol(string symbol) {
 	return false;
 }
 
-string npda::stackContent(vector<string> stack) {
-	string ret = "";
-	for (int i = 0; i < stack.size(); i++) {
-		ret += stack.at(i);
-	}
-	return ret;
-}
-
 bool npda::transition(string symbol, vector<string> stack, bool first) {
 	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
 	if (first) {
@@ -101,16 +93,13 @@ bool npda::transition(string symbol, vector<string> stack, bool first) {
 			//cout << output1 << endl;
 			return true; // insert into the outputString
 		}
-		
-		newSymbol = "*";
-		sym = "*";
 	} else {
 		newSymbol = symbol.substr(1);
 		sym = symbol.substr(0,1);
 	}
 	
 	if (stack.empty()) {
-		stackTop = "";
+		return false;
 	} else {
 		stackTop = stack.at(0);
 		stack.erase(stack.begin());
@@ -118,51 +107,36 @@ bool npda::transition(string symbol, vector<string> stack, bool first) {
 	
 	auto exist = transitions.find(make_tuple(currentState, sym, stackTop)); // To check if the transition exists
 	auto exist2 = transitions.find(make_tuple(currentState, "*", stackTop)); // To check if a lambda transition exists with the give state and stack top
-	if (exist == transitions.end()) {
+	if (exist == transitions.end() && exist2 == transitions.end()) {
 		return false; // If the transition does not even exist
 	}
-	auto itr1 = transitions.lower_bound(make_tuple(currentState, sym, stackTop));
-	auto itr2 = transitions.upper_bound(make_tuple(currentState, sym, stackTop));
-	auto itr3 = transitions.lower_bound(make_tuple(currentState, "*", stackTop));
-	auto itr4 = transitions.upper_bound(make_tuple(currentState, "*", stackTop));
-	while (itr1 != itr2 && exist != transitions.end()) {
+	if (exist != transitions.end()) {
 		// Not accounting for lambda transitions
-		currentState = itr1->second.first;
-		if (itr1->second.second != "*") {
-			for (int i = itr1->second.second.length()-1; i > -1; i--) {
-				string a = itr1->second.second.substr(i,i+1);
+		currentState = exist->second.first;
+		if (exist->second.second != "*") {
+			for (int i = exist->second.second.length()-1; i > -1; i--) {
+				string a = exist->second.second.substr(i,i+1);
 				stack.insert(stack.begin(), a);
 			}
 		}
 		if (transition(newSymbol, stack, false)) {
 			debug(prevState, newSymbol, stack);
 			return true; // Insert into the outputString
-		} else {
-			if (transition(symbol, stack, false)) {
-				debug(prevState, symbol, stack);
-				return true;
-			}
 		}
-		itr1++;
 	}
 	// If a lambda transition exists on the state if the above runs, and the lambda goes into a final state, the string is accepted with the below code
-	while (itr3 != itr4 && exist2 != transitions.end()) {
-		currentState = itr3->second.first;
-		if (itr3->second.second != "*") {
-			for (int i = itr3->second.second.length()-1; i > -1; i--) {
-				string a = itr3->second.second.substr(i,i+1);
+	if (exist2 != transitions.end()) {
+		currentState = exist2->second.first;
+		if (exist2->second.second != "*") {
+			for (int i = exist2->second.second.length()-1; i > -1; i--) {
+				string a = exist2->second.second.substr(i,i+1);
 				stack.insert(stack.begin(), a);
 			}
 		}
 		if (transition(symbol, stack, false)) {
 			debug(prevState, symbol, stack);
 			return true; // Insert into the outputString
-		} else {
-			if (transition(symbol, stack, false)) {
-				debug(prevState, symbol, stack);
-			}//return true;
 		}
-		itr3++;
 	}
 	return false;
 }

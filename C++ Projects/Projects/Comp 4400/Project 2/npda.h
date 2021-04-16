@@ -28,6 +28,7 @@ class npda {
 		void reset();
 		std::string getOutputString();
 	private:
+		void debug(std::string state, std::string symbols, std::vector<std::string> stack);
 		bool validSymbol(std::string);
 		std::vector<std::string> states;
 		std::vector<std::string> inputSymbols;
