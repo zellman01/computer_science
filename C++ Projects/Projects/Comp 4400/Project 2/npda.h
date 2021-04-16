@@ -1,7 +1,7 @@
 // Name: Zachary Wellman
-// File Name: program2.cpp
+// File Name: npda.h
 // Date: 4 April, 2021
-// Description: NPDA class
+// Description: npda class declarations
 
 #ifndef NPDA_H
 #define NPDA_H
@@ -23,20 +23,16 @@ class npda {
 		void stackStart(std::string);
 		void description();
 		std::string getCurrentState() { return currentState; }
-		bool transition(std::string, std::vector<std::string>, bool);
+		bool transition(const std::string, std::vector<std::string>, bool);
 		bool isFinal();
 		void reset();
-		std::string getOutputString();
+		void output();
 	private:
-		void debug(std::string state, std::string symbols, std::vector<std::string> stack);
 		bool validSymbol(std::string);
-		std::vector<std::string> states;
-		std::vector<std::string> inputSymbols;
-		std::vector<std::string> stackSymbols;
-		std::vector<std::string> finalStates;
-		std::vector<std::string> outputString;
-		std::multimap<std::tuple<std::string, std::string, std::string>, std::pair<std::string, std::string>> transitions; // Need to change to a triple and a pair
+		std::vector<std::string> states, inputSymbols, stackSymbols, finalStates, outputString;
+		std::multimap<std::tuple<std::string, std::string, std::string>, std::pair<std::string, std::string>> transitions;
 		std::string currentState, initialState, startingStack;
+		void debug(std::string, std::string, std::vector<std::string>, bool);
 };
 
 #endif
