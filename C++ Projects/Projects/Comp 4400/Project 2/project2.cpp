@@ -94,23 +94,10 @@ int main(int argc, char** argv) {
 		cout << endl;
 		vector<string> stack;
 		stack.push_back(stackTop);
-		autom.transition(line, stack, true);
-		// Below needs to be changed
-		/*cout << "[" << autom.getCurrentState() << "]";
-		for (int i = 0; i < strlen(line); i++) {
-			string str(1, line[i]);
-			if (autom.changeStates(str)) {
-				cout << "-" << str << "->[" << autom.getCurrentState() << "]";
-			} else {
-				cout << " (Invalid symbol " << str << ")";
-				invalid = true;
-				break;
-			}
-		}
-		cout << " : ";*/
-		cout << autom.getCurrentState() << endl;
-		if (autom.isFinal()) cout << "Accepted" << endl;
-		else cout << "Rejected" << endl;
+		if (autom.transition(line, stack, true)) {
+			autom.output();
+			cout << "Accepted" << endl;
+		} else cout << "Rejected" << endl;	
 	}
 	delete state, alphabet, transition, initState, finalStates, stackAlphabet;
 	return 0;
