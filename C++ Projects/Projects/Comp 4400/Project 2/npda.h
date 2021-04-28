@@ -32,7 +32,7 @@ class npda {
 		std::vector<std::string> states, inputSymbols, stackSymbols, finalStates, outputString;
 		std::multimap<std::tuple<std::string, std::string, std::string>, std::pair<std::string, std::string>> transitions;
 		std::string currentState, initialState, startingStack;
-		void debug(std::string, std::string, std::vector<std::string>, bool);
+		void insertOutput(std::string, std::string, std::vector<std::string>, bool);
 };
 
 #endif

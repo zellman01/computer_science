@@ -85,7 +85,7 @@ bool npda::validSymbol(string symbol) {
 
 bool npda::transition(const string symbol, vector<string> stack, bool first) {
 	string newSymbol = "", sym = "", stackTop = "", prevState = currentState;
-	if (first) debug(prevState, symbol, stack, true);
+	if (first) insertOutput(prevState, symbol, stack, true);
 	
 	if (symbol.length() == 0) {
 		if (isFinal()) {
@@ -123,7 +123,7 @@ bool npda::transition(const string symbol, vector<string> stack, bool first) {
 			}
 		}
 		if (transition(newSymbol, stack, false)) {
-			debug(prevState, newSymbol, stack, false);
+			insertOutput(prevState, newSymbol, stack, false);
 			return true;
 		}
 	}
@@ -142,7 +142,7 @@ bool npda::transition(const string symbol, vector<string> stack, bool first) {
 			}
 		}
 		if (transition(symbol, stack, false)) {
-			debug(prevState, symbol, stack, false);
+			insertOutput(prevState, symbol, stack, false);
 			return true;
 		}
 	}
@@ -150,7 +150,7 @@ bool npda::transition(const string symbol, vector<string> stack, bool first) {
 }
 
 
-void npda::debug(string state, string symbols, vector<string> stack, bool first) {
+void npda::insertOutput(string state, string symbols, vector<string> stack, bool first) {
 	string input = "";
 	if (!first) input += "|- ";
 	input += "(" + state + ",";// + "," + symbols + ",";
