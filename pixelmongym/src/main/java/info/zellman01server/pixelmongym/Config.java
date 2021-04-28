@@ -1,5 +1,8 @@
 package info.zellman01server.pixelmongym;
 
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.service.sql.SqlService;
+
 import com.google.common.reflect.TypeToken;
 
 import ninja.leaping.configurate.objectmapping.Setting;
@@ -28,4 +31,43 @@ public class Config {
 	
 	@Setting(comment="Sets the port of the database to connect to")
 	private int port = 2306;
+	
+	/**
+	 * Gets the string to connect to the database with
+	 * @return The string for database connection
+	 */
+	public String databaseAccess() {
+		SqlService service = Sponge.getServiceManager().provide(SqlService.class).get();
+		String url = service.getConnectionUrlFromAlias("").orElse("jdbc:" + engine + "://" + username + ":" + password + "@" + host + ":" 
+				+ port + "/" + database);
+		return url;
+	}
+	
+	public void updateEngine(String eng) {
+		engine = eng;
+	}
+	
+	public void updateUser(String user) {
+		username = user;
+	}
+	
+	public void updatePassword(String pass) {
+		password = pass;
+	}
+	
+	public void updateHost(String host) {
+		this.host = host;
+	}
+	
+	public void updateDatabase(String db) {
+		database = db;
+	}
+	
+	public void updateTable(String table) {
+		this.table = table;
+	}
+	
+	public void updatePort(int port) {
+		this.port = port;
+	}
 }
