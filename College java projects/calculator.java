@@ -43,6 +43,7 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 		
 		
 		clear.setActionCommand("CLEAR");
+		inverse.setActionCommand("INVERSE");
 		
 		clear.addActionListener(this);
 		inverse.addActionListener(this);
@@ -131,7 +132,7 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 							output.setText(String.valueOf(ans));
 						}
 						break;
-					case 2:
+					case 2: // Convert to radians
 						if (num < -1 || num > 1) {
 							output.setText(outOfRange);
 						} else {
@@ -139,11 +140,18 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 							output.setText(String.valueOf(ans));
 						}
 						break;
-					case 3:
+					/*case 3:
 						//TODO: Look up
 						break;
 					case 4:
 						//TODO: Look up
+						break;*/
+					case 5:
+						ans = Math.pow(num, 2);
+						output.setText(String.valueOf(ans));
+						break;
+					default:
+						output.setText("Function not implemented.");
 						break;
 				}
 			}
@@ -175,6 +183,10 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 			case "LN":
 				System.out.println("ln found.");
 				calculate(4, inputString);
+				break;
+			case "INVERSE":
+				System.out.println("Inverse found.");
+				input.setText(inputString);
 				break;
 			default:
 				System.out.println("No action found.");
