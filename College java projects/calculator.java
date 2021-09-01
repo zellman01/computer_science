@@ -115,7 +115,7 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 			try {
 				num = Double.parseDouble(number);
 			} catch (NumberFormatException e) {
-				cont = false
+				cont = false;
 				output.setText("Invalid characters found.");
 			}
 			
