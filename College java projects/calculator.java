@@ -46,6 +46,7 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 		inverse.setActionCommand("INVERSE");
 		
 		clear.addActionListener(this);
+		clear.setEnabled(false);
 		inverse.addActionListener(this);
 		input.getDocument().addDocumentListener(this);
 		
@@ -109,6 +110,7 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 	// 1 = Square root, 2 = sin, 3 = cos, 4 = ln
 	// 5, 6, 7, 8 are reserved for only inside the function. They are the inverses of the above
 	private void calculate(int function, String number) {
+		clear.setEnabled(!number.equals(""));
 		if (!number.equals("")) {
 			double num = 0.0;
 			boolean cont = true, inverseOn = inverse.isSelected();
@@ -132,7 +134,7 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 							output.setText(String.valueOf(ans));
 						}
 						break;
-					case 2: // Convert to radians
+					case 2:
 						if (num < -1 || num > 1) {
 							output.setText(outOfRange);
 						} else {
@@ -140,14 +142,44 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 							output.setText(String.valueOf(ans));
 						}
 						break;
-					/*case 3:
-						//TODO: Look up
+					case 3:
+						if (num < -1 || num > 1) {
+							output.setText(outOfRange);
+						} else {
+							ans = Math.cos(num);
+							output.setText(String.valueOf(ans));
+						}
 						break;
 					case 4:
-						//TODO: Look up
-						break;*/
+						if (num < 1) {
+							output.setText(outOfRange);
+						} else {
+							ans = Math.log(num);
+							output.setText(String.valueOf(ans));
+						}
+						break;
 					case 5:
 						ans = Math.pow(num, 2);
+						output.setText(String.valueOf(ans));
+						break;
+					case 6:
+						if (num < -1 || num > 1) {
+							output.setText(outOfRange);
+						} else {
+							ans = Math.asin(num);
+							output.setText(String.valueOf(ans));
+						}
+						break;
+					case 7:
+						if (num < -1 || num > 1) {
+							output.setText(outOfRange);
+						} else {
+							ans = Math.acos(num);
+							output.setText(String.valueOf(ans));
+						}
+						break;
+					case 8:
+						ans = Math.exp(num);
 						output.setText(String.valueOf(ans));
 						break;
 					default:
