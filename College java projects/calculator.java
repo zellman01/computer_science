@@ -8,7 +8,7 @@ import javax.swing.event.*;
  * @author Zachary Wellman
 */
 
-public class calculator {
+public class Calculator {
 	public static void main(String[] args) {
 		System.out.println("Calculator has started.");
 		new MyCalculator();
@@ -130,57 +130,49 @@ class MyCalculator extends JFrame implements ActionListener, DocumentListener {
 						if (num < 1) {
 							output.setText(outOfRange);
 						} else {
-							ans = Math.sqrt(num);
-							output.setText(String.valueOf(ans));
+							output.setText(String.format("%9.2f", Math.sqrt(num)));
 						}
 						break;
 					case 2:
 						if (num < -1 || num > 1) {
 							output.setText(outOfRange);
 						} else {
-							ans = Math.sin(num);
-							output.setText(String.valueOf(ans));
+							output.setText(String.format("%9.2f", Math.sin(num)));
 						}
 						break;
 					case 3:
 						if (num < -1 || num > 1) {
 							output.setText(outOfRange);
 						} else {
-							ans = Math.cos(num);
-							output.setText(String.valueOf(ans));
+							output.setText(String.format("%9.2f", Math.cos(num)));
 						}
 						break;
 					case 4:
 						if (num < 1) {
 							output.setText(outOfRange);
 						} else {
-							ans = Math.log(num);
-							output.setText(String.valueOf(ans));
+							output.setText(String.format("%9.2f", Math.log(num)));
 						}
 						break;
 					case 5:
-						ans = Math.pow(num, 2);
-						output.setText(String.valueOf(ans));
+						output.setText(String.format("%9.2f", Math.pow(num, 2)));
 						break;
 					case 6:
 						if (num < -1 || num > 1) {
 							output.setText(outOfRange);
 						} else {
-							ans = Math.asin(num);
-							output.setText(String.valueOf(ans));
+							output.setText(String.format("%9.2f", Math.asin(num)));
 						}
 						break;
 					case 7:
 						if (num < -1 || num > 1) {
 							output.setText(outOfRange);
 						} else {
-							ans = Math.acos(num);
-							output.setText(String.valueOf(ans));
+							output.setText(String.format("%9.2f", Math.acos(num)));
 						}
 						break;
 					case 8:
-						ans = Math.exp(num);
-						output.setText(String.valueOf(ans));
+						output.setText(String.format("%9.2f", Math.exp(num)));
 						break;
 					default:
 						output.setText("Function not implemented.");
