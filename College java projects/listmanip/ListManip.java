@@ -1,15 +1,19 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.*;
 import java.lang.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 import java.text.*;
 
-public class ListManip extends JFrame implements ActionListener, ListSelectionListener, MouseListener, Manager {
-	private JList<WorkOrder> list;
-	private DefaultListModel<WorkOrder> listViewer;
+public class ListManip extends JFrame implements ActionListener, ListSelectionListener, MouseListener {
+	//private JList<WorkOrder> list;
+	//private DefaultListModel<WorkOrder> listViewer;
+	private ProjectTableModel ptm;
+	private JTable table;
+	private TableRowSorter<ProjectTableModel> trs;
 	private JFileChooser files;
 	private File chosenFile;
 	private JButton load;
@@ -27,12 +31,23 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 		
 		files = new JFileChooser(".");
 		
-		listViewer = new DefaultListModel<WorkOrder>();
+		/*listViewer = new DefaultListModel<WorkOrder>();
 		list = new JList<WorkOrder>(listViewer);
-		list.addListSelectionListener(this);
+		list.addListSelectionListener(this);*/
 		
+		ptm = new ProjectTableModel();
+		table = new JTable(ptm);
+		table.setFont(new Font("Courier New", Font.BOLD, 14));
+		trs = new TableRowSorter<ProjectTableModel>(ptm);
+		table.setRowSorter(trs);
 		
-		scrollBar = new JScrollPane(list);
+		table.setMinimumSize(new Dimension(400, 200));
+		
+		table.setColumnModel(getColumnModel());
+		
+		ptm.addTableModelListener(table);
+		
+		scrollBar = new JScrollPane(table);
 		
 		load = createButton("Load", "LOAD", this, "Load a new file into the list.");
 		save = createButton("Save", "SAVE", this, "Save the contents of the list to a file.");
@@ -57,6 +72,28 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 		
 		setJMenuBar(menus());
 		start();
+	}
+	
+	private TableColumnModel getColumnModel() {
+		DefaultTableColumnModel colModel;
+		
+		colModel = new DefaultTableColumnModel();
+		String names[] = {"Name", "Description", "Department", "Rate", "Date Started", "Date Completed"};
+		int pWidth[] = {50, 50, 50, 10, 30, 30};
+		for (int i = 0; i < 6; i++) {
+			colModel.addColumn(createTableColumn(i, pWidth[i], pWidth[i], names[i]));
+		}
+		
+		return colModel;
+		
+	}
+	
+	private TableColumn createTableColumn(int index, int preferredWidth, int minWidth, String name) {
+		TableColumn c = new TableColumn(index);
+		c.setPreferredWidth(preferredWidth);
+		c.setMinWidth(minWidth);
+		c.setHeaderValue(name);
+		return c;
 	}
 	
 	private JButton createButton(String label, String cmd, ActionListener listener, String toolTip) {
@@ -119,7 +156,7 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 		menu = new JMenu("Item");
 		menu.setMnemonic('I');
 		
-		menu.add(makeItem("New", "NEW", this, KeyEvent.VK_N, KeyEvent.VK_N, "Creates a new list"));
+		menu.add(makeItem("New", "DELETEALL", this, KeyEvent.VK_N, KeyEvent.VK_N, "Creates a new list"));
 		menu.add(makeItem("Delete", "DELETE", this, KeyEvent.VK_D, KeyEvent.VK_D, "Deletes a selected item")); // Disabled, then re-enabled when there is something to delete
 		menu.add(makeItem("Delete All", "DELETEALL", this, KeyEvent.VK_E, KeyEvent.VK_E, "Deletes everything in the list"));
 		
@@ -130,7 +167,7 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("ADD")) {
-			new WorkOrderGUI(this);
+			new WorkOrderGUI(ptm);
 		}
 		
 		if (e.getActionCommand().equals("LOAD")) { // Use DataInputStream, and load from a file, using the WorkOrder constructor
@@ -142,10 +179,7 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 					int objectAmount;
 					DataInputStream dis = new DataInputStream(new FileInputStream(chosenFile));
 					// Read in the number of objects there were
-					objectAmount = dis.readInt();
-					for (int i = 0; i < objectAmount; i++) {
-						listViewer.addElement(new WorkOrder(dis)); // Should add in work orders from a file
-					}
+					ptm.loadElements(dis);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -175,25 +209,21 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 		
 		if (e.getActionCommand().equals("DELETE")) {
 			// Delete a given index
-			int indexList[] = list.getSelectedIndices();
-			int length = indexList.length;
-			for (int i = length-1; i >= 0; i--) {
-				listViewer.remove(indexList[i]);
+			int[] selectedIndex = table.getSelectedRows();
+			for (int i = selectedIndex.length-1; i >= 0; i--) {
+				ptm.removeElementAt(table.convertRowIndexToModel(selectedIndex[i]));
 			}
 		}
 		
 		if (e.getActionCommand().equals("EDIT")) {
-			int index = list.getSelectedIndex();
-			WorkOrder wo = listViewer.get(index);
-			new WorkOrderGUI(this, wo, index);
-			// Pull down Work Order
-			// Grab individual itema
-			// Make constructor of WorkOrderGUI to open and use it
+			int index = table.getSelectedRow();
+			WorkOrder wo = ptm.getDataAt(index);
+			new WorkOrderGUI(ptm, wo, index);
 		}
 		
 		if (e.getActionCommand().equals("DELETEALL")) {
 			// Delete all elements of the list
-			listViewer.removeAllElements();
+			//ptm.deleteAllElements();
 		}
 		
 		if (e.getActionCommand().equals("EXIT")) {
@@ -204,22 +234,15 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 	private void saveObject() {
 		try {
 			DataOutputStream dos = new DataOutputStream(new FileOutputStream(chosenFile));
-			Object allElements[] = listViewer.toArray();
-			dos.writeInt(allElements.length);
-			for (int i = 0; i < allElements.length; i++) {
-				WorkOrder temp = (WorkOrder)(allElements[i]);
-				temp.store(dos);
-			}
-			dos.flush();
-			dos.close();
+			ptm.saveElements(dos);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 	
 	public void valueChanged(ListSelectionEvent e) {
-		delete.setEnabled(!list.isSelectionEmpty());
-		edit.setEnabled(list.getSelectedIndices().length == 1);
+		delete.setEnabled(table.getSelectedRows().length>0);
+		edit.setEnabled(table.getSelectedRows().length == 1);
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -242,11 +265,13 @@ public class ListManip extends JFrame implements ActionListener, ListSelectionLi
 		
 	}
 	
-	public void addWorkOrder(WorkOrder wo) {
-		listViewer.addElement(wo);
+	/*public void addWorkOrder(WorkOrder wo) {
+		//listViewer.addElement(wo);
+		ptm.addElement(wo);
 	}
 	
 	public void editWorkOrder(WorkOrder wo, int listPos) {
-		listViewer.setElementAt(wo, listPos);
-	}
+		//listViewer.setElementAt(wo, listPos);
+		// Add an editElementAt function to the projecttablemodel
+	}*/
 }

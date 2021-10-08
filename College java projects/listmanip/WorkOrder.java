@@ -9,9 +9,12 @@ import java.text.*;
 import java.time.*;
 
 public class WorkOrder {
-	private String name, dept, description;
+	private String name;
+	private String dept;
+	private String description;
 	private double billingRate;
-	private long initRequest, finishedRequest;
+	private long initRequest;
+	private long finishedRequest;
 
 	public WorkOrder() {}
 	
@@ -79,7 +82,6 @@ public class WorkOrder {
 		if (finishedRequest == 0) str += " Not finished.   ";
 		else str += new Date(finishedRequest).toString();
 		return str += "\t   Billing Rate:" + billingRate;
-		//return "Requestor's Name: " + name + "\t   Department:" + dept + "\t   Description:" + description + "\t   Start date:" + (new Date(initRequest).toString()) + "\t   End date:" + (new Date(finishedRequest).toString()) + "\t   Billing Rate:" + billingRate;
 	}
 	
 	public String getName() { return name; }
@@ -93,4 +95,6 @@ public class WorkOrder {
 	public long getInitialRequestDate() { return initRequest; }
 	
 	public long getFinishedRequestDate() { return finishedRequest; }
+	
+	public static int getFieldCount() { return 6; }
 }
