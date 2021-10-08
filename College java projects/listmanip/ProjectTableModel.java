@@ -83,7 +83,7 @@ class ProjectTableModel extends AbstractTableModel implements Manager {
 				return Double.class;
 			case 4:
 			case 5:
-				return Long.class;
+				return Date.class;
 		}
 		return null; // Default case
 	}
