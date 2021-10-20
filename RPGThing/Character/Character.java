@@ -31,15 +31,22 @@ public class Character {
 		String str = "\n\t";
 		
 		for (int i = 0; i < statArray.length; i++) {
-			str += statArray[i];
+			str += statArray[i] + " ";
 			if (!ep.isEmpty()) {
 				if (ep.getWeapon() != null && statArray[i].getStatName() == ep.getWeapon().getStatName()) {
-					str += "+" + ep.getWeapon().getAmountModified();
+					int amount = ep.getWeapon().getAmountModified()+statArray[i].getStatAmount();
+					str += " Amount: " + amount;
 				} else if (ep.getHeadgear() != null && statArray[i].getStatName() == ep.getHeadgear().getStatName()) {
-					str += "+" + ep.getHeadgear().getAmountModified();
+					int amount = ep.getHeadgear().getAmountModified()+statArray[i].getStatAmount();
+					str += " Amount: " + amount;
 				} else if (ep.getBreastPlate() != null && statArray[i].getStatName() == ep.getBreastPlate().getStatName()) {
-					str += "+" + ep.getBreastPlate().getAmountModified();
+					int amount = ep.getBreastPlate().getAmountModified()+statArray[i].getStatAmount();
+					str += " Amount: " + amount;
+				} else {
+					str += "Amount: " + statArray[i].getStatAmount();
 				}
+			} else {
+				str += "Amount: " + statArray[i].getStatAmount();
 			}
 			if (i != statArray.length-1) str += "\n";
 			str += "\t";
@@ -52,6 +59,7 @@ public class Character {
 		String str;
 		str = "\n\t";
 		if (ep.isEmpty()) str += "None equiped";
+		else str += ep;
 		return str;
 	}
 	

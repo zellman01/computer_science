@@ -26,11 +26,13 @@ public class Stat {
 	*/
 	public StatName getStatName() { return name; }
 	
+	public int getStatAmount() { return amount; }
+	
 	
 	public Stat() {}
 	
 	@Override
 	public String toString() {
-		return "Stat name: " + name + "  Amount: " + amount;
+		return "Stat name: " + name;
 	}
 }
