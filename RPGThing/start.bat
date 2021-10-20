@@ -25,6 +25,9 @@ javac Equipment/Weapon.java
 echo Compiling EquipmentPage.java
 javac Equipment/EquipmentPage.java
 
+echo Compiling EquipmentManager.java
+javac Character/EquipmentManager.java
+
 echo Compiling Character.java
 javac Character/Character.java
 

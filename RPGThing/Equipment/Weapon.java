@@ -3,9 +3,18 @@ package Equipment;
 import Equipment.Equipment;
 import Stat.StatName;
 
+/**
+ * Higher level of equipment - Weapon
+ * @author zellman01
+*/
 public class Weapon extends Equipment {
 	private String name;
 	
+	/**
+	 * Creates a Weapon
+	 * @param name The name of the equipment
+	 * @param amountChanged How much the stat of the equipment changes
+	*/
 	public Weapon(String name, int amountChanged) {
 		super(StatName.ATK, amountChanged);
 		this.name = name;

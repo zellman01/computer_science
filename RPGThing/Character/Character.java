@@ -1,14 +1,26 @@
 package Character;
 
 import Stat.Stat;
+import Stat.StatName;
 import Equipment.EquipmentPage;
-import Character.EquipmentManager;
+import Equipment.Weapon;
+import Equipment.Headgear;
+import Equipment.BreastPlate;
 
-public class Character implements EquipmentManager{
+/**
+ * The parent class of PC and NPC
+ * @author zellman01
+*/
+public class Character {
 	private Stat[] statArray;
 	private String name;
 	private EquipmentPage ep;
 	
+	/**
+	 * Create a Character object
+	 * @param statArray a normalized array of the stats in the game
+	 * @param name The character's name
+	*/
 	public Character(Stat[] statArray, String name) {
 		this.statArray = statArray;
 		this.name = name;
@@ -20,6 +32,15 @@ public class Character implements EquipmentManager{
 		
 		for (int i = 0; i < statArray.length; i++) {
 			str += statArray[i];
+			if (!ep.isEmpty()) {
+				if (ep.getWeapon() != null && statArray[i].getStatName() == ep.getWeapon().getStatName()) {
+					str += "+" + ep.getWeapon().getAmountModified();
+				} else if (ep.getHeadgear() != null && statArray[i].getStatName() == ep.getHeadgear().getStatName()) {
+					str += "+" + ep.getHeadgear().getAmountModified();
+				} else if (ep.getBreastPlate() != null && statArray[i].getStatName() == ep.getBreastPlate().getStatName()) {
+					str += "+" + ep.getBreastPlate().getAmountModified();
+				}
+			}
 			if (i != statArray.length-1) str += "\n";
 			str += "\t";
 		}
@@ -41,15 +62,15 @@ public class Character implements EquipmentManager{
 		+ "Equipment: " + listEquipment();
 	}
 	
-	public void addWeapon(Weapon w) {
-		
+	public boolean addWeapon(Weapon w) {
+		return ep.equipWeapon(w);
 	}
 	
-	public void addHeadgear(Headgear hg) {
-		
+	public boolean addHeadgear(Headgear hg) {
+		return ep.equipHeadgear(hg);
 	}
 	
-	public void addBreastPlate(BreastPlate bp) {
-		
+	public boolean addBreastPlate(BreastPlate bp) {
+		return ep.equipBreastPlate(bp);
 	}
 }
