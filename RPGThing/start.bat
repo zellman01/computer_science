@@ -10,6 +10,15 @@ javac Stat/Stat.java
 echo Compiling StatFactory.java
 javac Stat/StatFactory.java
 
+echo Compiling GameObject.java
+javac Inventory/GameObject.java
+
+echo Compiling InventoryBlock.java
+javac Inventory/InventoryBlock.java
+
+echo Compiling Inventory.java
+javac Inventory/Inventory.java
+
 echo Compiling Equipment.java
 javac Equipment/Equipment.java
 

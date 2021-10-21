@@ -101,4 +101,16 @@ public class EquipmentPage {
 	public BreastPlate getBreastPlate() { return breastPlate; }
 	
 	public Weapon getWeapon() { return weapon; }
+	
+	@Override
+	public String toString() {
+		String str = "Equipment:\n\t";
+		if (isEmpty()) str += "None equipped.";
+		else {
+			if (headGear != null) str += headGear + "\n\t";
+			if (breastPlate != null) str += breastPlate + "\n\t";
+			if (weapon != null) str +=  weapon + "\n";
+		}
+		return str;
+	}
 }

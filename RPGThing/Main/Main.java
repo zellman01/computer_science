@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.Optional;
+
 import Character.NPC;
 import Character.PC;
 import Stat.StatFactory;
@@ -20,3 +22,5 @@ public class Main {
 		System.out.println(test);
 	}
 }
+
+//TODO: MASSIVE rehaul using Optional instead of "== null" checks

@@ -8,10 +8,10 @@ import Equipment.Headgear;
 import Equipment.BreastPlate;
 
 /**
- * The parent class of PC and NPC
+ * The parent class of PC and NPC.
  * @author zellman01
 */
-public class Character {
+public abstract class Character {
 	private Stat[] statArray;
 	private String name;
 	private EquipmentPage ep;
@@ -55,30 +55,34 @@ public class Character {
 		return str;
 	}
 	
-	private String listEquipment() {
-		String str;
-		str = "\n\t";
-		if (ep.isEmpty()) str += "None equiped";
-		else str += ep;
-		return str;
-	}
-	
 	@Override
 	public String toString() {
 		return "Character's name: " + name + "\n"
 		+ "Stats: " + listStats() + "\n"
-		+ "Equipment: " + listEquipment();
+		+ ep;
 	}
 	
 	public boolean addWeapon(Weapon w) {
 		return ep.equipWeapon(w);
 	}
 	
+	public Weapon removeWeapon() {
+		return ep.unEquipWeapon();
+	}
+	
 	public boolean addHeadgear(Headgear hg) {
 		return ep.equipHeadgear(hg);
 	}
 	
+	public Headgear removeHeadgear() {
+		return ep.unEquipHeadgear();
+	}
+	
 	public boolean addBreastPlate(BreastPlate bp) {
 		return ep.equipBreastPlate(bp);
+	}
+	
+	public BreastPlate removeBreastplate() {
+		return ep.unEquipBreastplate();
 	}
 }
