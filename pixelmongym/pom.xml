@@ -39,6 +39,13 @@
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.pixelmonmod</groupId>
+			<artifactId>pixelmon</artifactId>
+			<version>1.12.2-8.2.0-univeral</version>
+			<scope>system</scope>
+			<systemPath>C:\Users\Admin\Desktop\Games\MultiMC\instances\Newest\.minecraft\mods\Pixelmon-1.12.2-8.2.0-universal.jar</systemPath>
+		</dependency>
 	</dependencies>
 	
 	<build>

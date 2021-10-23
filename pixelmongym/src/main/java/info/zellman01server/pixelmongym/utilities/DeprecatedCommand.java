@@ -1,4 +1,4 @@
-package info.zellman01server.pixelmongym;
+package info.zellman01server.pixelmongym.utilities;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -7,18 +7,12 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
-public class TestCommand implements CommandExecutor {
+public class DeprecatedCommand implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		// TODO Auto-generated method stub
-		src.sendMessage(Text.of("Pong!"));
-		
-		CommandResult result = CommandResult.builder()
-				.affectedEntities(0)
-				.successCount(1)
-				.build();
-		return result;
+		src.sendMessage(Text.of("This command is deprecated, and will be removed. The functionality has been removed as well."));
+		return null;
 	}
 
 }

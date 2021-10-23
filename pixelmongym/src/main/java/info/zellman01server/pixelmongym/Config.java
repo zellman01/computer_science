@@ -26,11 +26,14 @@ public class Config {
 	@Setting(comment="The actual database to connect to")
 	private String database = "database";
 	
-	@Setting(comment="An already existent table on the database to check against if it is active. It is better to set this to the a permission table inside of the database.")
-	private String table = "table";
-	
 	@Setting(comment="Sets the port of the database to connect to")
 	private int port = 2306;
+	
+	@Setting(comment="Table prefix in the database")
+	public final String tablePrefix = "_pixGym";
+	
+	@Setting(comment="If the tables need to be created")
+	public final boolean createTables = false;
 	
 	/**
 	 * Gets the string to connect to the database with
@@ -38,9 +41,8 @@ public class Config {
 	 */
 	public String databaseAccess() {
 		SqlService service = Sponge.getServiceManager().provide(SqlService.class).get();
-		String url = service.getConnectionUrlFromAlias("").orElse("jdbc:" + engine + "://" + username + ":" + password + "@" + host + ":" 
+		return service.getConnectionUrlFromAlias("").orElse("jdbc:" + engine + "://" + username + ":" + password + "@" + host + ":" 
 				+ port + "/" + database);
-		return url;
 	}
 	
 	public void updateEngine(String eng) {
@@ -61,10 +63,6 @@ public class Config {
 	
 	public void updateDatabase(String db) {
 		database = db;
-	}
-	
-	public void updateTable(String table) {
-		this.table = table;
 	}
 	
 	public void updatePort(int port) {

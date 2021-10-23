@@ -23,6 +23,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Admin/Desktop/Games/MultiMC/mods/Pixelmon-1.12.2-7.1.1-universal.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
