@@ -1,4 +1,4 @@
-package Stat;
+package stat;
 
 public enum StatName {
 	HP("HP"),

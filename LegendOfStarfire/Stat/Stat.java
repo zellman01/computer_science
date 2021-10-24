@@ -1,6 +1,6 @@
-package Stat;
+package stat;
 
-import Stat.StatName;
+import stat.StatName;
 
 /**
  * Low level Stat class. Depends on StatName.

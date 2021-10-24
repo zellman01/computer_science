@@ -1,11 +1,13 @@
-package Main;
+package main;
 
 import java.util.Optional;
+import java.util.Random;
 
-import Character.NPC;
-import Character.PC;
-import Stat.StatFactory;
-import Equipment.Weapon;
+import character.enemies.Slime;
+import character.PC;
+import stat.StatFactory;
+import equipment.Weapon;
+import equipment.Equipment;
 
 /**
  * Main class of the program. Executes the application.
@@ -13,14 +15,11 @@ import Equipment.Weapon;
 */
 public class Main {
 	public static void main(String[] args) {
-		System.out.println(new NPC(StatFactory.createStatArray(5, 5, 5, 5), "Test"));
 		PC test = new PC(StatFactory.createStatArray(3, 5, 8, 1), "Lyla");
-		Weapon w = new Weapon("Weapon of winning", 12);
-		if (!test.addWeapon(w)) {
-			System.out.println("Something went wrong.");
-		}
+		Weapon w = new Weapon("Weapon of winning", -2);
+		test.addItem(w);
+		test.addWeapon(Equipment.returnWeapon(test.removeItem(1).get()).get());
 		System.out.println(test);
+		System.out.println(test.removeItem(1).get());
 	}
 }
-
-//TODO: MASSIVE rehaul using Optional instead of "== null" checks

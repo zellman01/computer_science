@@ -1,7 +1,7 @@
-package Stat;
+package stat;
 
-import Stat.Stat;
-import Stat.StatName;
+import stat.Stat;
+import stat.StatName;
 
 /**
  * This class is used to normalize all stat arrays used in the program.

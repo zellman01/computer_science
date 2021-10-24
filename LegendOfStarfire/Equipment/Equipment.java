@@ -1,9 +1,9 @@
-package Equipment;
+package equipment;
 
 import java.util.Optional;
 
-import Stat.StatName;
-import Inventory.GameObject;
+import stat.StatName;
+import inventory.GameObject;
 
 /**
  * Parent class of all Equipments
@@ -17,6 +17,7 @@ public abstract class Equipment extends GameObject {
 	
 	/**
 	 * Creates an Equipment. Always used with super()
+	 * @param name The name of the equipment
 	 * @param stat The enum StatName of the stat that is modified
 	 * @param amount The amount that the stat gets changed
 	 * @param type 0 for Headgear, 1 for Breastplate, 2 for Weapon

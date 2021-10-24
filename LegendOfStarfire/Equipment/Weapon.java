@@ -1,7 +1,7 @@
-package Equipment;
+package equipment;
 
-import Equipment.Equipment;
-import Stat.StatName;
+import equipment.Equipment;
+import stat.StatName;
 
 /**
  * Higher level of equipment - Weapon

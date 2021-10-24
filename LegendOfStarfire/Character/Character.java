@@ -1,11 +1,13 @@
-package Character;
+package character;
 
-import Stat.Stat;
-import Stat.StatName;
-import Equipment.EquipmentPage;
-import Equipment.Weapon;
-import Equipment.Headgear;
-import Equipment.BreastPlate;
+import java.util.Optional;
+
+import stat.Stat;
+import stat.StatName;
+import equipment.EquipmentPage;
+import equipment.Weapon;
+import equipment.Headgear;
+import equipment.BreastPlate;
 
 /**
  * The parent class of PC and NPC.
@@ -66,23 +68,31 @@ public abstract class Character {
 		return ep.equipWeapon(w);
 	}
 	
-	public Weapon removeWeapon() {
-		return ep.unEquipWeapon();
+	public Optional<Weapon> removeWeapon() {
+		return Optional.ofNullable(ep.unEquipWeapon());
 	}
 	
 	public boolean addHeadgear(Headgear hg) {
 		return ep.equipHeadgear(hg);
 	}
 	
-	public Headgear removeHeadgear() {
-		return ep.unEquipHeadgear();
+	public Optional<Headgear> removeHeadgear() {
+		return Optional.ofNullable(ep.unEquipHeadgear());
 	}
 	
 	public boolean addBreastPlate(BreastPlate bp) {
 		return ep.equipBreastPlate(bp);
 	}
 	
-	public BreastPlate removeBreastplate() {
-		return ep.unEquipBreastplate();
+	public Optional<BreastPlate> removeBreastplate() {
+		return Optional.ofNullable(ep.unEquipBreastplate());
+	}
+	
+	/**
+	 * Gets the health stat to use
+	 * @return The health Stat object
+	*/
+	public Stat getHealthStat() {
+		return statArray[0];
 	}
 }

@@ -1,9 +1,9 @@
-package Inventory;
+package inventory;
 
 import java.util.Optional;
 
-import Inventory.GameObject;
-import Equipment.Equipment;
+import inventory.GameObject;
+import equipment.Equipment;
 
 /**
  * The spaces of the character's Inventory
@@ -30,10 +30,9 @@ public class InventoryBlock {
 	 * @return The GameObject if it exists, or null if it does not.
 	*/
 	public Optional<GameObject> removeItem() {
-		if (invObject == null) return Optional.empty();
 		GameObject temp = invObject;
 		invObject = null;
-		return Optional.of(temp);
+		return Optional.ofNullable(temp);
 	}
 	
 	/**
@@ -42,8 +41,17 @@ public class InventoryBlock {
 	 * @return true if it succeeds (no item already exists), false if it does not (item already exists)
 	*/
 	public boolean addItem(GameObject obj) {
+		System.out.println("Testing");
 		if (invObject != null) return false;
 		invObject = obj;
 		return true;
+	}
+	
+	/**
+	 * Obtains the GameItem stored in this InventoryBlock
+	 * @return An Optional with the GameObject or null
+	*/
+	public Optional<GameObject> getItem() {
+		return Optional.ofNullable(invObject);
 	}
 }

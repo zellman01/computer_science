@@ -1,6 +1,6 @@
-package Equipment;
+package equipment;
 
-import Equipment.*;
+import equipment.*;
 
 /**
  * Equipment pages to allow enemies and the player to have equipment
@@ -60,7 +60,7 @@ public class EquipmentPage {
 	
 	/**
 	 * Remove the headgear equipped
-	 * @return The headgear that was unequipped to put back in inventory
+	 * @return The headgear that was unequipped to put back in inventory (can return null)
 	*/
 	public Headgear unEquipHeadgear() {
 		Headgear temp = headGear;
@@ -70,7 +70,7 @@ public class EquipmentPage {
 	
 	/**
 	 * Remove the breastplate equipped
-	 * @return The breastplate that was unequipped to put back in inventory
+	 * @return The breastplate that was unequipped to put back in inventory (can return null)
 	*/
 	public BreastPlate unEquipBreastplate() {
 		BreastPlate temp = breastPlate;
@@ -80,7 +80,7 @@ public class EquipmentPage {
 	
 	/**
 	 * Remove the weapon equipped
-	 * @return The weapon that was unequipped to put back in inventory
+	 * @return The weapon that was unequipped to put back in inventory (can return null)
 	*/
 	public Weapon unEquipWeapon() {
 		Weapon temp = weapon;

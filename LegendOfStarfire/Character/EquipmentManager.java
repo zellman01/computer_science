@@ -1,8 +1,8 @@
-package Character;
+package character;
 
-import Equipment.Weapon;
-import Equipment.Headgear;
-import Equipment.BreastPlate;
+import equipment.Weapon;
+import equipment.Headgear;
+import equipment.BreastPlate;
 
 /**
  * @deprecated Not seeable how this is useful.
