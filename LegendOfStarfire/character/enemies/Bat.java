@@ -4,7 +4,12 @@ import java.util.Random;
 
 import character.NPC;
 import stat.StatFactory;
+import attack.Attack;
 
+/**
+ * The bat enemy class
+ * @author zellman01
+*/
 public class Bat extends NPC {
 	public Bat(Random rand) {
 		// HP between 5 and 9
@@ -13,5 +18,9 @@ public class Bat extends NPC {
 	
 	public int damage() {
 		return 0;
+	}
+	
+	public Attack makeAttack() {
+		return null;
 	}
 }

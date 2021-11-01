@@ -124,14 +124,16 @@ public abstract class Character {
 	}
 	
 	/**
-	 *
+	 * Removes the Breastplate, if one was equipped
+	 * @return An Optional object containing a BreastPlate or null
 	*/
 	public Optional<BreastPlate> removeBreastplate() {
 		return ep.unEquipBreastplate();
 	}
 	
 	/**
-	 *
+	 * Gets the currently equipped BreastPlate
+	 @return An Optional object containing a BreastPlate or null
 	*/
 	public Optional<BreastPlate> getBreastPlate() {
 		return ep.getBreastPlate();
@@ -162,9 +164,16 @@ public abstract class Character {
 	}
 	
 	/**
-	 *
+	 * Take damage to the character
+	 * @param amount The amount to lower or raise the health by (negative for healing, positive for damaging)
 	*/
 	public void tookDamage(int amount) {
 		statArray[0].raiseAmount(-amount);
 	}
+	
+	/**
+	 * Gets if the Character object is dead.
+	 * @return True if health is below or at 0. False otherwise.
+	*/
+	public boolean isDead() { return statArray[0].getStatAmount() <= 0; }
 }

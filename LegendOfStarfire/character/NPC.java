@@ -1,5 +1,7 @@
 package character;
 
+import java.util.ArrayList;
+
 import stat.Stat;
 import character.Character;
 import attack.Attack;
@@ -9,7 +11,7 @@ import attack.Attack;
  * @author zellman01
 */
 public abstract class NPC extends Character {
-	private Attack attackArray[];
+	private ArrayList<Attack> attackArray;
 	
 	/**
 	 * Creates an NPC
@@ -18,5 +20,21 @@ public abstract class NPC extends Character {
 	*/
 	public NPC(Stat[] statArray, String name) {
 		super(statArray, name);
+		attackArray = new ArrayList<Attack>();
 	}
+	
+	/**
+	 * Adds an attack to the AttackArray
+	 * @param attack The Attack object to add
+	 * @return True if adding succeeded.
+	*/
+	public boolean addAttack(Attack attack) {
+		return attackArray.add(attack);
+	}
+	
+	/**
+	 * Selects an attack to use
+	 * @return The Attack object selected to make the attack with
+	*/
+	public abstract Attack makeAttack();
 }

@@ -46,6 +46,9 @@ javac character/Character.java
 echo Compiling Attack.java
 javac attack/Attack.java
 
+echo Compiling CommonAttack.java
+javac attack/CommonAttack.java
+
 echo Compiling NPC.java
 javac character/NPC.java
 
