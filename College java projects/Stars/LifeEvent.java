@@ -1,14 +1,8 @@
 public class LifeEvent {
 	private LivingObject obj;
-	private boolean isDeath;
 	
-	public LifeEvent(LivingObject obj, boolean isDeath) {
+	public LifeEvent(LivingObject obj) {
 		this.obj = obj;
-		this.isDeath = isDeath;
-	}
-	
-	public boolean isDeathEvent() {
-		return isDeath;
 	}
 	
 	public LivingObject getSource() {
