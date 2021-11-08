@@ -11,23 +11,27 @@ public abstract class LivingObject {
 	private double yVelocity;
 	private double xSpeed;
 	private double ySpeed;
+	protected double radius;
 	public static int timeScalar = 1;
-	private int lifeRemaining;
+	protected int lifeRemaining;
 	private LifeEventListener lel;
+	private DrawPanelSize dps;
 	
-	public LivingObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, int lifeRemaining, LifeEventListener lel) {
-		setupObject(xPos, yPos, angle, angleSpeed, xAcceleration, yAcceleration, lifeRemaining);
+	public LivingObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining, LifeEventListener lel, DrawPanelSize dps) {
+		setupObject(xPos, yPos, angle, angleSpeed, xAcceleration, yAcceleration, radius, lifeRemaining);
 		this.lel = lel;
+		this.dps = dps;
 		lel.lifeOccured(new LifeEvent(this));
 	}
 	
-	private void setupObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, int lifeRemaining) {
+	private void setupObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.angle = angle;
 		this.angleSpeed = angleSpeed;
 		this.xAcceleration = xAcceleration;
 		this.yAcceleration = yAcceleration;
+		this.radius = radius;
 		this.lifeRemaining = lifeRemaining;
 		xSpeed = 0;
 		ySpeed = 0;
@@ -81,7 +85,14 @@ public abstract class LivingObject {
 		if(lifeRemaining <= 0) {
 			lel.deathOccured(new LifeEvent(this));
 		}
+		// Chek where the object is in relation to the edges
+		if (xPos - radius <= 0 || xPos + radius >= dps.getPanelWidth()) {
+			reflectOffVerticalWall();
+		}
 		
+		if (yPos - radius <= 0 || yPos + radius >= dps.getPanelHeight()) {
+			reflectOffHorizontalWall();
+		}
 	}
 	
 	public abstract void draw(Graphics2D g);

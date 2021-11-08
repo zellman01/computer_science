@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Vector;
+import java.util.Random;
 import java.awt.BorderLayout;
 import javax.swing.Timer;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 	private Timer updateFire;
 	private JButton addLivingObject;
 	DrawPanel dp;
+	public static final Random rand = new Random();
 	
 	public Primary() {
 		JPanel buttonPanel = new JPanel();
@@ -57,13 +59,16 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("UPDATE")) {
-			for (LivingObject lo : livingObjects) {
-				lo.update();
+			for (int i = 0; i < livingObjects.size(); i++) {
+				livingObjects.get(i).update();
 			}
+			dp.removeAll();
+			revalidate();
+			repaint();
 		}
 		
 		if (e.getActionCommand().equals("CREATE")) {
-			LivingSquare.getRandom(this);
+			LivingSquare.getRandom(this, Primary.rand, dp);
 		}
 	}
 	

@@ -3,6 +3,9 @@ echo Compiling classes
 echo Compiling LifeEventListener
 javac LifeEventListener.java
 
+echo Compiling DrawPanelSize.java
+javac DrawPanelSize.java
+
 echo Compiling LivingObject
 javac LivingObject.java
 

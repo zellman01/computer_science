@@ -3,7 +3,7 @@ import java.util.Vector;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class DrawPanel extends JPanel {
+public class DrawPanel extends JPanel implements DrawPanelSize {
 	// III
 	private Vector<LivingObject> livingObjects;
 	
@@ -13,10 +13,16 @@ public class DrawPanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		removeAll();
-		revalidate();
 		for (LivingObject lo : livingObjects) {
 			lo.draw((Graphics2D)g);
 		}
+	}
+	
+	public double getPanelWidth() {
+		return getSize().getWidth();
+	}
+	
+	public double getPanelHeight() {
+		return getSize().getHeight();
 	}
 }
