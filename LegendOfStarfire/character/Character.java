@@ -37,13 +37,13 @@ public abstract class Character {
 			if (!ep.isEmpty()) {
 				if (ep.getWeapon().isPresent() && statArray[i].getStatName() == ep.getWeapon().get().getStatName()) {
 					int amount = ep.getWeapon().get().getAmountModified()+statArray[i].getStatAmount();
-					str += " Amount: " + amount;
+					str += "Amount: " + amount;
 				} else if (ep.getHeadgear().isPresent() && statArray[i].getStatName() == ep.getHeadgear().get().getStatName()) {
 					int amount = ep.getHeadgear().get().getAmountModified()+statArray[i].getStatAmount();
-					str += " Amount: " + amount;
+					str += "Amount: " + amount;
 				} else if (ep.getBreastPlate().isPresent() && statArray[i].getStatName() == ep.getBreastPlate().get().getStatName()) {
 					int amount = ep.getBreastPlate().get().getAmountModified()+statArray[i].getStatAmount();
-					str += " Amount: " + amount;
+					str += "Amount: " + amount;
 				} else {
 					str += "Amount: " + statArray[i].getStatAmount();
 				}
@@ -144,7 +144,15 @@ public abstract class Character {
 	 * @return The health Stat object
 	*/
 	public Stat getHealthStat() {
-		return statArray[0];
+		return statArray[StatName.HP.getArrayPos()];
+	}
+	
+	/**
+	 * Gets the stat containing the maximum health a character can have
+	 * @return The MaxHealth Stat Object
+	*/
+	public Stat getMaximumHealthStat() {
+		return statArray[StatName.MAXHP.getArrayPos()];
 	}
 	
 	/**
@@ -152,7 +160,7 @@ public abstract class Character {
 	 * @return The attack Stat object
 	*/
 	public Stat getAttackStat() {
-		return statArray[1];
+		return statArray[StatName.ATK.getArrayPos()];
 	}
 	
 	/**
@@ -160,7 +168,7 @@ public abstract class Character {
 	 * @return The defense Stat object
 	*/
 	public Stat getDefenseStat() {
-		return statArray[2];
+		return statArray[StatName.DEF.getArrayPos()];
 	}
 	
 	/**
@@ -168,12 +176,20 @@ public abstract class Character {
 	 * @param amount The amount to lower or raise the health by (negative for healing, positive for damaging)
 	*/
 	public void tookDamage(int amount) {
-		statArray[0].raiseAmount(-amount);
+		Stat hpStat = statArray[StatName.HP.getArrayPos()];
+		int hp = hpStat.getStatAmount();
+		if (hp-amount < 0) {
+			hpStat.raiseAmount(-hpStat.getStatAmount());
+		}else if (hp-amount > statArray[StatName.MAXHP.getArrayPos()].getStatAmount()) {
+			hpStat.maxHP(statArray[StatName.MAXHP.getArrayPos()]);
+		} else {
+			hpStat.raiseAmount(-amount);
+		}
 	}
 	
 	/**
 	 * Gets if the Character object is dead.
 	 * @return True if health is below or at 0. False otherwise.
 	*/
-	public boolean isDead() { return statArray[0].getStatAmount() <= 0; }
+	public boolean isDead() { return statArray[StatName.HP.getArrayPos()].getStatAmount() <= 0; }
 }

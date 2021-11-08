@@ -4,6 +4,9 @@ echo Compiling classes
 echo Compiling StatName.java
 javac stat/StatName.java
 
+echo Compiling AttackState.java
+javac attack/AttackState.java
+
 echo Compiling Stat.java
 javac stat/Stat.java
 
@@ -34,14 +37,20 @@ javac equipment/Weapon.java
 echo Compiling EquipmentPage.java
 javac equipment/EquipmentPage.java
 
-echo Compiling EquipmentManager.java
-javac character/EquipmentManager.java
-
 echo Compiling AttackPercent.java
 javac attack/AttackPercent.java
 
 echo Compiling Character.java
 javac character/Character.java
+
+echo Compiling Item.java
+javac item/Item.java
+
+echo Compiling Potion.java
+javac item/Potion.java
+
+echo Compiling HealthPotion.java
+javac item/HealthPotion.java
 
 echo Compiling Attack.java
 javac attack/Attack.java
@@ -51,6 +60,9 @@ javac attack/CommonAttack.java
 
 echo Compiling NPC.java
 javac character/NPC.java
+
+echo Compiling Raguel.java
+javac character/bosses/Raguel.java
 
 echo Compiling Slime.java
 javac character/enemies/Slime.java

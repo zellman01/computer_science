@@ -12,11 +12,6 @@ import inventory.GameObject;
 public abstract class Equipment extends GameObject {
 	private StatName statModified;
 	private int amountModified;
-	/**
-	 * @deprecated Use instanceof instead of this way
-	*/
-	@Deprecated
-	private int equipmentType;
 	private String name;
 	
 	/**
@@ -24,13 +19,11 @@ public abstract class Equipment extends GameObject {
 	 * @param name The name of the equipment
 	 * @param stat The enum StatName of the stat that is modified
 	 * @param amount The amount that the stat gets changed
-	 * @param type 0 for Headgear, 1 for Breastplate, 2 for Weapon
 	*/
-	public Equipment(String name, StatName stat, int amount, int type) {
+	public Equipment(String name, StatName stat, int amount) {
 		this.name = name;
 		statModified = stat;
 		amountModified = amount;
-		equipmentType = type;
 	}
 	
 	/**
@@ -53,19 +46,19 @@ public abstract class Equipment extends GameObject {
 	 * Checks if the given Equipment is a Headgear object
 	 * @return If the Equipment object is a Headgear object
 	*/
-	public boolean isHeadgear() { return equipmentType == 0; }
+	public boolean isHeadgear() { return this instanceof Headgear; }
 	
 	/**
 	 * Checks if the given Equipment is a BreastPlate object
 	 * @return If the Equipment object is a BreastPlate object
 	*/
-	public boolean isBreastplate() { return equipmentType == 1; }
+	public boolean isBreastplate() { return this instanceof BreastPlate; }
 	
 	/**
 	 * Checks if the given Equipment is a Weapon object
 	 * @return If the Equipment object is a Weapon object
 	*/
-	public boolean isWeapon() { return equipmentType == 2; }
+	public boolean isWeapon() { return this instanceof Weapon; }
 	
 	/**
 	 * Returns a HeadGear object, if obj is one.

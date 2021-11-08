@@ -60,6 +60,7 @@ public class Inventory {
 	 * @param amount The amount to raise the inventory by.
 	*/
 	public void increaseSize(int amount) {
+		if (amount <= 0) return;
 		int tempSize = inventorySize+amount;
 		InventoryBlock temp[] = new InventoryBlock[tempSize];
 		for (int i = 0; i < tempSize; i++) {

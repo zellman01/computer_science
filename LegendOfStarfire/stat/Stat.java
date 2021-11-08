@@ -37,16 +37,18 @@ public class Stat {
 	 * @param amount Positive int for raising, negative int for lowering.
 	*/
 	public void raiseAmount(int amount) {
-		this.amount -= amount;
+		this.amount += amount;
 		if (this.amount < 0) this.amount = 0;
 	}
 	
 	/**
-	 * Creates an empty Stat object
-	 * @deprecated Unsure if used anywhere in the project
+	 * Maxes out the HP stat
+	 * @param max The MaxHP stat of the character
 	*/
-	@Deprecated
-	public Stat() {}
+	public void maxHP(Stat max) {
+		if (!name.equals(StatName.HP)) return;
+		amount = max.getStatAmount();
+	}
 	
 	@Override
 	public String toString() {

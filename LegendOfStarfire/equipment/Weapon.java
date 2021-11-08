@@ -15,6 +15,6 @@ public class Weapon extends Equipment {
 	 * @param amountChanged How much the stat of the equipment changes
 	*/
 	public Weapon(String name, int amountChanged) {
-		super(name, StatName.ATK, amountChanged, 2);
+		super(name, StatName.ATK, amountChanged);
 	}
 }

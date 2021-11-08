@@ -11,9 +11,12 @@ import attack.Attack;
  * @author zellman01
 */
 public class Bat extends NPC {
-	public Bat(Random rand) {
+	private Random rand; // Randomly select an attack
+	
+	public Bat(Random random) {
 		// HP between 5 and 9
-		super(StatFactory.createStatArray(rand.nextInt(3)+2, rand.nextInt(3)+1, rand.nextInt(2)+1, rand.nextInt(6)+1), "Bat");
+		super(StatFactory.createStatArray(random.nextInt(3)+2, random.nextInt(3)+1, random.nextInt(2)+1, random.nextInt(6)+1), "Bat");
+		rand = random;
 	}
 	
 	public int damage() {
@@ -21,6 +24,7 @@ public class Bat extends NPC {
 	}
 	
 	public Attack makeAttack() {
-		return null;
+		int attackIndexSize = attackArray.size();
+		return attackArray.get(rand.nextInt(attackIndexSize));
 	}
 }

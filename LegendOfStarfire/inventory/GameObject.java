@@ -19,7 +19,7 @@ public class GameObject {
 	 * @param isKeyItem Is the GameObject a key item for the story or not
 	*/
 	public GameObject(boolean isKeyItem) {
-		isKeyItem = true;
+		this.isKeyItem = isKeyItem;
 	}
 	
 	/**

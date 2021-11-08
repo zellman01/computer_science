@@ -17,11 +17,12 @@ public class StatFactory {
 	 * @return The normalized Stat array
 	*/
 	public static Stat[] createStatArray(int hp, int atk, int def, int spd) {
-		Stat array[] = new Stat[4];
-		array[0] = new Stat(StatName.HP, hp);
-		array[1] = new Stat(StatName.ATK, atk);
-		array[2] = new Stat(StatName.DEF, def);
-		array[3] = new Stat(StatName.SPD, spd);
+		Stat array[] = new Stat[5];
+		array[0] = new Stat(StatName.MAXHP, hp);
+		array[1] = new Stat(StatName.HP, hp);
+		array[2] = new Stat(StatName.ATK, atk);
+		array[3] = new Stat(StatName.DEF, def);
+		array[4] = new Stat(StatName.SPD, spd);
 		
 		return array;
 	}

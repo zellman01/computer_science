@@ -41,7 +41,6 @@ public class InventoryBlock {
 	 * @return true if it succeeds (no item already exists), false if it does not (item already exists)
 	*/
 	public boolean addItem(GameObject obj) {
-		System.out.println("Testing");
 		if (invObject != null) return false;
 		invObject = obj;
 		return true;

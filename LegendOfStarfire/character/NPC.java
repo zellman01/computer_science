@@ -11,7 +11,7 @@ import attack.Attack;
  * @author zellman01
 */
 public abstract class NPC extends Character {
-	private ArrayList<Attack> attackArray;
+	protected ArrayList<Attack> attackArray;
 	
 	/**
 	 * Creates an NPC

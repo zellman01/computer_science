@@ -12,9 +12,12 @@ import attack.CommonAttack;
  * @author zellman01
 */
 public class Slime extends NPC {
-	public Slime(Random rand) {
+	private Random rand;
+	
+	public Slime(Random random) {
 		// HP between 5 and 9
-		super(StatFactory.createStatArray(rand.nextInt(5)+5, rand.nextInt(2)+1, rand.nextInt(3)+1, rand.nextInt(2)+1), "Slime");
+		super(StatFactory.createStatArray(random.nextInt(5)+5, random.nextInt(2)+1, random.nextInt(3)+1, random.nextInt(2)+1), "Slime");
+		rand = random;
 		
 		// Generate the attacks Slime can use
 		for (int i = 0; i < CommonAttack.arrayLength; i++) {
@@ -28,6 +31,7 @@ public class Slime extends NPC {
 	
 	@Override
 	public Attack makeAttack() {
-		return null;
+		int attackIndexSize = attackArray.size();
+		return attackArray.get(rand.nextInt(attackIndexSize));
 	}
 }

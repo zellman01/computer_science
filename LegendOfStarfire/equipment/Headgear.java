@@ -15,6 +15,6 @@ public class Headgear extends Equipment {
 	 * @param amountChanged How much the stat of the equipment changes
 	*/
 	public Headgear(String name, int amountChanged) {
-		super(name, StatName.DEF, amountChanged, 0);
+		super(name, StatName.DEF, amountChanged);
 	}
 }

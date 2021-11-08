@@ -9,11 +9,6 @@ import equipment.*;
  * @author zellman01
 */
 public class EquipmentPage {
-	/**
-	 * @deprecated Not used
-	*/
-	@Deprecated
-	private final int TOTALEQUIPPED = 1;
 	private Headgear headGear;
 	private BreastPlate breastPlate;
 	private Weapon weapon;
@@ -69,9 +64,9 @@ public class EquipmentPage {
 	 * @return The headgear that was unequipped to put back in inventory (can return null)
 	*/
 	public Optional<Headgear> unEquipHeadgear() {
-		Headgear temp = headGear;
+		Optional<Headgear> temp = Optional.ofNullable(headGear);
 		headGear = null;
-		return Optional.ofNullable(temp);
+		return temp;
 	}
 	
 	/**
@@ -79,9 +74,9 @@ public class EquipmentPage {
 	 * @return The breastplate that was unequipped to put back in inventory (can return null)
 	*/
 	public Optional<BreastPlate> unEquipBreastplate() {
-		BreastPlate temp = breastPlate;
+		Optional<BreastPlate> temp = Optional.ofNullable(breastPlate);
 		breastPlate = null;
-		return Optional.ofNullable(temp);
+		return temp;
 	}
 	
 	/**
@@ -89,9 +84,9 @@ public class EquipmentPage {
 	 * @return The weapon that was unequipped to put back in inventory (can return null)
 	*/
 	public Optional<Weapon> unEquipWeapon() {
-		Weapon temp = weapon;
+		Optional<Weapon> temp = Optional.ofNullable(weapon);
 		weapon = null;
-		return Optional.ofNullable(temp);
+		return temp;
 	}
 	
 	/**

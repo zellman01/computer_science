@@ -7,6 +7,7 @@ import character.Character;
 import inventory.Inventory;
 import inventory.GameObject;
 import attack.Attack;
+import item.Item;
 
 /**
  * The main player class - most methods are wrapper methods to use already created methods for functionality
@@ -22,7 +23,7 @@ public class PC extends Character {
 	 * @param name The name of the character
 	*/
 	public PC(Stat[] statArray, String name) {
-		super (statArray, name);
+		super(statArray, name);
 		inventory = new Inventory(15);
 	}
 	
@@ -42,5 +43,24 @@ public class PC extends Character {
 	*/
 	public Optional<GameObject> removeItem(int slot) {
 		return inventory.removeItem(slot);
+	}
+	
+	/**
+	 * Uses an item if it exists. If it does exist and it is not an item, adds it back to the inventory.
+	 * @param slot The slot position to remove the item from (1 - inventory max)
+	 * @return True if successful, false otherwise
+	*/
+	public boolean useItem(int slot) {
+		Optional<GameObject> useItem = removeItem(slot);
+		if (useItem.isPresent()) {
+			if (useItem.get() instanceof Item) {
+				Item item = (Item)useItem.get();
+				item.doEffect(this);
+				return true;
+			} else {
+				addItem(useItem.get());
+			}
+		}
+		return false;
 	}
 }
