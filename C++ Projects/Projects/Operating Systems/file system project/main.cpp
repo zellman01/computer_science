@@ -5,6 +5,16 @@ using namespace std;
 struct FileBlock {
 	char name[11];
 	int location;
+	int size;
+}
+
+struct Data {
+	char character[5]; // 5 characters per block
+}
+
+struct freeIndex {
+	bool isFree; // True if free, false if not
+	Data * dataBlock; // A pointer to the referenced data block
 }
 
 void createFileSystem();
