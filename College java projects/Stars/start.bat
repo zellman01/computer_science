@@ -18,7 +18,6 @@ javac DrawPanel.java
 echo Compiling Primary
 javac Primary.java
 
-
 echo Starting project
 java Primary
 

@@ -6,15 +6,26 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Vector;
 import java.util.Random;
+import java.util.Hashtable;
 import java.awt.BorderLayout;
 import javax.swing.Timer;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JSlider;
+import javax.swing.JLabel;
 
 public class Primary extends JFrame implements ActionListener, LifeEventListener {
 	private Vector<LivingObject> livingObjects;
 	private Timer updateFire;
 	private JButton addLivingObject;
-	DrawPanel dp;
+	private JButton addMultipleObjects;
+	private JButton pause;
+	private JCheckBox drawTrace;
+	private JButton clearStars;
+	private JSlider lifeTime;
+	private JLabel lifeTimeLabel;
+	private DrawPanel dp;
+	private boolean paused;
 	public static final Random rand = new Random();
 	
 	public Primary() {
@@ -22,14 +33,37 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 		livingObjects = new Vector<LivingObject>();
 		updateFire = new Timer(1000, this);
 		updateFire.setActionCommand("UPDATE");
-		addLivingObject = createButton("Add living object", "CREATE", this, "Creates a new LivingObject");
+		addLivingObject = createButton("Add a living object", "CREATEONE", this, "Creates a new LivingObject");
+		addMultipleObjects = createButton("Add living objects", "CREATEMANY", this, "Creates many LivingObjects");
+		clearStars = createButton("Clear objects", "CLEAR", this, "Clears all LivingObjects");
+		pause = createButton("Pause", "PAUSE", this, "Pauses/resumes the animation");
+		lifeTimeLabel = new JLabel("LivingObject's lifetime:");
+		lifeTime = new JSlider(5, 15, 10);
+		drawTrace = new JCheckBox("Draw trace");
+		
 		dp = new DrawPanel(livingObjects);
 		
+		Hashtable<Integer, JLabel> d = new Hashtable<Integer, JLabel>();
+		for (int i = 0; i < 11; i++) {
+			d.put(i+5, new JLabel((i+5)+""));
+		}
+		
+		lifeTime.setLabelTable(d);
+		lifeTime.setPaintLabels(true);
+		
 		buttonPanel.add(addLivingObject);
+		buttonPanel.add(addMultipleObjects);
+		buttonPanel.add(clearStars);
+		buttonPanel.add(pause);
+		buttonPanel.add(drawTrace);
+		buttonPanel.add(lifeTimeLabel);
+		buttonPanel.add(lifeTime);
 		
 		add(dp);
 		add(buttonPanel, BorderLayout.SOUTH);
 		updateFire.start();
+		
+		paused = false;
 		
 		showJFrame();
 	}
@@ -62,13 +96,40 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 			for (int i = 0; i < livingObjects.size(); i++) {
 				livingObjects.get(i).update();
 			}
+			if (!drawTrace.isSelected()) {
+				dp.removeAll();
+				revalidate();
+				repaint();
+			} else dp.repaint();
+		}
+		
+		if (e.getActionCommand().equals("CREATEONE")) {
+			LivingSquare.getRandom(this, Primary.rand, dp, lifeTime.getValue());
+		}
+		
+		if (e.getActionCommand().equals("CREATEMANY")) {
+			for (int i = 0; i < 15; i++) {
+				LivingSquare.getRandom(this, Primary.rand, dp, lifeTime.getValue());
+			}
+		}
+		
+		if (e.getActionCommand().equals("CLEAR")) {
+			livingObjects.clear();
 			dp.removeAll();
 			revalidate();
 			repaint();
 		}
 		
-		if (e.getActionCommand().equals("CREATE")) {
-			LivingSquare.getRandom(this, Primary.rand, dp);
+		if (e.getActionCommand().equals("PAUSE")) {
+			if (!paused) {
+				updateFire.stop();
+				paused = true;
+				pause.setText("Resume");
+			} else {
+				paused = false;
+				updateFire.start();
+				pause.setText("Pause");
+			}
 		}
 	}
 	
