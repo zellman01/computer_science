@@ -59,10 +59,11 @@ public class Attack {
 	 * @return An AttackState, depending on if it missed, hit, or critical
 	*/
 	public AttackState makeAttack(Random rand) {
-		if (rand.nextInt(101) > successRate.getPercent())
+		int percent = rand.nextInt(AttackPercent.MAX_PERCENT_PUBLIC+1);
+		if (percent > successRate.getPercent())
 			return AttackState.MISS;
 		
-		if (rand.nextInt(101) <= criticalRate.getPercent())
+		if (percent <= criticalRate.getPercent())
 			return AttackState.CRITICAL;
 		
 		return AttackState.HIT;

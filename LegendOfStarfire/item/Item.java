@@ -7,8 +7,9 @@ import character.Character;
  * Master class of all useable items that can be stored in the inventory
 */
 public abstract class Item extends GameObject {
-	private String name;
+	//private String name;
 	private String description;
+	private int stackLength; // How many of this item can be stacked on one another
 	
 	/**
 	 * Creates an Item object
@@ -16,8 +17,21 @@ public abstract class Item extends GameObject {
 	 * @param isKeyItem Is the item a key item for the story
 	*/
 	public Item(String name, boolean isKeyItem) {
-		super(isKeyItem);
-		this.name = name;
+		super(name, isKeyItem);
+		//this.name = name;
+		stackLength = 1;
+	}
+	
+	/**
+	 * Creates an Item object
+	 * @param name The name of the item
+	 * @param stackLength How many of this item can be stacked on one another in the Inventory
+	 * @param isKeyItem Is the item a key item for the story
+	*/
+	public Item(String name, int stackLength, boolean isKeyItem) {
+		super(name, isKeyItem);
+		//this.name = name;
+		this.stackLength = stackLength;
 	}
 	
 	/**
@@ -27,10 +41,32 @@ public abstract class Item extends GameObject {
 	 * @param isKeyItem Is the item a key item for the story
 	*/
 	public Item(String name, String desc, boolean isKeyItem) {
-		super(isKeyItem);
-		this.name = name;
+		super(name, isKeyItem);
+		//this.name = name;
 		description = desc;
+		stackLength = 1;
 	}
+	
+	/**
+	 * Creates an Item object
+	 * @param name The name of the item
+	 * @param desc The description of the item
+	 * @param stackLength How many of this item can be stacked on one another in the Inventory
+	 * @param isKeyItem Is the item a key item for the story
+	*/
+	public Item(String name, String desc, int stackLength, boolean isKeyItem) {
+		super(name, isKeyItem);
+		//this.name = name;
+		description = desc;
+		this.stackLength = stackLength;
+	}
+	
+	
+	/**
+	 * Gets the amount that can be stacked
+	 * @return The stack length
+	*/
+	public int getStackLength() { return stackLength; }
 	
 	/**
 	 * Does an effect specific to the more specific type of item.

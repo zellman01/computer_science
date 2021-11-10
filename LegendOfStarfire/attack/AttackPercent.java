@@ -6,7 +6,8 @@ package attack;
 */
 public class AttackPercent {
 	private int percent;
-	private final int MAX_PERCENT = 100;
+	public final static int MAX_PERCENT_PUBLIC = 100;
+	private final int MAX_PERCENT = AttackPercent.MAX_PERCENT_PUBLIC;
 	private final int MIN_PERCENT = 0;
 	
 	/**

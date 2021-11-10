@@ -35,7 +35,9 @@ public class Inventory {
 	public boolean addItem(GameObject obj) {
 		if (amountInInventory == inventorySize) return false;
 		for (int i = 0; i < inventorySize; i++) {
+			Optional<GameObject> temp = storage[i].getItem();
 			if (storage[i].addItem(obj)) {
+				if (!temp.isPresent()) amountInInventory++;
 				return true;
 			}
 		}
@@ -51,7 +53,7 @@ public class Inventory {
 		slot--;
 		if (slot > inventorySize || slot < 0) return Optional.empty();
 		Optional<GameObject> retValue = storage[slot].removeItem();
-		if (retValue.isPresent()) amountInInventory--;
+		if (retValue.isPresent() && !storage[slot].getItem().isPresent()) amountInInventory--;
 		return retValue;
 	}
 	

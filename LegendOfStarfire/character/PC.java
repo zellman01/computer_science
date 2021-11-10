@@ -1,6 +1,7 @@
 package character;
 
 import java.util.Optional;
+import java.util.ArrayList;
 
 import stat.Stat;
 import character.Character;
@@ -15,7 +16,6 @@ import item.Item;
 */
 public class PC extends Character {
 	private Inventory inventory;
-	private Attack attackArray[];
 	
 	/**
 	 * Creates a PlayerCharacter (PC) Object

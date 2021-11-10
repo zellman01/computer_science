@@ -52,6 +52,9 @@ javac item/Potion.java
 echo Compiling HealthPotion.java
 javac item/HealthPotion.java
 
+echo Compiling UnknownPotion.java
+javac item/UnknownPotion.java
+
 echo Compiling Attack.java
 javac attack/Attack.java
 
@@ -72,6 +75,9 @@ javac character/enemies/Bat.java
 
 echo Compiling PC.java
 javac character/PC.java
+
+echo Compiling PrivateTest.java
+javac tests/PrivateTest.java
 
 echo Compiling Main.java
 javac main/Main.java

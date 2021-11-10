@@ -7,8 +7,11 @@ import character.Character;
  * Classic potion of healing class
 */
 public class HealthPotion extends Potion {
-	public HealthPotion(String name) {
-		super(name);
+	/**
+	 * Creates a 15% health potion
+	*/
+	public HealthPotion() {
+		super("Health Potion", "A healing potion that heals 15% of your maximum health");
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package character;
 
 import java.util.Optional;
+import java.util.ArrayList;
 
 import stat.Stat;
 import stat.StatName;
@@ -8,6 +9,8 @@ import equipment.EquipmentPage;
 import equipment.Weapon;
 import equipment.Headgear;
 import equipment.BreastPlate;
+import attack.Attack;
+import attack.CommonAttack;
 
 /**
  * The parent class of PC and NPC.
@@ -17,6 +20,8 @@ public abstract class Character {
 	private Stat[] statArray;
 	private String name;
 	private EquipmentPage ep;
+	protected ArrayList<Attack> attackArray;
+	
 	
 	/**
 	 * Create a Character object
@@ -27,6 +32,12 @@ public abstract class Character {
 		this.statArray = statArray;
 		this.name = name;
 		ep = new EquipmentPage();
+		attackArray = new ArrayList<Attack>();
+		
+		int cAttackLength = CommonAttack.arrayLength;
+		for (int i = 0; i < cAttackLength; i++) {
+			attackArray.add(CommonAttack.commonAttacks.get(i));
+		}
 	}
 	
 	private String listStats() {
@@ -192,4 +203,13 @@ public abstract class Character {
 	 * @return True if health is below or at 0. False otherwise.
 	*/
 	public boolean isDead() { return statArray[StatName.HP.getArrayPos()].getStatAmount() <= 0; }
+	
+	/**
+	 * Adds an attack to the AttackArray
+	 * @param attack The Attack object to add
+	 * @return True if adding succeeded.
+	*/
+	public boolean addAttack(Attack attack) {
+		return attackArray.add(attack);
+	}
 }

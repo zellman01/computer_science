@@ -12,7 +12,7 @@ import inventory.GameObject;
 public abstract class Equipment extends GameObject {
 	private StatName statModified;
 	private int amountModified;
-	private String name;
+	//private String name;
 	
 	/**
 	 * Creates an Equipment. Always used with super()
@@ -21,7 +21,7 @@ public abstract class Equipment extends GameObject {
 	 * @param amount The amount that the stat gets changed
 	*/
 	public Equipment(String name, StatName stat, int amount) {
-		this.name = name;
+		super(name);
 		statModified = stat;
 		amountModified = amount;
 	}

@@ -14,7 +14,7 @@ public class CommonAttack {
 	public static int arrayLength = 0;
 	
 	/**
-	 * Adds an attack that is labeled common attack - every enemy will have it
+	 * Adds an attack that is labeled common attack - every enemy will have it (done at game initialization)
 	 * @param attack The Attack object to consider a common attack
 	*/
 	public static void addAttack(Attack attack) {
