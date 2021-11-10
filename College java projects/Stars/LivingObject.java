@@ -60,11 +60,13 @@ public abstract class LivingObject {
 	
 	public void reflectOffVerticalWall() {
 		xSpeed = -xSpeed;
+		xAcceleration = -xAcceleration;
 		// Move X to be off of the wall
 	}
 	
 	public void reflectOffHorizontalWall() {
 		ySpeed = -ySpeed;
+		yAcceleration = -yAcceleration;
 		// Move Y to be off of the wall
 	}
 	
@@ -77,14 +79,6 @@ public abstract class LivingObject {
 	}
 	
 	public void update() {
-		updateCurrentOrientation(LivingObject.timeScalar);
-		updateAngularVelocity(LivingObject.timeScalar);
-		updateLinearVelocity(LivingObject.timeScalar);
-		updateCurrentPosition(LivingObject.timeScalar);
-		lifeRemaining -= LivingObject.timeScalar;
-		if(lifeRemaining <= 0) {
-			lel.deathOccured(new LifeEvent(this));
-		}
 		// Chek where the object is in relation to the edges
 		if (xPos - radius <= 0 || xPos + radius >= dps.getPanelWidth()) {
 			reflectOffVerticalWall();
@@ -92,6 +86,14 @@ public abstract class LivingObject {
 		
 		if (yPos - radius <= 0 || yPos + radius >= dps.getPanelHeight()) {
 			reflectOffHorizontalWall();
+		}
+		updateCurrentOrientation(LivingObject.timeScalar);
+		updateAngularVelocity(LivingObject.timeScalar);
+		updateLinearVelocity(LivingObject.timeScalar);
+		updateCurrentPosition(LivingObject.timeScalar);
+		lifeRemaining -= LivingObject.timeScalar;
+		if(lifeRemaining <= 0) {
+			lel.deathOccured(new LifeEvent(this));
 		}
 	}
 	

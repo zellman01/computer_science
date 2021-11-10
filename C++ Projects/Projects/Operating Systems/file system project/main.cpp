@@ -6,16 +6,16 @@ struct FileBlock {
 	char name[11];
 	int location;
 	int size;
-}
+};
 
 struct Data {
 	char character[5]; // 5 characters per block
-}
+};
 
-struct freeIndex {
+struct FreeIndex {
 	bool isFree; // True if free, false if not
 	Data * dataBlock; // A pointer to the referenced data block
-}
+};
 
 void createFileSystem();
 void readFileSystem();
@@ -27,16 +27,15 @@ void deleteFile();
 
 int main() {
 	int choice = 0;
-	cout << "Menu:" << endl << "1) Create a new file system" << endl << "2) Read a current file system" << endl;
-	cin >> choice;
-	if (choice == 1) {
-		createFileSystem();
-	} else {
-		readFileSystem();
-	}
-	/*char fileName[20];
-	cout << "Enter the file name of the file system: ";
-	cin >> fileName; // Do this more securely*/
+	do {
+		cout << "Menu:" << endl << "1) Create a new file system" << endl << "2) Read a current file system" << endl;
+		cin >> choice;
+		if (choice == 1) {
+			createFileSystem();
+		} else if (choice == 2) {
+			readFileSystem();
+		}
+	} while (choice > 2 || choice < 0);
 	return 0;
 }
 
@@ -66,6 +65,11 @@ void manageFileSystem(char * fileName, int mode) {
 	FileBlock fb[20]; // 20 files in the system, max 
 	// 1 = newly created file system
 	// 2 = already created file system
+	FreeIndex fi[50]; // 50 free indexes (100 characters)
+	Data d[50]; // 50 blocks of data
+	for (int i = 0; i < 50; i++) {
+		fi[i].dataBlock = &d[i];
+	}
 	ofstream fs(fileName);
 	int choice = 0;
 	
