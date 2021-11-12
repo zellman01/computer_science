@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 struct FileBlock {
@@ -90,6 +91,7 @@ void manageFileSystem(char * fileName, int mode) {
 		// Do the menu choice
 		switch(choice) {
 		case 1:
+			string text;
 			// Create a file in the filesystem
 			cout << "Input the name of the file you want to use: ";
 			cin >> fName;
@@ -106,6 +108,9 @@ void manageFileSystem(char * fileName, int mode) {
 			else {
 				if (fileBlockPosition == -1) cout << "There is no more room for a file." << endl;
 				else {
+					cout << "Please enter the text you want in this file: ";
+					getline(cin, text);
+					cin.ignore();
 					freeIndexPosition = -1;
 					for (int i = 0; i < 50 && freeIndexPosition == -1; i++) {
 						if (fi[i].isFree) freeIndexPosition = i;
@@ -114,9 +119,17 @@ void manageFileSystem(char * fileName, int mode) {
 					else {
 						fb[fileBlockPosition].name = fName;
 						fb[fileBlockPosition].location = freeIndexPosition;
-						fb[fileBlockPosition].size = 0; // Get the text they want to use, and then put it in here (or use the amount of free indexes they used for it)
+						fb[fileBlockPosition].size = text.size(); // Get the text they want to use, and then put it in here (or use the amount of free indexes they used for it)
 						fb[fileBlockPosition].inUse = true;
 						fi[freeIndexPosition].isFree = false;
+						int length = fb[fileBlockPosition].size;
+						int amountOfBlocksUsed = length/5;
+						if (amountOfBlocksUsed == 1) {
+							// Set all 5 characters in given free index to the corresponding string
+						} else {
+							// Fill the first one, then move on to the next until all characters are used
+							// Need to find enough room to fit the full thing in
+						}
 						fi[freeIndexPosition].dataBlock->character = '\0'; // null terminator for now - get a way to put the data in the block, and add more if neccessary.
 					}
 				}
