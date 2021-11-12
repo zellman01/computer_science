@@ -10,6 +10,7 @@ public abstract class Item extends GameObject {
 	//private String name;
 	private String description;
 	private int stackLength; // How many of this item can be stacked on one another
+	private boolean reuseable;
 	
 	/**
 	 * Creates an Item object
@@ -20,6 +21,7 @@ public abstract class Item extends GameObject {
 		super(name, isKeyItem);
 		//this.name = name;
 		stackLength = 1;
+		reuseable = false;
 	}
 	
 	/**
@@ -32,6 +34,7 @@ public abstract class Item extends GameObject {
 		super(name, isKeyItem);
 		//this.name = name;
 		this.stackLength = stackLength;
+		reuseable = false;
 	}
 	
 	/**
@@ -45,6 +48,7 @@ public abstract class Item extends GameObject {
 		//this.name = name;
 		description = desc;
 		stackLength = 1;
+		reuseable = false;
 	}
 	
 	/**
@@ -59,6 +63,7 @@ public abstract class Item extends GameObject {
 		//this.name = name;
 		description = desc;
 		this.stackLength = stackLength;
+		reuseable = false;
 	}
 	
 	
@@ -67,6 +72,19 @@ public abstract class Item extends GameObject {
 	 * @return The stack length
 	*/
 	public int getStackLength() { return stackLength; }
+	
+	/**
+	 * Marks something as reuseable. Will not umark something as useable if already marked.
+	*/
+	public void markReusuable() {
+		reuseable = true;
+	}
+	
+	/**
+	 * Gets the reuseable flag status
+	 * @return If the item is reuseable
+	*/
+	public boolean isReuseable() { return reuseable; }
 	
 	/**
 	 * Does an effect specific to the more specific type of item.

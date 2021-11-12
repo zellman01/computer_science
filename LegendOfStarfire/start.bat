@@ -40,6 +40,12 @@ javac equipment/EquipmentPage.java
 echo Compiling AttackPercent.java
 javac attack/AttackPercent.java
 
+echo Compiling ExperiencePoints.java
+javac level/ExperiencePoints.java
+
+echo Compiling Level.java
+javac level/Level.java
+
 echo Compiling Character.java
 javac character/Character.java
 
@@ -50,10 +56,13 @@ echo Compiling Potion.java
 javac item/Potion.java
 
 echo Compiling HealthPotion.java
-javac item/HealthPotion.java
+javac item/potion/HealthPotion.java
+
+echo Compiling DamagePotion.java
+javac item/potion/DamagePotion.java
 
 echo Compiling UnknownPotion.java
-javac item/UnknownPotion.java
+javac item/potion/UnknownPotion.java
 
 echo Compiling Attack.java
 javac attack/Attack.java

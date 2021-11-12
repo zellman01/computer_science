@@ -9,6 +9,7 @@ import inventory.Inventory;
 import inventory.GameObject;
 import attack.Attack;
 import item.Item;
+import level.Level;
 
 /**
  * The main player class - most methods are wrapper methods to use already created methods for functionality
@@ -16,6 +17,7 @@ import item.Item;
 */
 public class PC extends Character {
 	private Inventory inventory;
+	private Level level;
 	
 	/**
 	 * Creates a PlayerCharacter (PC) Object
@@ -25,6 +27,7 @@ public class PC extends Character {
 	public PC(Stat[] statArray, String name) {
 		super(statArray, name);
 		inventory = new Inventory(15);
+		level = new Level();
 	}
 	
 	/**
@@ -56,6 +59,7 @@ public class PC extends Character {
 			if (useItem.get() instanceof Item) {
 				Item item = (Item)useItem.get();
 				item.doEffect(this);
+				if (item.isReuseable()) addItem(item);
 				return true;
 			} else {
 				addItem(useItem.get());

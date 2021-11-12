@@ -183,18 +183,16 @@ public abstract class Character {
 	}
 	
 	/**
-	 * Take damage to the character
-	 * @param amount The amount to lower or raise the health by (negative for healing, positive for damaging)
+	 * Changes the Health stat by a given amount
+	 * @param amount The amount to modify the Health stat with
 	*/
-	public void tookDamage(int amount) {
-		Stat hpStat = statArray[StatName.HP.getArrayPos()];
-		int hp = hpStat.getStatAmount();
-		if (hp-amount < 0) {
-			hpStat.raiseAmount(-hpStat.getStatAmount());
-		}else if (hp-amount > statArray[StatName.MAXHP.getArrayPos()].getStatAmount()) {
-			hpStat.maxHP(statArray[StatName.MAXHP.getArrayPos()]);
-		} else {
-			hpStat.raiseAmount(-amount);
+	public void healthChanged(int amount) {
+		Stat hpStat = getHealthStat();
+		if (amount < 0) { 
+			hpStat.modifyStat(amount, false);
+		} else if (amount > 0) {
+			if (hpStat.getStatAmount()+amount >= getMaximumHealthStat().getStatAmount()) fullHeal();
+			else hpStat.modifyStat(amount, true);
 		}
 	}
 	
@@ -211,5 +209,13 @@ public abstract class Character {
 	*/
 	public boolean addAttack(Attack attack) {
 		return attackArray.add(attack);
+	}
+	
+	/**
+	 * Fully heals the character object
+	*/
+	public void fullHeal() {
+		int amountToHeal = getMaximumHealthStat().getStatAmount()-getHealthStat().getStatAmount();
+		getHealthStat().modifyStat(amountToHeal, true);
 	}
 }
