@@ -22,10 +22,12 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 	private JButton pause;
 	private JCheckBox drawTrace;
 	private JButton clearStars;
+	private JButton mode;
 	private JSlider lifeTime;
 	private JLabel lifeTimeLabel;
 	private DrawPanel dp;
 	private boolean paused;
+	private boolean idle;
 	public static final Random rand = new Random();
 	
 	public Primary() {
@@ -38,6 +40,7 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 		clearStars = createButton("Clear objects", "CLEAR", this, "Clears all LivingObjects");
 		pause = createButton("Pause", "PAUSE", this, "Pauses/resumes the animation");
 		lifeTimeLabel = new JLabel("LivingObject's lifetime:");
+		mode = createButton("Idle", "IDLE", this, "Sets mode to the one shown");
 		lifeTime = new JSlider(5, 15, 10);
 		drawTrace = new JCheckBox("Draw trace");
 		
@@ -55,6 +58,7 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 		buttonPanel.add(addMultipleObjects);
 		buttonPanel.add(clearStars);
 		buttonPanel.add(pause);
+		buttonPanel.add(mode);
 		buttonPanel.add(drawTrace);
 		buttonPanel.add(lifeTimeLabel);
 		buttonPanel.add(lifeTime);
@@ -64,6 +68,7 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 		updateFire.start();
 		
 		paused = false;
+		idle = false;
 		
 		showJFrame();
 	}
@@ -75,7 +80,7 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 		setTitle("Stars Project");
 		tk = Toolkit.getDefaultToolkit();
 		d = tk.getScreenSize();
-		setSize(d.width/2, d.height/2);
+		setSize((d.width/2)+35, d.height/2);
 		setLocation(d.width/4, d.height/4);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,12 +109,12 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 		}
 		
 		if (e.getActionCommand().equals("CREATEONE")) {
-			LivingSquare.getRandom(this, Primary.rand, dp, lifeTime.getValue());
+			LivingSquare.getRandom(this, Primary.rand, dp, lifeTime.getValue(), idle);
 		}
 		
 		if (e.getActionCommand().equals("CREATEMANY")) {
 			for (int i = 0; i < 15; i++) {
-				LivingSquare.getRandom(this, Primary.rand, dp, lifeTime.getValue());
+				LivingSquare.getRandom(this, Primary.rand, dp, lifeTime.getValue(), idle);
 			}
 		}
 		
@@ -129,6 +134,22 @@ public class Primary extends JFrame implements ActionListener, LifeEventListener
 				paused = false;
 				updateFire.start();
 				pause.setText("Pause");
+			}
+		}
+		
+		if (e.getActionCommand().equals("IDLE")) {
+			if (!idle) {
+				for (int i = 0; i < livingObjects.size(); i++) {
+					livingObjects.get(i).changeIdleState(true);
+				}
+				idle = true;
+				mode.setText("Random");
+			} else {
+				for (int i = 0; i < livingObjects.size(); i++) {
+					livingObjects.get(i).changeIdleState(false);
+				}
+				idle = false;
+				mode.setText("Idle");
 			}
 		}
 	}

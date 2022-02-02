@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
+
+#define CHARLIMIT 5
 using namespace std;
 
 struct FileBlock {
@@ -11,7 +14,7 @@ struct FileBlock {
 };
 
 struct Data {
-	char character[5]; // 5 characters per block
+	char character[CHARLIMIT]; // 5 characters per block
 };
 
 struct FreeIndex {
@@ -23,6 +26,7 @@ void createFileSystem();
 void readFileSystem();
 void menu(int);
 void manageFileSystem(char*, int);
+void saveFS(struct FileBlock[], struct FreeIndex[], struct Data[], FILE*, char*);
 
 int main() {
 	int choice = 0;
@@ -71,7 +75,7 @@ void manageFileSystem(char * fileName, int mode) {
 		fi[i].isFree = true;
 		fi[i].dataBlock = &d[i];
 	}
-	ofstream fs(fileName);
+	FILE * out = fopen(fileName, "ab+");
 	int choice = 0;
 	
 	do {
@@ -79,22 +83,40 @@ void manageFileSystem(char * fileName, int mode) {
 			do {
 				menu(1);
 				cin >> choice;
-			} while (choice != 1 || choice != -1);
+			} while (choice < -1 || choice > 1 || choice == 0);
+			mode = 3;
 		} else if (mode == 2) {
 			do {
 				menu(2);
 				cin >> choice;
 			} while (choice < -1 || choice > 3 || choice == 0);
+			fread(fb, sizeof(FileBlock), 20, out);
+			fread(fi, sizeof(FreeIndex), 50, out);
+			fread(d, sizeof(Data), 50, out);
+			for (int i = 0; i < 50; i++) {
+				fi[i].dataBlock = &d[i];
+			}
+			mode = 3;
+		} else if (mode == 3) {
+			do {
+				menu(2);
+				cin >> choice;
+			} while (choice < -1 || choice > 3 || choice == 0);
+		}
+		if (choice == -1) {
+			fclose(out);
+			break;
 		}
 		char fName[11];
 		int fileBlockPosition, freeIndexPosition;
 		// Do the menu choice
 		switch(choice) {
-		case 1:
+		case 1: {
 			string text;
 			// Create a file in the filesystem
 			cout << "Input the name of the file you want to use: ";
 			cin >> fName;
+			cin.ignore();
 			fileBlockPosition = -1;
 			bool nameInUse = false;
 			for (int i = 0; i < 20; i++) {
@@ -110,32 +132,74 @@ void manageFileSystem(char * fileName, int mode) {
 				else {
 					cout << "Please enter the text you want in this file: ";
 					getline(cin, text);
-					cin.ignore();
 					freeIndexPosition = -1;
 					for (int i = 0; i < 50 && freeIndexPosition == -1; i++) {
 						if (fi[i].isFree) freeIndexPosition = i;
 					}
 					if (freeIndexPosition == -1) cout << "There is no more room for a file." << endl;
 					else {
-						fb[fileBlockPosition].name = fName;
+						strcpy(fb[fileBlockPosition].name, fName);
 						fb[fileBlockPosition].location = freeIndexPosition;
-						fb[fileBlockPosition].size = text.size(); // Get the text they want to use, and then put it in here (or use the amount of free indexes they used for it)
+						fb[fileBlockPosition].size = text.size();
 						fb[fileBlockPosition].inUse = true;
-						fi[freeIndexPosition].isFree = false;
 						int length = fb[fileBlockPosition].size;
-						int amountOfBlocksUsed = length/5;
-						if (amountOfBlocksUsed == 1) {
-							// Set all 5 characters in given free index to the corresponding string
+						int amountOfBlocksUsed = length/CHARLIMIT;
+						if (amountOfBlocksUsed == 1 || amountOfBlocksUsed == 0) {
+							strcpy(fi[freeIndexPosition].dataBlock->character, text.c_str());
+							fi[freeIndexPosition].isFree = false;
 						} else {
-							// Fill the first one, then move on to the next until all characters are used
-							// Need to find enough room to fit the full thing in
+							int pos = 0;
+							int textSize = text.size();
+							bool forNew = false;
+							bool stop = false;
+							do {
+								forNew = false;
+								int pos = -1;
+								for (int i = 0; i < amountOfBlocksUsed; i++) {
+									if (!fi[freeIndexPosition+(i+1)].isFree) {
+										forNew = true;
+									}
+									if (forNew && fi[freeIndexPosition+(i+1)].isFree && pos == -1) {
+										pos = freeIndexPosition+(i+1);
+									}
+								}
+								if (pos == -1) {
+								   for (int i = freeIndexPosition+amountOfBlocksUsed; i < 50; i++) {
+									   if (fi[i].isFree) {
+										  pos = i;
+									   }
+								   }
+								}
+								
+								if (pos == -1) {
+									cout << "There is no room for this size of a file.";
+									stop = true;
+								} else {
+									freeIndexPosition = pos;
+									fb[fileBlockPosition].location = freeIndexPosition;
+								}
+								
+							} while(forNew && !stop);
+							if (!stop) {
+								pos = 0;
+								do {
+									string temp = text.substr(pos, pos+CHARLIMIT);
+									text = text.substr(pos+CHARLIMIT+1, text.size());
+									fi[freeIndexPosition].isFree = false;
+									strcpy(fi[freeIndexPosition].dataBlock->character, temp.c_str());
+									freeIndexPosition++;
+									textSize -= CHARLIMIT;
+								} while (textSize > 0);
+							}
 						}
-						fi[freeIndexPosition].dataBlock->character = '\0'; // null terminator for now - get a way to put the data in the block, and add more if neccessary.
+						saveFS(fb, fi, d, out, fileName);
 					}
 				}
 			}
 			break;
-		case 2:
+		}
+		case 2: {
+			// Read a file in the FS
 			cout << "Input the file name that you want to read: ";
 			cin >> fName;
 			fileBlockPosition = -1;
@@ -147,10 +211,18 @@ void manageFileSystem(char * fileName, int mode) {
 			if (fileBlockPosition == -1) {
 				cout << "The file could not be found." << endl;
 			} else {
-				// Get to the address of the Data block from the FreeIndex array, and then read from there
+				FreeIndex temp = fi[fb[fileBlockPosition].location];
+				int sizeTemp = fb[fileBlockPosition].size;
+				do {
+					printf(temp.dataBlock->character);
+					temp = fi[fb[fileBlockPosition+1].location];
+					sizeTemp -= CHARLIMIT;
+				} while (sizeTemp > 0);
+				cout << endl;
 			}
 			break;
-		case 3:
+		}
+		case 3: {
 			// Remove a file in the filesystem
 			cout << "Input the name of the file you want to delete: ";
 			cin >> fName;
@@ -164,7 +236,20 @@ void manageFileSystem(char * fileName, int mode) {
 			else {
 				fb[fileBlockPosition].inUse = false; // Logically delete the file
 			}
+			saveFS(fb, fi, d, out, fileName);
 			break;
 		}
+		}
 	} while (choice != -1);
+}
+
+void saveFS(struct FileBlock fb[], struct FreeIndex fi[], struct Data d[], FILE * out, char * fileName) {
+	fclose(out);
+	out = fopen(fileName, "wb");
+	size_t f = fwrite(fb, sizeof(FileBlock), 20, out);
+	size_t g = fwrite(fi, sizeof(FreeIndex), 50, out);
+	size_t h = fwrite(d, sizeof(Data), 50, out);
+	
+	if (f == 0 || g == 0 || h == 0) ferror(out);
+	
 }

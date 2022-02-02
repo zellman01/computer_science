@@ -31,4 +31,13 @@ public class ExperiencePoints {
 	 * @return Current EXP total (or EXP given by a certian NPC)
 	*/
 	public int getAmount() { return amount; }
+	
+	/**
+	 * Sets the exp amount to a specified amount
+	 * @param exp The amount to set the exp to
+	*/
+	public void setAmount(int exp) { 
+		if (exp < 0) return;
+		amount = exp;
+	}
 }

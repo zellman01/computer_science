@@ -16,15 +16,17 @@ public abstract class LivingObject {
 	protected int lifeRemaining;
 	private LifeEventListener lel;
 	private DrawPanelSize dps;
+	private boolean idle;
 	
-	public LivingObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining, LifeEventListener lel, DrawPanelSize dps) {
-		setupObject(xPos, yPos, angle, angleSpeed, xAcceleration, yAcceleration, radius, lifeRemaining);
+	public LivingObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining, LifeEventListener lel, DrawPanelSize dps, boolean idle) {
+		setupObject(xPos, yPos, angle, angleSpeed, xAcceleration, yAcceleration, radius, lifeRemaining, idle);
 		this.lel = lel;
 		this.dps = dps;
 		lel.lifeOccured(new LifeEvent(this));
+		idle = false;
 	}
 	
-	private void setupObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining) {
+	private void setupObject(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining, boolean idle) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.angle = angle;
@@ -33,6 +35,7 @@ public abstract class LivingObject {
 		this.yAcceleration = yAcceleration;
 		this.radius = radius;
 		this.lifeRemaining = lifeRemaining;
+		this.idle = idle;
 		xSpeed = 0;
 		ySpeed = 0;
 		
@@ -76,16 +79,14 @@ public abstract class LivingObject {
 		lel = e;
 	}
 	
+	public void updateMortality(int delta) {
+		lifeRemaining -= delta;
+		if (lifeRemaining <= 0) lel.deathOccured(new LifeEvent(this));
+	}
+	
 	public void update() {
-		updateCurrentOrientation(LivingObject.timeScalar);
-		updateAngularVelocity(LivingObject.timeScalar);
-		updateLinearVelocity(LivingObject.timeScalar);
-		updateCurrentPosition(LivingObject.timeScalar);
-		lifeRemaining -= LivingObject.timeScalar;
-		if(lifeRemaining <= 0) {
-			lel.deathOccured(new LifeEvent(this));
-		}
-		// Chek where the object is in relation to the edges
+		updateMortality(LivingObject.timeScalar);
+		if (idle) return;
 		if (xPos - radius <= 0 || xPos + radius >= dps.getPanelWidth()) {
 			reflectOffVerticalWall();
 		}
@@ -93,6 +94,14 @@ public abstract class LivingObject {
 		if (yPos - radius <= 0 || yPos + radius >= dps.getPanelHeight()) {
 			reflectOffHorizontalWall();
 		}
+		updateCurrentOrientation(LivingObject.timeScalar);
+		updateAngularVelocity(LivingObject.timeScalar);
+		updateLinearVelocity(LivingObject.timeScalar);
+		updateCurrentPosition(LivingObject.timeScalar);
+	}
+	
+	public void changeIdleState(boolean idle) {
+		this.idle = idle;
 	}
 	
 	public abstract void draw(Graphics2D g);

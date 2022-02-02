@@ -1,0 +1,5 @@
+name: BanGUICustom
+main: com.github.zellman01.BanGUIMain
+version: 1.0
+api-version: 1.18
+commands:

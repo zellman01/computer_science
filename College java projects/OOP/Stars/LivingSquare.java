@@ -10,8 +10,8 @@ public class LivingSquare extends LivingObject {
 	private int green;
 	private int alpha;
 	
-	public LivingSquare(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining, LifeEventListener lel, DrawPanelSize dps) {
-		super(xPos, yPos, angle, angleSpeed, xAcceleration, yAcceleration, radius, lifeRemaining, lel, dps);
+	public LivingSquare(double xPos, double yPos, double angle, double angleSpeed, double xAcceleration, double yAcceleration, double radius, int lifeRemaining, LifeEventListener lel, DrawPanelSize dps, boolean idle) {
+		super(xPos, yPos, angle, angleSpeed, xAcceleration, yAcceleration, radius, lifeRemaining, lel, dps, idle);
 		// TODO: Add radius. Assume 3 always for now
 		startingXPos = xPos;
 		startingYPos = yPos;
@@ -47,12 +47,11 @@ public class LivingSquare extends LivingObject {
 		g.drawRect((int)(xPos)-(int)(radius), (int)(yPos)-(int)(radius), (int)(radius)*2, (int)(radius)*2);
 	}
 	
-	public static LivingSquare getRandom(LifeEventListener lel, Random rand, DrawPanelSize dps, int lifeRemaining) {
-		// Do random later
+	public static LivingSquare getRandom(LifeEventListener lel, Random rand, DrawPanelSize dps, int lifeRemaining, boolean idle) {
 		int radius1 = rand.nextInt(6)+2;
 		int width = (int)dps.getPanelWidth();
 		int height = (int)dps.getPanelHeight();
-		LivingSquare ls = new LivingSquare(rand.nextInt(width-radius1)+radius1+1, rand.nextInt(height-radius1)+radius1+1, rand.nextInt(5)+1, rand.nextInt(5)+1, rand.nextInt(31 + 11) - 11, rand.nextInt(31 + 11) - 11, radius1, lifeRemaining, lel, dps);
+		LivingSquare ls = new LivingSquare(rand.nextInt(width-radius1)+radius1+1, rand.nextInt(height-radius1)+radius1+1, rand.nextInt(5)+1, rand.nextInt(5)+1, rand.nextInt(31 + 11) - 11, rand.nextInt(31 + 11) - 11, radius1, lifeRemaining, lel, dps, idle);
 		ls.setRed(rand.nextInt(256));
 		ls.setBlue(rand.nextInt(256));
 		ls.setGreen(rand.nextInt(256));
