@@ -2,8 +2,17 @@ import javax.swing.text.*;
 import javax.swing.text.html.*;
 import javax.swing.text.html.parser.*;
 import java.util.regex.*;
+import javax.swing.DefaultListModel;
 
 public class HTMLParser extends HTMLEditorKit.ParserCallback {
+	private DefaultListModel<String> links;
+	private DefaultListModel<String> emails;
+	
+	public HTMLParser() {
+		links = new DefaultListModel<String>();
+		emails = new DefaultListModel<String>();
+	}
+	
 	@Override
 	public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
 
@@ -24,6 +33,7 @@ public class HTMLParser extends HTMLEditorKit.ParserCallback {
 					while (!done) {
 						if (match.find()) {
 							System.out.println("Found match: " + attr.substring(match.start(), match.end()));
+							emails.addElement(attr.substring(match.start(), match.end()));
 							match.region(match.end(), attr.length());
 						} else {
 							done = true;
@@ -31,6 +41,7 @@ public class HTMLParser extends HTMLEditorKit.ParserCallback {
 					}
 				} else {
 					System.out.println("Link found: " + attr);
+					links.addElement(attr);
 				}
 			}
 		}
@@ -40,4 +51,8 @@ public class HTMLParser extends HTMLEditorKit.ParserCallback {
 	public void handleText(char[] data, int pos) {
 
 	}
+	
+	public DefaultListModel<String> getEmails() { return emails; }
+	
+	public DefaultListModel<String> getLinks() { return links; }
 }

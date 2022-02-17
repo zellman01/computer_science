@@ -1,15 +1,26 @@
+import java.io.*;
 import java.net.*;
-import javax.swing.DefaultListModel;
+import javax.swing.*;
+import javax.swing.text.html.parser.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.*;
+import java.awt.BorderLayout;
 
 public class Pages {
 	private URL pageId;
 	private int spaceFromSeed;
 	private DefaultListModel<String> emails;
+	private HTMLParser tagHandler;
 	
-	public Pages(URL pageId, int spaceFromSeed) {
+	public Pages(URL pageId, int spaceFromSeed) throws IOException {
 		this.pageId = pageId;
 		this.spaceFromSeed = spaceFromSeed;
 		emails = new DefaultListModel<String>();
+		tagHandler = new HTMLParser();
+		new ParserDelegator().parse(new InputStreamReader(pageId.openStream()), tagHandler, true);
+		emails = tagHandler.getEmails();
+		emails = Param.sortList(emails);
 	}
 	
 	public int getNextDistance() { return spaceFromSeed++; }
@@ -20,17 +31,19 @@ public class Pages {
 	
 	public DefaultListModel<String> getEmaiList() { return emails; }
 	
-	public String getPageURLString() { return ""; } // Figure out how to get page URL string
+	public String getPageURLString() { return pageId.toString(); }
+	
+	public DefaultListModel<String> getLinkList() { return tagHandler.getLinks(); }
 	
 	@Override
 	public String toString() {
-		String star = "****************************";
-		String ret = star + "\n";
-		ret += getPageURLString() + "\n";
+		String star = "<html>****************************";
+		String ret = star + "<br />";
+		ret += getPageURLString() + "<br />";
 		for (int i = 0; i < emails.getSize(); i++) {
-			ret += emails.get(i).toString() + "\n";
+			ret += emails.get(i).toString() + "<br />";
 		}
-		ret += star + "\n";
+		ret += star + "\n</html>";
 		return ret;
 	}
 }
