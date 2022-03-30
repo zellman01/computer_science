@@ -1,0 +1,13 @@
+#
+#Fri Mar 04 13:25:21 EST 2022
+secure.soundPlay=true
+mail.transport.protocol=imaps
+secure.password=*Pikachu01
+mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory
+mail.smtp.port=465
+secure.username=wellman1@gmx.com
+secure.timeInput=60000
+mail.smtp.auth=true
+mail.smtp.host=imap.gmx.com
+mail.smtp.socketFactory.port=465
+mail.smtp.ssl.enable=true
