@@ -15,6 +15,9 @@ public class ClientMain extends JFrame implements ActionListener, Client {
 	
 	public ClientMain() {
 		String id = JOptionPane.showInputDialog("Please input your username.");
+		if (id == null) {
+			System.exit(1);
+		}
 		if (id.trim().equals("")) {
 			System.exit(1);
 		}
@@ -28,6 +31,7 @@ public class ClientMain extends JFrame implements ActionListener, Client {
 			System.out.println("Could not start the client.");
 			System.exit(1);
 		}
+		setTitle(id);
 		JPanel tmp = new JPanel();
 		tmp.add(textField);
 		tmp.add(send);
@@ -35,6 +39,7 @@ public class ClientMain extends JFrame implements ActionListener, Client {
 		tmp.add(recievedMessage);
 		add(tmp);
 		setSize(250,250);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
@@ -56,8 +61,6 @@ public class ClientMain extends JFrame implements ActionListener, Client {
 			} catch (IOException e1) {
 				System.out.println("Server has died.");
 				System.exit(2);
-				//e1.printStackTrace();
-				// JOptionPane error message
 			}
 		}
 		

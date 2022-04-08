@@ -11,6 +11,7 @@ public class ServerMain implements Server {
 	public ServerMain() throws IOException {
 		cmh = new ArrayList<ClientMessageHandler>();
 		ss = new ServerSocket(8577);
+		System.out.println("Server started.");
 		while (true) {
 			try {
 				ClientMessageHandler tmp = new ClientMessageHandler(ss.accept(), this);
