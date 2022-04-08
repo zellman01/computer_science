@@ -10,6 +10,7 @@ import java.io.*;
 public class ClientMessageHandler implements Runnable {
 	private Talker talker;
 	private Server server;
+	private String username;
 	
 	/**
 	 * Starts handling clients
@@ -38,6 +39,7 @@ public class ClientMessageHandler implements Runnable {
 			}
 			if (login(str2)) {
 				talker.writeLine("LOGIN-SUCCESS");
+				username = str[1];
 				server.authorized(this);
 			} else
 				talker.writeLine("LOGIN-FAILURE");
@@ -49,6 +51,7 @@ public class ClientMessageHandler implements Runnable {
 			}
 			if (register(str2)) {
 				talker.writeLine("REGISTER-SUCCESS"); // Logs in user after they register
+				username = str[1];
 				server.authorized(this);
 			} else
 				talker.writeLine("REGISTER-FAILURE");
@@ -79,6 +82,10 @@ public class ClientMessageHandler implements Runnable {
 			return true;
 		}
 		return false;
+	}
+	
+	public void send(String str) {
+		talker.writeLine(str);
 	}
 	
 	/**

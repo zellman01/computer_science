@@ -5,12 +5,12 @@ import java.util.Enumeration;
 import java.io.*;
 
 public class UserList extends Hashtable<String, User> {
-	public UserList(String fileName) {
+	public UserList(String fileName, Server server) {
 		try {
 			DataInputStream dis = new DataInputStream(new FileInputStream(fileName));
 			int totalUsers = dis.readInt();
 			for (int i = 0; i < totalUsers; i++) {
-				User tmp = new User(dis);
+				User tmp = new User(dis, server);
 				put(tmp.getUsername(), tmp);
 			}
 		} catch (IOException e) {
@@ -26,9 +26,9 @@ public class UserList extends Hashtable<String, User> {
 		}
 	}
 	
-	public boolean createUser(String username, String password, ClientMessageHandler cmh) {
+	public boolean createUser(String username, String password, ClientMessageHandler cmh, Server server) {
 		// Check username against command list - block if it is one of them
-		User tmp = new User(username, password, cmh);
+		User tmp = new User(username, password, cmh, server);
 		put(username, tmp);
 		return true;
 	}

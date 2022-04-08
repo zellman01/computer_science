@@ -11,12 +11,14 @@ public class User {
 	private String password;
 	private ClientMessageHandler online;
 	private ArrayList<String> buddies;
+	private UserServer server;
 	
 	/**
 	 * Reloads a user from a file
 	 * @param dis The file to read the user from
 	*/
-	public User(DataInputStream dis) throws IOException {
+	public User(DataInputStream dis, UserServer server) throws IOException {
+		this.server = server;
 		username = dis.readUTF();
 		password = dis.readUTF();
 		buddies = new ArrayList<String>();
@@ -37,13 +39,15 @@ public class User {
 		}
 		
 		this.online = online;
+		updateBuddies(true);
 		return true;
 	}
 	
 	/**
 	 * Creates a user from a username and password. Also puts the message handler into the user
 	*/
-	public User(String username, String password, ClientMessageHandler online) {
+	public User(String username, String password, ClientMessageHandler online, UserServer server) {
+		this.server = server;
 		this.username = username;
 		this.password = password;
 		this.online = online;
@@ -61,6 +65,30 @@ public class User {
 		for (int i = 0; i < buddies.size(); i++) {
 			dos.writeUTF(buddies.get(i));
 		}
+	}
+	
+	/**
+	 * Logs the user out.
+	*/
+	public void logout() {
+		online = null;
+		updateBuddies(false);
+	}
+	
+	private void updateBuddies(boolean online) {
+		for(String buddy : buddies) {
+			User bud = server.getUser(buddy);
+			if(bud.isConnected()) {
+				if (online)
+					bud.sendInformation("BUDDY-ONLINE " + username);
+				else
+					bud.sendInformation("BUDDY-OFFLINE " + username);
+			}
+		}
+	}
+	
+	private void sendInformation(String str) {
+		online.send(str);
 	}
 	
 	public boolean isConnected() { return online != null; }

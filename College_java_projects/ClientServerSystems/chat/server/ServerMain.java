@@ -4,13 +4,13 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class ServerMain implements Server {
+public class ServerMain implements Server, UserServer {
 	private ServerSocket ss;
 	private UserList userList;
 	private ArrayList<ClientMessageHandler> notLoggedIn;
 	
 	public ServerMain() throws IOException {
-		userList = new UserList("UserFile.dat");
+		userList = new UserList("UserFile.dat", this);
 		notLoggedIn = new ArrayList<ClientMessageHandler>();
 		ss = new ServerSocket(8578);
 		System.out.println("Server Started.");
@@ -36,8 +36,13 @@ public class ServerMain implements Server {
 	}
 	
 	public synchronized void createUser(String username, String password, ClientMessageHandler cmh) throws IOException {
-		if (userList.createUser(username, password, cmh))
+		if (userList.createUser(username, password, cmh, this))
 			userList.store(new DataOutputStream(new FileOutputStream("UserFile.dat")));
+	}
+	
+	public void logout(String username) {
+		User tmp = getUser(username);
+		tmp.logout();
 	}
 	
 	public static void main(String[] args) {
