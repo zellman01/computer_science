@@ -29,6 +29,7 @@ public class ClientMessageHandler implements Runnable {
 	*/
 	private void messageHandler(String str) throws IOException {
 		String[] str2 = str.split(" ");
+		System.out.println(str2[0]);
 		switch (str2[0]) {
 		case "LOGIN":
 			if (str2.length != 3) {
@@ -46,7 +47,7 @@ public class ClientMessageHandler implements Runnable {
 				talker.writeLine("REGISTER-FAILURE-2");
 				break;
 			}
-			if (register()) {
+			if (register(str2)) {
 				talker.writeLine("REGISTER-SUCCESS"); // Logs in user after they register
 				server.authorized(this);
 			} else
@@ -70,10 +71,10 @@ public class ClientMessageHandler implements Runnable {
 		return false; // User not found
 	}
 	
-	private boolean register() throws IOException {
-		String username = talker.readLine();
+	private boolean register(String[] str) throws IOException {
+		String username = str[1];
 		if (!server.userExists(username)) {
-			String password = talker.readLine();
+			String password = str[2];
 			server.createUser(username, password, this);
 			return true;
 		}
