@@ -63,7 +63,7 @@ public class User {
 		}
 	}
 	
-	public void isConnected() { return online != null; }
+	public boolean isConnected() { return online != null; }
 	
 	public String getUsername() { return username; }
 }

@@ -20,13 +20,16 @@ public class UserList extends Hashtable<String, User> {
 	
 	public void store(DataOutputStream dos) throws IOException {
 		dos.writeInt(size());
-		Enumeration users = elements();
-		while (users.hasMoreElements())
+		Enumeration<User> users = elements();
+		while (users.hasMoreElements()) {
 			users.nextElement().store(dos);
+		}
 	}
 	
-	public void createUser(String username, String password) {
-		User tmp = new User(username, password);
+	public boolean createUser(String username, String password, ClientMessageHandler cmh) {
+		// Check username against command list - block if it is one of them
+		User tmp = new User(username, password, cmh);
 		put(username, tmp);
+		return true;
 	}
 }

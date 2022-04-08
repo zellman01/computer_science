@@ -10,12 +10,13 @@ public class ServerMain implements Server {
 	private ArrayList<ClientMessageHandler> notLoggedIn;
 	
 	public ServerMain() throws IOException {
-		userList = new UserList();
+		userList = new UserList("UserFile.dat");
 		notLoggedIn = new ArrayList<ClientMessageHandler>();
 		ss = new ServerSocket(8578);
+		System.out.println("Server Started.");
 		while (true) {
 			try {
-				notLoggedIn.add(new ClientMessageHandler(ss.accept()));
+				notLoggedIn.add(new ClientMessageHandler(ss.accept(), this));
 			} catch (IOException e) {
 				System.out.println("Error creating streams.");
 			}
@@ -34,12 +35,13 @@ public class ServerMain implements Server {
 		return userList.get(username);
 	}
 	
-	public synchronized void createUser(String username, String password) {
-		userList.createUser(username, password);
-		userList.store();
+	public synchronized void createUser(String username, String password, ClientMessageHandler cmh) throws IOException {
+		if (userList.createUser(username, password, cmh))
+			userList.store(new DataOutputStream(new FileOutputStream("UserFile.dat")));
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("Starting server");
 		try {
 			new ServerMain();
 		} catch (IOException e) {

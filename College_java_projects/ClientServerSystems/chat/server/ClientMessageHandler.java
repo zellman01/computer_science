@@ -16,7 +16,7 @@ public class ClientMessageHandler implements Runnable {
 	 * @param s The Socket of the client
 	 * @param se The Server's memory address
 	*/
-	public ClientMessageHandler(Socket s, Server se) {
+	public ClientMessageHandler(Socket s, Server se) throws IOException {
 		talker = new Talker(s);
 		server = se;
 		new Thread(this).start();
@@ -28,15 +28,24 @@ public class ClientMessageHandler implements Runnable {
 	 * @throws IOException If the client suddenly disconnects
 	*/
 	private void messageHandler(String str) throws IOException {
-		switch (str) {
+		String[] str2 = str.split(" ");
+		switch (str2[0]) {
 		case "LOGIN":
-			if (logon()) {
+			if (str2.length != 3) {
+				talker.writeLine("LOGIN-FAILURE-2");
+				break; // Forces out of the case to prevent the rest to execute
+			}
+			if (login(str2)) {
 				talker.writeLine("LOGIN-SUCCESS");
 				server.authorized(this);
 			} else
 				talker.writeLine("LOGIN-FAILURE");
 			break;
 		case "REGISTER":
+			if (str2.length != 3) {
+				talker.writeLine("REGISTER-FAILURE-2");
+				break;
+			}
 			if (register()) {
 				talker.writeLine("REGISTER-SUCCESS"); // Logs in user after they register
 				server.authorized(this);
@@ -45,22 +54,20 @@ public class ClientMessageHandler implements Runnable {
 			break;
 		default:
 			System.out.println("Potentially bad client connected - Removing");
-			throws IOException("Bad Client");
-			break;
+			throw new IOException("Bad Client");
 		}
 	}
 	
-	private boolean logon() throws IOException {
-		String username = talker.readLine();
+	private boolean login(String[] str) throws IOException {
+		String username = str[1];
 		if (server.userExists(username)) {
-			String password = talker.readLine();
-			if (server.getUser(username).login(password)) {
-				return true; // Successful login
-			} else {
+			String password = str[2];
+			if (server.getUser(username).login(password, this))
+				return true; // Logged in
+			else
 				return false; // Password did not match
-			}
 		}
-		return false; // If the user did not exist
+		return false; // User not found
 	}
 	
 	private boolean register() throws IOException {
