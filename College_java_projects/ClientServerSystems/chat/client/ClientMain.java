@@ -9,6 +9,7 @@ public class ClientMain {
 	public ClientMain() throws IOException {
 		smh = new ServerMessageHandler(new Socket("127.0.0.1", 8578));
 		new Login(smh);
+		new MainMenu(smh);
 	}
 	
 	public static void main(String[] args) {
