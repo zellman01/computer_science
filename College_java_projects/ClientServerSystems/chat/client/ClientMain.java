@@ -9,10 +9,13 @@ public class ClientMain {
 	public ClientMain() throws IOException {
 		smh = new ServerMessageHandler(new Socket("127.0.0.1", 8578));
 		new Login(smh);
-		
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Not worked on yet.");
+		try {
+			new ClientMain();
+		} catch (IOException e) {
+			System.out.println("Cannot connect to the server.");
+		}
 	}
 }
