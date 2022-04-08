@@ -24,12 +24,15 @@ public class Login extends JDialog implements ActionListener {
 		register = makeButton("Register");
 		exit = makeButton("Exit");
 		
-		add(username);
-		add(usernameInput);
-		add(password);
-		add(passwordInput);
-		add(login);
-		add(register);
+		JPanel jp = new JPanel();
+		
+		jp.add(username);
+		jp.add(usernameInput);
+		jp.add(password);
+		jp.add(passwordInput);
+		jp.add(login);
+		jp.add(register);
+		add(jp);
 		setSize(500,500);
 		pack();
 		
