@@ -2,15 +2,20 @@ package client;
 
 import java.net.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import shared.*;
 
-public class ServerMessageHandler implements Runnable, MessageHandler {
+public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 	private Talker talker;
 	private Login login;
+	private ArrayList<String> buddies;
+	private MenuInterface menuInterface;
 	
 	public ServerMessageHandler(Socket s) throws IOException {
 		talker = new Talker(s);
+		buddies = new ArrayList<String>();
 		new Thread(this).start();
 	}
 	
@@ -35,7 +40,42 @@ public class ServerMessageHandler implements Runnable, MessageHandler {
 			// Finish login
 			login.finished();
 			break;
+		case "BUDDY-ONLINE":
+			addBuddy(true, str2[1]);
+			break;
+		case "BUDDY-OFFLINE":
+			addBuddy(false, str2[1]);
+			break;
 		}
+	}
+	
+	private void addBuddy(boolean online, String buddy) {
+		if (online) {
+			if (buddies.contains(buddy)) {
+				// Edit the buddy to be online
+			} else {
+				buddies.add(buddy + " *");
+			}
+		} else {
+			if (buddies.contains(buddy + " *")) {
+				// Edit the buddy to be offline
+			} else {
+				buddies.add(buddy);
+			}
+		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				menuInterface.displayBuddies();
+			}
+		});
+	}
+	
+	public void addMenuInterface(MenuInterface mi) {
+		menuInterface = mi;
+	}
+	
+	public ArrayList<String> obtainBuddies() {
+		return buddies;
 	}
 	
 	public void run() {

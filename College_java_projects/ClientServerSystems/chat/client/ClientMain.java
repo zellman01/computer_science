@@ -13,6 +13,7 @@ public class ClientMain {
 	}
 	
 	public static void main(String[] args) {
+		Ssytem.out.println("Trying to connect to the server");
 		try {
 			new ClientMain();
 		} catch (IOException e) {
