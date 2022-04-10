@@ -3,6 +3,7 @@ Command information:
 Client side:
 REGISTER: Try to register the given username and password
 LOGIN: Try to login with the given username and password
+LOGOUT: Logs the user out, and disconnects them from the server (remove their ctc connection)
 
 Server side:
 REGISTURE-FAILURE: Username already exists as a user
@@ -11,5 +12,5 @@ REGISTER-SUCCESS: Registration complete - Finish logging in
 LOGIN-FAILURE: Incorect username and password supplied
 LOGIN-FAILURE-2: Should never happen - If the login command is sent with more than 3 parameters
 LOGIN-SUCCESS: Login successful
-BUDDY-OFFLINE: Mark the buddy with the username sent as offline
-BUDDY-ONLINE: Mark the buddy with the username sent as online
+BUDDY-OFFLINE: Mark the buddy with the username sent as offline (Also serves as registering a buddy client side)
+BUDDY-ONLINE: Mark the buddy with the username sent as online (Also serves as registering a buddy client side)
