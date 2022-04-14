@@ -53,11 +53,13 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 		if (online) {
 			if (buddies.contains(buddy)) {
 				// Edit the buddy to be online
+				buddies.set(buddies.indexOf(buddy), buddy + " *");
 			} else {
 				buddies.add(buddy + " *");
 			}
 		} else {
 			if (buddies.contains(buddy + " *")) {
+				buddies.set(buddies.indexOf(buddy + " *"), buddy);
 				// Edit the buddy to be offline
 			} else {
 				buddies.add(buddy);
