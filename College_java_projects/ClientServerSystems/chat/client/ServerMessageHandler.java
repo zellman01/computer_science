@@ -12,11 +12,16 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 	private Login login;
 	private ArrayList<String> buddies;
 	private MenuInterface menuInterface;
+	private String username;
 	
 	public ServerMessageHandler(Socket s) throws IOException {
 		talker = new Talker(s);
 		buddies = new ArrayList<String>();
 		new Thread(this).start();
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 	
 	private void messageHandler(String str) throws IOException {
@@ -35,8 +40,10 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 		case "REGISTER-SUCCESS":
 		case "LOGIN-SUCCESS":
 			// Finish login
-			talker.assignUsername(login.getUsername());
+			username = login.getUsername();
+			talker.assignUsername(username);
 			login.finished();
+			obtainBuddiesFromServer();
 			break;
 		case "BUDDY-ONLINE":
 			addBuddy(true, str2[1]);
@@ -71,6 +78,10 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 				menuInterface.displayBuddies();
 			}
 		});
+	}
+	
+	private void obtainBuddiesFromServer() {
+		send("BUDDY-LIST");
 	}
 	
 	private void buddyRequest(String name) {

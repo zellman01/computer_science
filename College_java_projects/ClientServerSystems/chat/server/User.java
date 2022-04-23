@@ -75,6 +75,9 @@ public class User {
 		updateBuddies(false);
 	}
 	
+	/**
+	 * Update your buddy list if you go online or offline
+	*/
 	private void updateBuddies(boolean online) {
 		for(String buddy : buddies) {
 			User bud = server.getUser(buddy);
@@ -90,6 +93,20 @@ public class User {
 	public void addBuddy(String buddy) {
 		buddies.add(buddy);
 		send("BUDDY-ONLINE " + buddy);
+	}
+	
+	/**
+	 * Obtain your buddy list
+	*/
+	public void sendBuddyList() {
+		for (String buddy : buddies) {
+			User bud = server.getUser(buddy);
+			if (bud.isConnected()) {
+				send("BUDDY-ONLINE " + buddy);
+			} else {
+				send("BUDDY-OFFLINE " + buddy);
+			}
+		}
 	}
 	
 	@Deprecated

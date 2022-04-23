@@ -6,6 +6,7 @@ LOGIN: Try to login with the given username and password
 LOGOUT: Logs the user out, and disconnects them from the server (remove their ctc connection)
 ADD-BUDDY: Request a buddy to be added
 BUDDY-ACCEPTED: Buddy request accepted by the 2nd person
+BUDDY-LIST: Requests buddy list from the server
 
 Server side:
 REGISTURE-FAILURE: Username already exists as a user

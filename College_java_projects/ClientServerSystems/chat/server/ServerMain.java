@@ -45,6 +45,15 @@ public class ServerMain implements Server, UserServer {
 		tmp.logout();
 	}
 	
+	public synchronized void storeUsers() {
+		try {
+			userList.store(new DataOutputStream(new FileOutputStream("UserFile.dat")));
+		} catch (IOException e) {
+			System.out.println("File error");
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("Starting server");
 		try {

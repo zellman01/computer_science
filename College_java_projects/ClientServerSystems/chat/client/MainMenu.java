@@ -20,8 +20,12 @@ public class MainMenu extends JFrame implements MenuInterface, ActionListener {
 		buddyList = new JPanel();
 		add(addBuddy, BorderLayout.SOUTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setsize(500,500);
+		setSize(500,500);
+		setTitle(client.getUsername());
 		setVisible(true);
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {}
 		displayBuddies();
 	}
 	
@@ -34,6 +38,8 @@ public class MainMenu extends JFrame implements MenuInterface, ActionListener {
 		}
 		add(buddyList);
 		add(addBuddy, BorderLayout.SOUTH);
+		revalidate();
+		repaint();
 	}
 	
 	private JButton addBuddyButton(String name) {
@@ -54,7 +60,7 @@ public class MainMenu extends JFrame implements MenuInterface, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("ADDBUDDY")) {
 			String tmp = JOptionPane.showInputDialog("Enter the potential buddy's username").trim();
-			if (tmp != null && !tmp.equals("")) {
+			if (tmp != null && !tmp.equals("") && !tmp.equals(client.getUsername())) {
 				client.send("ADD-BUDDY " + tmp);
 			}
 		}

@@ -63,6 +63,12 @@ public class ClientMessageHandler implements Runnable {
 		case "BUDDY-ACCEPTED":
 			registerBuddy(str2[1]);
 			break;
+		case "BUDDY-LIST":
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {}
+			sendBuddies();
+			break;
 		default:
 			System.out.println("Potentially bad client connected - Removing");
 			throw new IOException("Bad Client");
@@ -73,9 +79,9 @@ public class ClientMessageHandler implements Runnable {
 		String username = str[1];
 		if (server.userExists(username)) {
 			String password = str[2];
-			if (server.getUser(username).login(password, this))
+			if (server.getUser(username).login(password, this)) {
 				return true; // Logged in
-			else
+			} else
 				return false; // Password did not match
 		}
 		return false; // User not found
@@ -105,6 +111,7 @@ public class ClientMessageHandler implements Runnable {
 	private void registerBuddy(String buddy) {
 		server.getUser(buddy).addBuddy(username);
 		server.getUser(username).addBuddy(buddy);
+		server.storeUsers();
 	}
 	
 	public void send(String str) {
@@ -112,7 +119,12 @@ public class ClientMessageHandler implements Runnable {
 			talker.writeLine(str);
 		} catch (IOException e) {
 			System.out.println("Client " + username + " has died.");
+			server.getUser(username).logout();
 		}
+	}
+	
+	private void sendBuddies() {
+		server.getUser(username).sendBuddyList();
 	}
 	
 	/**
@@ -125,6 +137,7 @@ public class ClientMessageHandler implements Runnable {
 			}
 		} catch (IOException e) {
 			System.out.println("Client " + username + " had died.");
+			server.getUser(username).logout();
 		}
 	}
 }
