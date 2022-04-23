@@ -80,14 +80,24 @@ public class User {
 			User bud = server.getUser(buddy);
 			if(bud.isConnected()) {
 				if (online)
-					bud.sendInformation("BUDDY-ONLINE " + username);
+					bud.send("BUDDY-ONLINE " + username);
 				else
-					bud.sendInformation("BUDDY-OFFLINE " + username);
+					bud.send("BUDDY-OFFLINE " + username);
 			}
 		}
 	}
 	
-	private void sendInformation(String str) {
+	public void addBuddy(String buddy) {
+		buddies.add(buddy);
+		send("BUDDY-ONLINE " + buddy);
+	}
+	
+	@Deprecated
+	public void sendInformation(String str) {
+		online.send(str);
+	}
+	
+	public void send(String str) {
 		online.send(str);
 	}
 	

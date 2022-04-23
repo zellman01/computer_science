@@ -33,11 +33,9 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 			JOptionPane.showMessageDialog(null, "Username/password incorrect.");
 			break;
 		case "REGISTER-SUCCESS":
-			// Finish login
-			login.finished();
-			break;
 		case "LOGIN-SUCCESS":
 			// Finish login
+			talker.assignUsername(login.getUsername());
 			login.finished();
 			break;
 		case "BUDDY-ONLINE":
@@ -45,6 +43,9 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 			break;
 		case "BUDDY-OFFLINE":
 			addBuddy(false, str2[1]);
+			break;
+		case "BUDDY-REQUEST":
+			buddyRequest(str2[1]);
 			break;
 		}
 	}
@@ -70,6 +71,13 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 				menuInterface.displayBuddies();
 			}
 		});
+	}
+	
+	private void buddyRequest(String name) {
+		int choise = JOptionPane.showConfirmDialog(null, "Would you like to add " + name + " as a buddy?");
+		if (choise == JOptionPane.OK_OPTION) {
+			send("BUDDY-ACCEPTED " + name);
+		}
 	}
 	
 	public void addMenuInterface(MenuInterface mi) {
@@ -103,6 +111,15 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 			return; // Fail on registering client side
 		}
 		account("REGISTER", username, password);
+	}
+	
+	public void send(String msg) {
+		try {
+			talker.writeLine(msg);
+		} catch (IOException e) {
+			System.out.println("Server has died.");
+			System.exit(1);
+		}
 	}
 	
 	public void login(String username, String password, Login login) throws IOException {

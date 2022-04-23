@@ -30,7 +30,6 @@ public class ClientMessageHandler implements Runnable {
 	*/
 	private void messageHandler(String str) throws IOException {
 		String[] str2 = str.split(" ");
-		System.out.println(str2[0]);
 		switch (str2[0]) {
 		case "LOGIN":
 			if (str2.length != 3) {
@@ -39,7 +38,8 @@ public class ClientMessageHandler implements Runnable {
 			}
 			if (login(str2)) {
 				talker.writeLine("LOGIN-SUCCESS");
-				username = str[1];
+				username = str2[1];
+				talker.assignUsername(username);
 				server.authorized(this);
 			} else
 				talker.writeLine("LOGIN-FAILURE");
@@ -51,10 +51,17 @@ public class ClientMessageHandler implements Runnable {
 			}
 			if (register(str2)) {
 				talker.writeLine("REGISTER-SUCCESS"); // Logs in user after they register
-				username = str[1];
+				username = str2[1];
+				talker.assignUsername(username);
 				server.authorized(this);
 			} else
 				talker.writeLine("REGISTER-FAILURE");
+			break;
+		case "ADD-BUDDY":
+			addBuddy(str2[1]);
+			break;
+		case "BUDDY-ACCEPTED":
+			registerBuddy(str2[1]);
 			break;
 		default:
 			System.out.println("Potentially bad client connected - Removing");
@@ -84,8 +91,28 @@ public class ClientMessageHandler implements Runnable {
 		return false;
 	}
 	
+	private void addBuddy(String buddy) {
+		if (server.userExists(buddy)) {
+			User potentialBuddy = server.getUser(buddy);
+			if (potentialBuddy.isConnected()) {
+				potentialBuddy.sendInformation("BUDDY-REQUEST " + username);
+			} else {
+				// TODO: Handle not being online
+			}
+		}
+	}
+	
+	private void registerBuddy(String buddy) {
+		server.getUser(buddy).addBuddy(username);
+		server.getUser(username).addBuddy(buddy);
+	}
+	
 	public void send(String str) {
-		talker.writeLine(str);
+		try {
+			talker.writeLine(str);
+		} catch (IOException e) {
+			System.out.println("Client " + username + " has died.");
+		}
 	}
 	
 	/**
@@ -97,7 +124,7 @@ public class ClientMessageHandler implements Runnable {
 				messageHandler(talker.readLine());
 			}
 		} catch (IOException e) {
-			System.out.println("Client had died.");
+			System.out.println("Client " + username + " had died.");
 		}
 	}
 }

@@ -55,7 +55,7 @@ public class Login extends JDialog implements ActionListener {
 		
 		if (e.getActionCommand().equals("REGISTER")) {
 			try {
-				smh.register(usernameInput.getText(), new String(passwordInput.getPassword()), this);
+				smh.register(usernameInput.getText().trim(), new String(passwordInput.getPassword()), this);
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, "Server is unreachable.", "Connection Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -63,12 +63,14 @@ public class Login extends JDialog implements ActionListener {
 		
 		if (e.getActionCommand().equals("LOGIN")) {
 			try {
-				smh.login(usernameInput.getText(), new String(passwordInput.getPassword()), this);
+				smh.login(usernameInput.getText().trim(), new String(passwordInput.getPassword()), this);
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, "Server is unreachable.", "Connection Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
+	
+	public String getUsername() { return usernameInput.getText().trim(); }
 	
 	public void finished() {
 		dispose();

@@ -4,6 +4,8 @@ Client side:
 REGISTER: Try to register the given username and password
 LOGIN: Try to login with the given username and password
 LOGOUT: Logs the user out, and disconnects them from the server (remove their ctc connection)
+ADD-BUDDY: Request a buddy to be added
+BUDDY-ACCEPTED: Buddy request accepted by the 2nd person
 
 Server side:
 REGISTURE-FAILURE: Username already exists as a user
@@ -14,3 +16,4 @@ LOGIN-FAILURE-2: Should never happen - If the login command is sent with more th
 LOGIN-SUCCESS: Login successful
 BUDDY-OFFLINE: Mark the buddy with the username sent as offline (Also serves as registering a buddy client side)
 BUDDY-ONLINE: Mark the buddy with the username sent as online (Also serves as registering a buddy client side)
+BUDDY-REQUEST: Display a message asking if they want to be buddies

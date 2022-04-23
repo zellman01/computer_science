@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import java.io.*;
 
 public class UserList extends Hashtable<String, User> {
-	public UserList(String fileName, Server server) {
+	public UserList(String fileName, UserServer server) {
 		try {
 			DataInputStream dis = new DataInputStream(new FileInputStream(fileName));
 			int totalUsers = dis.readInt();
@@ -26,7 +26,7 @@ public class UserList extends Hashtable<String, User> {
 		}
 	}
 	
-	public boolean createUser(String username, String password, ClientMessageHandler cmh, Server server) {
+	public boolean createUser(String username, String password, ClientMessageHandler cmh, UserServer server) {
 		// Check username against command list - block if it is one of them
 		User tmp = new User(username, password, cmh, server);
 		put(username, tmp);
