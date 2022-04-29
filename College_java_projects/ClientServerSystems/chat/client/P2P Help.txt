@@ -1,0 +1,3 @@
+Bob asks Alice permission to send file through central server
+Alice says yes, creates a P2PServer (inside client), then forwards yes message
+Bob connects to P2PServer, then gets the file

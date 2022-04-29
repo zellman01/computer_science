@@ -84,8 +84,10 @@ public class User {
 			if(bud.isConnected()) {
 				if (online)
 					bud.send("BUDDY-ONLINE " + username);
-				else
+				else {
 					bud.send("BUDDY-OFFLINE " + username);
+					bud.send("CHAT-ENDED " + username);
+				}
 			}
 		}
 	}
@@ -107,11 +109,6 @@ public class User {
 				send("BUDDY-OFFLINE " + buddy);
 			}
 		}
-	}
-	
-	@Deprecated
-	public void sendInformation(String str) {
-		online.send(str);
 	}
 	
 	public void send(String str) {

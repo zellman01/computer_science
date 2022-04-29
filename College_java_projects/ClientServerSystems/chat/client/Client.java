@@ -7,4 +7,6 @@ public interface Client {
 	public void addMenuInterface(MenuInterface mi);
 	public void send(String msg);
 	public String getUsername();
+	public void addChatWindow(ChatWindow cw);
+	public void removeChatWindow(ChatWindow cw);
 }

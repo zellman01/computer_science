@@ -69,9 +69,50 @@ public class ClientMessageHandler implements Runnable {
 			} catch (InterruptedException e) {}
 			sendBuddies();
 			break;
+		case "CHAT-START":
+			beginChat(str2[1]);
+			break;
+		case "BUDDY-STATUS":
+			checkBuddy(str2[1]);
+			break;
+		case "CHAT":
+			if (str2.length == 3) {
+				sendMessage(str2[1], str2[2]);
+			}
+			break;
+		case "CHAT-ENDING":
+			endingChat(str2[1]);
+			break;
 		default:
 			System.out.println("Potentially bad client connected - Removing");
 			throw new IOException("Bad Client");
+		}
+	}
+	
+	private void endingChat(String buddy) {
+		server.getUser(buddy).send("CHAT-ENDED " + username);
+	}
+	
+	private void sendMessage(String buddy, String message) {
+		User buddyUser = server.getUser(buddy);
+		if (buddyUser.isConnected()) {
+			buddyUser.send("CHAT " + username + " " + message);
+		}
+	}
+	
+	private void beginChat(String username) {
+		User buddy = server.getUser(username);
+		if (buddy.isConnected()) {
+			buddy.send("CHAT-BEGIN " + this.username);
+		}
+	}
+	
+	private void checkBuddy(String buddy) {
+		User buddyUser = server.getUser(buddy);
+		if (buddyUser.isConnected()) {
+			send("BUDDY-ON " + buddy);
+		} else {
+			send("BUDDY-OFF " + buddy);
 		}
 	}
 	
@@ -101,7 +142,7 @@ public class ClientMessageHandler implements Runnable {
 		if (server.userExists(buddy)) {
 			User potentialBuddy = server.getUser(buddy);
 			if (potentialBuddy.isConnected()) {
-				potentialBuddy.sendInformation("BUDDY-REQUEST " + username);
+				potentialBuddy.send("BUDDY-REQUEST " + username);
 			} else {
 				// TODO: Handle not being online
 			}

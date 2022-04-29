@@ -13,10 +13,12 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 	private ArrayList<String> buddies;
 	private MenuInterface menuInterface;
 	private String username;
+	private ArrayList<ChatWindow> openChats;
 	
 	public ServerMessageHandler(Socket s) throws IOException {
 		talker = new Talker(s);
 		buddies = new ArrayList<String>();
+		openChats = new ArrayList<ChatWindow>();
 		new Thread(this).start();
 	}
 	
@@ -54,7 +56,60 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 		case "BUDDY-REQUEST":
 			buddyRequest(str2[1]);
 			break;
+		case "CHAT-BEGIN":
+			beginChat(str2[1]);
+			break;
+		case "BUDDY-ON":
+			authorizeChat(str2[1]);
+			break;
+		case "BUDDY-OFF":
+		case "CHAT-ENDED":
+			unauthorizeChat(str2[1]);
+			break;
+		case "CHAT":
+			updateChat(str2[1], str2[2]);
+			break;
 		}
+	}
+	
+	public void addChatWindow(ChatWindow cw) {
+		openChats.add(cw);
+	}
+	
+	public void removeChatWindow(ChatWindow cw) {
+		openChats.remove(cw);
+	}
+	
+	private void updateChat(String buddy, String message) {
+		for (ChatWindow cw : openChats) {
+			if (cw.checkBuddy(buddy)) {
+				cw.addText(message, buddy);
+				break;
+			}
+		}
+	}
+	
+	private void authorizeChat(String buddy) {
+		for (ChatWindow cw : openChats) {
+			if (cw.checkBuddy(buddy)) {
+				cw.authorized();
+				break;
+			}
+		}
+	}
+	
+	private void unauthorizeChat(String buddy) {
+		for (ChatWindow cw : openChats) {
+			if (cw.checkBuddy(buddy)) {
+				cw.unauthorized();
+				break;
+			}
+		}
+	}
+	
+	private void beginChat(String buddy) {
+		openChats.add(new ChatWindow(buddy, this));
+		authorizeChat(buddy);
 	}
 	
 	private void addBuddy(boolean online, String buddy) {
@@ -106,6 +161,7 @@ public class ServerMessageHandler implements Runnable, MessageHandler, Client {
 			}
 		} catch (IOException e) {
 			System.out.println("Server has died.");
+			System.exit(1);
 		}
 	}
 	

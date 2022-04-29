@@ -7,6 +7,11 @@ LOGOUT: Logs the user out, and disconnects them from the server (remove their ct
 ADD-BUDDY: Request a buddy to be added
 BUDDY-ACCEPTED: Buddy request accepted by the 2nd person
 BUDDY-LIST: Requests buddy list from the server
+CHAT-START: Initiates the chat window, with the buddy
+CHAT: Sends a message
+BUDDY-STATUS: Check buddy online status
+CHAT-ENDING: Buddy has closed the chat window
+
 
 Server side:
 REGISTURE-FAILURE: Username already exists as a user
@@ -18,3 +23,8 @@ LOGIN-SUCCESS: Login successful
 BUDDY-OFFLINE: Mark the buddy with the username sent as offline (Also serves as registering a buddy client side)
 BUDDY-ONLINE: Mark the buddy with the username sent as online (Also serves as registering a buddy client side)
 BUDDY-REQUEST: Display a message asking if they want to be buddies
+CHAT-BEGIN: Tells client to pull up chat window, with the specified buddy
+CHAT: Displays a message
+BUDDY-ON: User is online
+USER-OFF: User is offline
+CHAT-ENDED: Buddy has ended the chat

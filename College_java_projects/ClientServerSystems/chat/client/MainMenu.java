@@ -48,7 +48,7 @@ public class MainMenu extends JFrame implements MenuInterface, ActionListener {
 		tmp.setActionCommand(tmp2[0]);
 		tmp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("User " + e.getActionCommand());
+				client.addChatWindow(new ChatWindow(e.getActionCommand(), client));
 			}
 		});
 		if (tmp2.length != 2) {
